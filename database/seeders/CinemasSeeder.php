@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cinema;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,20 +21,20 @@ class CinemasSeeder extends Seeder
 
         ];
 
-//        foreach ($cinemas as $cinemaName=>$options){
-//
-//            Cinema::create([
-//                'title' => $cinemaName,
-//                'city_id' =>$options['city_id'],
-//                'banner' => $options['banner'],
-//                'address' =>$options['address'],
-//                'options' =>$options['options'],
-//                'location' =>$options['location'],
-//                'description' =>$options['description'],
-//                'phone' =>$options['phone'],
-//
-//            ]);
-//            $this->command->info('add' . $cinemaName . ' cinema');
-//        }
+        foreach ($cinemas as $cinemaName=>$options){
+
+            Cinema::create([
+                'title' => $cinemaName,
+                'city_id' =>$options['city_id'],
+                'banner' => $options['banner'],
+                'address' =>$options['address'],
+                'options' =>$options['options'],
+                'location' =>$options['location'],
+                'description' =>$options['description'],
+                'phone' =>$options['phone'],
+
+            ]);
+            $this->command->info('add' . $cinemaName . ' cinema');
+        }
     }
 }
