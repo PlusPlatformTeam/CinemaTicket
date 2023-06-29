@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Option;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,15 +23,15 @@ class OptionsSeeder extends Seeder
 
         ];
 
-//        foreach ($options as $optionsName=>$options){
-//
-//            Option::create([
-//                'title' => $characterName,
-//                'icon' =>$options['icon'],
-//
-//
-//            ]);
-//            $this->command->info('add' . $characterName . ' option');
-//        }
+        foreach ($options as $optionsName=>$op){
+
+            Option::create([
+                'title' => $optionsName,
+                'icon' =>$op['icon'],
+
+
+            ]);
+            $this->command->info('add' . $optionsName . ' option');
+        }
     }
 }

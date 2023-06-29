@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Province;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,15 +24,15 @@ class ProvincesSeeder extends Seeder
         ];
 
 
-//        foreach ($province as $provinceName=>$options){
-//
-//            Province::create([
-//                'title' => $provinceName,
-//
-//            ]);
-//            $this->command->info('add' . $provinceName . 'province');
-//
-//        }
+        foreach ($province as $provinceName=>$options){
+
+            Province::create([
+                'title' => $provinceName,
+
+            ]);
+            $this->command->info('add' . $provinceName . 'province');
+
+        }
 
 
 

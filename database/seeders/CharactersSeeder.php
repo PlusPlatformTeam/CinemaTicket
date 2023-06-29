@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Character;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,18 +24,18 @@ class CharactersSeeder extends Seeder
 
         ];
 
-//        foreach ($characters as $characterName=>$options){
-//
-//            Character::create([
-//                'name' => $characterName,
-//                'city_id' =>$options['city_id'],
-//                'avatar' => $options['avatar'],
-//                'birthDay' =>$options['address'],
-//                'description' =>$options['description'],
-//
-//            ]);
-//            $this->command->info('add' . $characterName . ' character');
-//        }
+        foreach ($characters as $characterName=>$options){
+
+            Character::create([
+                'name' => $characterName,
+                'city_id' =>$options['city_id'],
+                'avatar' => $options['avatar'],
+                'birthDay' =>$options['birthDay'],
+                'description' =>$options['description'],
+
+            ]);
+            $this->command->info('add' . $characterName . ' character');
+        }
 
     }
 }

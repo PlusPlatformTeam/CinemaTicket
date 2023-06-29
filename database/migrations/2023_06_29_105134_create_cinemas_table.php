@@ -16,10 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('title', 100);
             $table->unsignedBigInteger('city_id');
-            $table->string('banner', 100);
+            $table->string('banner', 100)->nullable();
             $table->text('address');
             $table->text('description');
-            $table->float('score');
+            $table->float('score')->default(0);
             $table->json('options')->nullable();
             $table->json('location')->nullable();
             $table->string('phone', 100);
