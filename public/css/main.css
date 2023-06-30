@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'IranSans';
+    src: url('/fonts/iran.ttf') format('truetype');
+}
+
+html, *{
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IranSans', sans-serif;
+}
