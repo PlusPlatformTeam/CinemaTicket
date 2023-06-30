@@ -14,24 +14,20 @@ class OptionsSeeder extends Seeder
     public function run(): void
     {
         $options=[
-
-            'کافی شاپ'=>['icon'=>"fa-solid fa-mug-saucer" ],
-            'کارتخوان'=>['icon'=>"fa-solid fa-credit-card" ],
-            'چاپ بلیط'=>['icon'=>"fa-solid fa-ticket" ],
-            'کتابخانه'=>['icon'=>"fa-solid fa-book" ],
-            'بوفه'=>['icon'=>"fa-solid fa-bowl-food" ],
-
+            ['title' => 'کافی شاپ', 'icon' => "fa-solid fa-mug-saucer"],
+            ['title' => 'کارتخوان', 'icon' => "fa-solid fa-credit-card" ],
+            ['title' => 'چاپ بلیط', 'icon' => "fa-solid fa-ticket"],
+            ['title' => 'کتابخانه', 'icon' => "fa-solid fa-book"],
+            ['title' => 'بوفه', 'icon' => "fa-solid fa-bowl-food"]
         ];
 
-        foreach ($options as $optionsName=>$op){
+        foreach ($options as $option){
 
             Option::create([
-                'title' => $optionsName,
-                'icon' =>$op['icon'],
-
-
+                'title' => $option['title'],
+                'icon' =>$option['icon'],
             ]);
-            $this->command->info('add' . $optionsName . ' option');
+            $this->command->info('add' . $option['title'] . ' option');
         }
     }
 }

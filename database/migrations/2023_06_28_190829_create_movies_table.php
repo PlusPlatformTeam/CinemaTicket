@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('movies', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id();
+            $table->unsignedBigInteger('category_id');
             $table->string('slug', 50)->collation('ascii_bin');
             $table->string('title');
             $table->text('info')->nullable();
@@ -27,6 +28,11 @@ return new class extends Migration
             $table->float('score')->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('category_id')
+                ->references('id')->on('categories')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
