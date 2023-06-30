@@ -14,7 +14,7 @@ class ProvincesSeeder extends Seeder
     public function run(): void
     {
 
-        $province=[
+        $provinces=[
             'خراسان رضوی',
             'تهران',
             'شیراز',
@@ -24,13 +24,13 @@ class ProvincesSeeder extends Seeder
         ];
 
 
-        foreach ($province as $provinceName=>$options){
+        foreach ($provinces as $name){
 
             Province::create([
-                'title' => $provinceName,
+                'title' => $name,
 
             ]);
-            $this->command->info('add' . $provinceName . 'province');
+            $this->command->info('add' . $name . 'province');
 
         }
 
