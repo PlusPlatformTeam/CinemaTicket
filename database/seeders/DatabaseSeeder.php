@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OptionsSeeder::class);
         $this->call(CinemasSeeder::class);
         $this->call(MoviesSeeder::class);
+        $this->call(CategoriesSeeder::class);
 
         Schema::enableForeignKeyConstraints();
 
