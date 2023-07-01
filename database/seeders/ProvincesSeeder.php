@@ -28,7 +28,6 @@ class ProvincesSeeder extends Seeder
 
             Province::create([
                 'title' => $provinceName,
-
             ]);
             $this->command->info('add' . $provinceName . 'province');
 
