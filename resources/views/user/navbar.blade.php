@@ -122,6 +122,46 @@
 
 <div class="navbar-mobile">
 
+
+
+<nav class="bg-white white-gray-200 light:bg-gray-900 ">
+        <div class="max-w-screen-xxl flex flex-wrap items-center  mx-auto py-4 px-2">
+            <a href="https://flowbite.com/" class="flex items-center">
+                <img src="{{ asset('images/logo.svg') }}" class="h-8 mr-3" alt="Flowbite Logo" />
+                <img src="https://cinematicket.org/v3.17.6/assets/images/typography_dark.svg"
+                    class="self-center text-2xl font-semibold whitespace-nowrap light:text-black" />
+            </a>
+
+            <ul
+                class="flex font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0 absolute left-1 float">
+
+                <li>
+                    <!-- Modal toggle -->
+
+                    <a href="#" aria-current="page" data-modal-target="defaultModal"
+                        data-modal-toggle="defaultModal"
+                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent">
+
+                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot" /></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                        aria-current="page">
+                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
+                        بلیط های من
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+
+
+
+
     <div
         class="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
         <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">

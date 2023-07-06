@@ -31,7 +31,7 @@
 
 </head>
 
-<body dir="rtl" class="">
+<body dir="rtl" class="bg-gray-200">
 
     @include('.user.navbar')
 
