@@ -1,6 +1,6 @@
 .swiper {
     width: 100%;
-    height: 430px;
+    height: 450px;
 }
 
 .swiper-button-prev, .swiper-button-next{
@@ -74,4 +74,30 @@
     max-width: 45ch;
 }
 
+.mobile-swiper-container{
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    position: relative;
+}
 
+.mobile-swiper-container > .items{
+    scroll-snap-align: center;
+    min-width: 300px;
+}
+
+
+.mobile-swiper-container > .items > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+@media screen and (max-width: 992px) {
+    .movie-description{
+        width: 30ch;
+    }
+  }
