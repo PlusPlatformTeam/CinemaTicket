@@ -98,4 +98,7 @@
             @endforeach
         </div>
     </section>
+    <section class="mt-6 px-6" id="content">
+        
+    </section>
 @endsection
