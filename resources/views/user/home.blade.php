@@ -56,10 +56,10 @@
             <div class="swiper-pagination"></div>
 
             <div class="swiper-button-prev">
-                <i class="fas fa-chevron-left"></i>
+                <i class="fas fa-chevron-right"></i>
             </div>
             <div class="swiper-button-next">
-                <i class="fas fa-chevron-right"></i>
+                <i class="fas fa-chevron-left"></i>
             </div>
         </div>
 
