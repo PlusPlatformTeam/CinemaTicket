@@ -14,6 +14,7 @@
     .float-nav:hover {
         color: #878a8e;
     }
+
     @media only screen and (min-width: 1190px) {
         /* Show navbar-desktop on screens wider than 768px */
 
@@ -28,94 +29,96 @@
     }
 </style>
 
-<div class="navbar-desktop">
-    <nav class="bg-white white-gray-200 light:bg-gray-900 ">
-        <div class="max-w-screen-xxl flex flex-wrap items-center  mx-auto py-4 px-2">
-            <a href="https://flowbite.com/" class="flex items-center">
-                <img src="{{ asset('images/logo.svg') }}" class="h-8 mr-3" alt="Flowbite Logo" />
-                <img src="https://cinematicket.org/v3.17.6/assets/images/typography_dark.svg"
-                    class="self-center text-2xl font-semibold whitespace-nowrap light:text-black" />
-            </a>
+<nav class="sticky top-0 z-20">
+    <div class="navbar-desktop">
+        <nav class="bg-white text-sm white-gray-200 light:bg-gray-900 ">
+            <div class="max-w-screen-xxl flex flex-wrap items-center  mx-auto py-4 px-2">
+                <a href="https://flowbite.com/" class="flex items-center">
+                    <img src="{{ asset('images/logo.svg') }}" class="h-8 mr-3" alt="Flowbite Logo" />
+                    <img src="https://cinematicket.org/v3.17.6/assets/images/typography_dark.svg"
+                        class="self-center text-2xl font-semibold whitespace-nowrap light:text-black" />
+                </a>
 
 
-            <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0">
-                <li>
-                    <a href="#"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
-                        aria-current="page">
-                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-clapperboard" /></i>
-                        فیلم و تئاتر
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
-                        aria-current="page">
-                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-film" /></i>
-                        سینما
-                    </a>
-                </li>
-            </ul>
+                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0">
+                    <li>
+                        <a href="#"
+                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                            aria-current="page">
+                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-clapperboard" /></i>
+                            فیلم و تئاتر
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                            aria-current="page">
+                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-film" /></i>
+                            سینما
+                        </a>
+                    </li>
+                </ul>
 
 
-            <form>
-                <div class="flex px-2">
-                    <label for="default-search"
-                        class="mb-2 text-sm font-medium text-gray-900 sr-only light:text-gray-100">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+                <form>
+                    <div class="flex px-2">
+                        <label for="default-search"
+                            class="mb-2 text-sm font-medium text-gray-900 sr-only light:text-gray-100">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" id="search-navbar"
+                                class="block w-full p-2 pl-10 text-sm text-gray-900 border-none rounded-xl bg-white-50 dark:bg-gray-50 dark:placeholder-gray-600 dark:text-gray"
+                                placeholder="جست و جوی فیلم و سینما">
                         </div>
-                        <input type="text" id="search-navbar"
-                            class="block w-full p-2 pl-10 text-sm text-gray-900 border-none rounded-xl bg-white-50 dark:bg-gray-50 dark:placeholder-gray-600 dark:text-gray"
-                            placeholder="جست و جوی فیلم و سینما">
                     </div>
-                </div>
-            </form>
+                </form>
 
 
 
 
 
-            <ul
-                class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0 absolute left-1">
+                <ul
+                    class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0 absolute left-1">
 
-                <li>
-                    <!-- Modal toggle -->
+                    <li>
+                        <!-- Modal toggle -->
 
-                    <a href="#" aria-current="page" data-modal-target="defaultModal"
-                        data-modal-toggle="defaultModal"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent">
+                        <a href="#" aria-current="page" data-modal-target="defaultModal"
+                            data-modal-toggle="defaultModal"
+                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent">
 
-                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot" /></i>
-                        شهر خود را انتخاب کنید
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
-                        aria-current="page">
-                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
-                        بلیط های من
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
-                        aria-current="page">
-                        <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user" /></i>
-                        ورود یا ثبت نام
-                    </a>
-                </li>
-            </ul>
+                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot" /></i>
+                            شهر خود را انتخاب کنید
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                            aria-current="page">
+                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
+                            بلیط های من
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                            aria-current="page">
+                            <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user" /></i>
+                            ورود یا ثبت نام
+                        </a>
+                    </li>
+                </ul>
 
-        </div>
-    </nav>
-</div>
+            </div>
+        </nav>
+    </div>
+</nav>
 
 <div class="navbar-mobile">
 
@@ -151,7 +154,7 @@
                 <i class="float-nav fa-solid fa-user"></i>
                 <span
                     class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-blue-500">ورود
-                    </span>
+                </span>
             </button>
         </div>
     </div>
