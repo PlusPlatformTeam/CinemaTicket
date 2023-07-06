@@ -150,13 +150,7 @@
                         class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
                         aria-current="page">
                         <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
-                        aria-current="page">
-                        <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user" /></i>
+                        بلیط های من
                     </a>
                 </li>
             </ul>
