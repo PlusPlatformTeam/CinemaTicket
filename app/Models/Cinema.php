@@ -9,12 +9,9 @@ class Cinema extends Model
 {
     use HasFactory;
     protected $table = 'cinemas';
-    protected $casts = [
-        'options' => 'json',
-    ];
 
     public function options()
-{
-    return $this->hasMany(Option::class, 'id', 'options->option_id');
-}
+    {
+        return $this->belongsToMany(Option::class, 'cinemas_options');
+    }
 }

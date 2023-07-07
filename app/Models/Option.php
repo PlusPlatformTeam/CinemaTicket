@@ -10,4 +10,8 @@ class Option extends Model
     use HasFactory;
     protected $table = 'options';
 
+    public function cinemas()
+    {
+        return $this->belongsToMany(Cinema::class, 'cinemas_options');
+    }
 }
