@@ -1,0 +1,3 @@
+.gradiant-filter::after{
+    background-image: linear-gradient(to bottom, #474747c4, #999);
+}
