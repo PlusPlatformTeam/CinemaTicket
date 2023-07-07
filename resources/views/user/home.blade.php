@@ -122,7 +122,8 @@
                                 class="text-right bg-gray-700 text-gray-100 text-sm font-medium mr-2 px-2.5 pt-2 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{{ $movie->category->name }}</span>
                         </div>
                         <div class="flex flex-row lg:justify-between justify-end items-center mt-5">
-                            <p style="width: 30ch" class="hidden lg:block text-white movie-description">{{ $topMovies->first()->info }} ...
+                            <p style="width: 30ch" class="hidden lg:block text-white movie-description">
+                                {{ $topMovies->first()->info }} ...
                             </p>
                             <a href="movie/{{ $topMovies->first()->slug }}"
                                 class="text-gray-50 bg-red-500 px-3 py-1 rounded-lg text-center flex justify-center items-center">
@@ -141,7 +142,8 @@
                         </span>
                     </div>
                     <div>
-                        <a href="#" class="flex flex-row items-center text-red-500 hover:bg-gray-300 px-2 py-1 rounded-lg transition delay-300">
+                        <a href="#"
+                            class="flex flex-row items-center text-red-500 hover:bg-gray-300 px-2 py-1 rounded-lg transition delay-300">
                             <span class="flex flex-row items-center pt-1">مشاهده همه</span>
                             <i class="fas fa-chevron-left mr-2"></i>
                         </a>
@@ -157,7 +159,8 @@
                                         src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}"
                                         alt="{{ $movie['title'] }}">
 
-                                    <div class="absolute lg:bottom-6 md:bottom-12 sm:bottom-12 bottom-12 z-20 justify-center sm:text-xs text-center released-score-view">
+                                    <div
+                                        class="absolute lg:bottom-6 md:bottom-12 sm:bottom-12 bottom-12 z-20 justify-center sm:text-xs text-center released-score-view">
 
                                         <div>
                                             <span
