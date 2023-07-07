@@ -1,4 +1,4 @@
-<footer class="lg:block hidden fixed bottom-0 w-full bg-gray-800 py-2 relative z-20">
+<footer class="lg:block hidden sticky bottom-0 w-full bg-gray-800 py-2 relative z-20">
     <div class="w-full flex flex-row justify-between items-center">
         <div class="basic-1/2 px-2">
             <a class="text-white px-3 py-1 text-xs transition duration-300 rounded-lg hover:bg-gray-600" href="#">

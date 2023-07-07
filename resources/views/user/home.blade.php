@@ -98,19 +98,19 @@
             @endforeach
         </div>
     </section>
-    <section class="mt-12 px-6" id="content">
+    <section class="mt-12 lg:px-6" id="content">
         <div class="w-full flex flex-row">
-            <div class="basis-8/12">
+            <div class="lg:basis-8/12 md:w-full sm:w-full">
                 <div class="flex flex-row gap-4 bg-responsive px-6 py-8 w-full h-64 z-10 blur-container rounded-2xl"
                     style="background-image: url({{ url($topMovies->first()->second_banner) }})">
 
                     <div class="blur-overlay"></div>
-                    <div class="basis-3/12">
+                    <div class="hidden lg:block lg:basis-3/12">
                         <img class="h-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content"
                             src="{{ url($topMovies->first()->main_banner) }}" title="{{ $topMovies->first()->title }}"
                             alt="{{ $topMovies->first()->title }}">
                     </div>
-                    <div class="relative basis-9/12 px-6">
+                    <div class="relative basis-full lg:basis-9/12 px-6">
                         <h2 class="text-white text-2xl pb-8 content">{{ $topMovies->first()->title }}</h2>
                         <h5 class="text-white text-xs content">کارگردان : {{ $topMovies->first()->director }}</h5>
                         <div class="pt-8">
@@ -121,8 +121,8 @@
                             <span
                                 class="text-right bg-gray-700 text-gray-100 text-sm font-medium mr-2 px-2.5 pt-2 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{{ $movie->category->name }}</span>
                         </div>
-                        <div class="flex flex-row justify-between items-center mt-5">
-                            <p style="width: 30ch" class="text-white movie-description">{{ $topMovies->first()->info }} ...
+                        <div class="flex flex-row lg:justify-between justify-end items-center mt-5">
+                            <p style="width: 30ch" class="hidden lg:block text-white movie-description">{{ $topMovies->first()->info }} ...
                             </p>
                             <a href="movie/{{ $topMovies->first()->slug }}"
                                 class="text-gray-50 bg-red-500 px-3 py-1 rounded-lg text-center flex justify-center items-center">
@@ -134,33 +134,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-row justify-between font-medium ">
-
+                <div class="flex flex-row justify-between font-medium mt-4 lg:px-2">
                     <div>
                         <span>
                             اکران
-                            <span>
+                        <span>
                     </div>
-
                     <div>
-                        <a href="#" class="text-red-700">مشاهده همه</a>
+                        <a href="#" class="flex flex-row items-center text-red-500 hover:bg-gray-300 px-2 py-1 rounded-lg transition delay-300">
+                            <span class="flex flex-row items-center pt-1">مشاهده همه</span>
+                            <i class="fas fa-chevron-left mr-2"></i>
+                        </a>
                     </div>
-
                 </div>
-
-
-                <div class="w-full">
-                    <div class="flex flex-wrap  bg-responsive  py-3 w-full z-10 blur-container my-2 rounded-2xl ">
-
+                <div class="w-full sm:mb-16">
+                    <div class="flex flex-wrap bg-responsive w-full z-10 blur-container my-2 rounded-2xl">
                         @foreach ($lastMovies as $movie)
                             <a href="movies/{{ $movie['slug'] }}"
-                                class="lg:w-1/4 md:w-1/3 sm:w-1/2 w-full relative released-div mt-4 px-3">
+                                class="2xl:w-1/5 xl:w-1/4 lg:w-1/4 md:w-1/4 sm:w-1/3 w-1/3 relative released-div mt-4 px-3">
                                 <div class="flex justify-center">
                                     <img class="object-cover transition delay-500 hover:blur-sm w-full h-64 max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content released-img"
                                         src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}"
                                         alt="{{ $movie['title'] }}">
 
-                                    <div class="absolute bottom-5 z-20 justify-center  text-center  released-score-view">
+                                    <div class="absolute lg:bottom-6 md:bottom-12 sm:bottom-12 bottom-12 z-20 justify-center sm:text-xs text-center released-score-view">
 
                                         <div>
                                             <span
@@ -170,12 +167,15 @@
                                             <span
                                                 class="text-right bg-gray-700 text-gray-100 text-sm font-medium mr-2 px-2.5 pt-2 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                                 <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
-                                                20
+                                                <span>{{ convertDigitsToFarsi(rand(50, 999)) }}</span>
                                             </span>
                                             <h5 class="text-white content text-center mt-4 ">کارگردان : <span
                                                     class="font-thin">{{ $movie['director'] }}</span></h5>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="w-full text-center text-lg mt-3">
+                                    <span>{{ $movie['title'] }}</span>
                                 </div>
                             </a>
                         @endforeach
@@ -185,7 +185,7 @@
                 </div>
 
             </div>
-            <div class="basis-4/12">
+            <div class="hidden lg:block lg:basis-4/12">
                 <ul class="w-96 mr-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
                     <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                         <div class="flex flex-row justify-between items-center">
