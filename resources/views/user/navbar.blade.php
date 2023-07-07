@@ -73,6 +73,7 @@
                                 </svg>
                             </div>
                             <input type="text" id="search-navbar"
+                            id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown"
                                 class="block w-full p-2 pl-10 text-sm text-gray-900 border-none rounded-xl bg-white-50 dark:bg-gray-50 dark:placeholder-gray-600 dark:text-gray"
                                 placeholder="جست و جوی فیلم و سینما">
                         </div>
@@ -147,6 +148,7 @@
                 </li>
                 <li>
                     <a href="#"
+                   
                         class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
                         aria-current="page">
                         <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
@@ -203,7 +205,7 @@
 
 
 
-<!-- Main modal -->
+<!-- City modal -->
 <div id="defaultModal" tabindex="-1" aria-hidden="true"
     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-2xl max-h-full">
@@ -267,3 +269,39 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<div id="mega-menu-dropdown" class="sticky top-20 z-20 grid hidden w-96  text-sm bg-white border border-gray-100 rounded-lg shadow-md border-gray-700  bg-gray-700">
+    <div class="p-4 pb-0 text-gray-900 md:pb-4 text-white">
+      <h4 class="font-medium z-20" style="color:black">
+          مجبوب ترین فیلم ها
+      </h4>
+  
+      <div class="w-full sm:mb-16 bg-white">
+        <div class="flex flex-wrap justify-between max-w-3xl mx-auto">
+          @foreach ($lastMovies as $key => $movie)
+            <div class="movie-item-container w-1/3 p-3">
+              <a href="movies/{{ $movie['slug'] }}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
+                <div class="flex justify-center">
+                  <img class="object-cover w-full h-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content " src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}" alt="{{ $movie['title'] }}">
+                </div>
+                <div class="w-full text-center text-lg mt-3">
+                  <span style="color:black">{{ $movie['title'] }}</span>
+                </div>
+              </a>
+            </div>
+          <?php
+          
+          if ($key==5) {
+              break;
+          }
+          
+          ?>
+            @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
