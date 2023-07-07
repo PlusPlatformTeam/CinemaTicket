@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class VideoCharacter extends Model
 {
     use HasFactory;
+
+    protected $table='video_characters';
+
 }

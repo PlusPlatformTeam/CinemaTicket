@@ -29,7 +29,7 @@
     }
 </style>
 
-<nav class="sticky top-0 z-20">
+<nav class="sticky top-0 z-50">
     <div class="navbar-desktop">
         <nav class="bg-white text-sm white-gray-200 light:bg-gray-900 ">
             <div class="max-w-screen-xxl flex flex-wrap items-center  mx-auto py-4 px-2">
@@ -148,7 +148,7 @@
                 </li>
                 <li>
                     <a href="#"
-                   
+
                         class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
                         aria-current="page">
                         <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
@@ -274,17 +274,17 @@
 
 
 
-<div id="mega-menu-dropdown" class="sticky top-20 z-20 grid hidden w-96  text-sm bg-white border border-gray-100 rounded-lg shadow-md border-gray-700  bg-gray-700">
+<div id="mega-menu-dropdown" class="sticky top-20 z-50 grid hidden w-96  text-sm bg-white border border-gray-100 rounded-lg shadow-md border-gray-700  bg-gray-700">
     <div class="p-4 pb-0 text-gray-900 md:pb-4 text-white">
       <h4 class="font-medium z-20" style="color:black">
           مجبوب ترین فیلم ها
       </h4>
-  
+
       <div class="w-full sm:mb-16 bg-white">
         <div class="flex flex-wrap justify-between max-w-3xl mx-auto">
           @foreach ($lastMovies as $key => $movie)
             <div class="movie-item-container w-1/3 p-3">
-              <a href="movies/{{ $movie['slug'] }}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
+              <a href="movie/{{ $movie['slug'] }}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
                 <div class="flex justify-center">
                   <img class="object-cover w-full h-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content " src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}" alt="{{ $movie['title'] }}">
                 </div>
@@ -294,11 +294,11 @@
               </a>
             </div>
           <?php
-          
+
           if ($key==5) {
               break;
           }
-          
+
           ?>
             @endforeach
         </div>
