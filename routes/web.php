@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MovieController;
+use App\Http\Controllers\CinemaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +17,4 @@ use App\Http\Controllers\MovieController;
 
 Route::get('/', [HomeController::class, 'Index']);
 
-Route::get('/cinema', [MovieController::class, 'Index'])->name('movies.index');
+Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
