@@ -20,4 +20,9 @@ class Movie extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function characters()
+    {
+        return $this->belongsToMany(character::class,'video_characters');
+    }
+
 }
