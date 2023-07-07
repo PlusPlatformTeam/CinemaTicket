@@ -1,0 +1,6 @@
+.movie-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 45ch;
+}

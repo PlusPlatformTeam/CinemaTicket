@@ -12,3 +12,25 @@ body {
     font-family: 'IranSans', sans-serif;
     overflow-x: hidden;
 }
+.blur-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.blur-container > * {
+    position: relative;
+    z-index: 2;
+}
+
+.blur-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 0.8;
+    z-index: 1;
+    background-image: linear-gradient(to left, #000, #6b6666);
+}
