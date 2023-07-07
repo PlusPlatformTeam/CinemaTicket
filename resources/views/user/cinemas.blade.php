@@ -62,8 +62,9 @@
                 <div class="flex flex-row w-full">
                     @foreach ($cinemas as $key => $cinema)
                         <div class="w-1/3">
-                            <div class="rounded-2xl {{ ($key + 1 % 3 == 2) ? 'mx-3' : ''}}">
-                                <div class="w-full h-24 relative" style="background-image: url({{ url($cinema['banner']) }})">
+                            <div class="{{ ($key + 1 % 3 == 2) ? 'mx-3' : ''}}">
+                                <div class="blur-container w-full h-40 rounded-t-3xl relative bg-responsive" style="background-image: url({{ url($cinema['banner']) }})">
+                                    <div class="blur-overlay"></div>
                                     <h2 class="absolute bottom-2 text-white font-bold right-3">{{ $cinema['title'] }}</h2>
                                 </div>
                                 <div>
