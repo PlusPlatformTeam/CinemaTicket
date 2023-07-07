@@ -50,8 +50,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                        <a href="{{route('cinema.index')}}"
+                            class="block py-2 px-4 text-black rounded-xl hover:bg-red-50 hover:text-red-500 transition delay-400"
                             aria-current="page">
                             <i class="w-5 h-5 inline-block mr-2 fa-solid fa-film" /></i>
                             سینما
