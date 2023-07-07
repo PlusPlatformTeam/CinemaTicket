@@ -159,8 +159,8 @@
                                         src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}"
                                         alt="{{ $movie['title'] }}">
 
-                                    <div
-                                        class="absolute lg:bottom-6 md:bottom-12 sm:bottom-12 bottom-12 z-20 justify-center sm:text-xs text-center released-score-view">
+
+                                    <div class="absolute bottom-14 z-20 justify-center sm:text-xs text-center released-score-view">
 
                                         <div>
                                             <span
