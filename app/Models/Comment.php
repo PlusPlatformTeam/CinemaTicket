@@ -13,4 +13,17 @@ class Comment extends Model
     const REJECT = 'Reject';
 
     const STATES = [self::PENDING, self::ACCEPT, self::REJECT];
+
+    public function movie()
+    {
+        return $this->belongsTo(Movie::class,'movies');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'users');
+    }
+
+
+
 }
