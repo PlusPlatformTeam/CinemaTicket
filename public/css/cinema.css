@@ -1,24 +1,26 @@
-.gradiant-filter::after{
-    background-image: linear-gradient(to bottom, #474747c4, #999);
-}
-
-
 .bg-responsive{
-    background-position: center center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
-    transition: all 0.4s ease-in-out;
 }
 
-.blur-overlay {
-    background-image: linear-gradient(to top, #000, #6b6666);
+.blur-overlay-light{
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 0.8;
+    z-index: 1;
+    background-image: linear-gradient(to top, #dad6d6, #ffffff);
 }
 
-.bg-responsive:hover{
-    letter-spacing: 1px;
-    background-size: 120%;
+.basis-2-5{
+    flex-basis: 20.66667%;
 }
 
-#option-filter.active{
-    background-color: #e2e8f0;
+.basis-9-5{
+    flex-basis: 80.44443%;
 }

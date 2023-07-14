@@ -19,6 +19,7 @@ use App\Http\Controllers\MovieController;
 Route::get('/', [HomeController::class, 'Index']);
 
 Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
+Route::get('/cinema/detail/{cinema}', [CinemaController::class, 'ShowCinema'])->name('cinema.get');
 
 Route::get('/movie/{slug}', [MovieController::class, 'Index']);
 
