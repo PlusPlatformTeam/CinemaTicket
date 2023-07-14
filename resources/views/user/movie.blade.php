@@ -238,7 +238,7 @@
                                             class="w-12">
                                     </div>
 
-                                    <div class="w-11/12 block mr-2  right-0"></div>
+                                    <div class="w-11/12 block mr-2  right-0">
                                     <p class="text-gray-400">{{ $comment['name'] }}</p>
                                     <h1 class="">{{ $comment['body'] }}</h1>
                                     <p class="text-gray-400">{{ $comment['created_at'] }}</p>

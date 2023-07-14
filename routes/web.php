@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +23,13 @@ Route::get('/', [HomeController::class, 'Index']);
 Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
 
 Route::get('/movie/{slug}', [MovieController::class, 'Index']);
+
+Route::get('/login', [UserController::class, 'login'])->name('user.login');
+
+Route::get('/register', [UserController::class, 'register'])->name('user.register');
+
+Route::get('/register_verification', [UserController::class, 'register_verification'])->name('user.register_verification');
+
+
+
 
