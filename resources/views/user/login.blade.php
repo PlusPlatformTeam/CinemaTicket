@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="flex justify-center text-center pb-16 w-full relative">
-                    <a href="/">
+                    <a href="{{ route('home')}}">
                         <button type="button"
                             class="absolute right-0 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">
                             <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="md:w-3/12 w-full">
-                            <a href="register">
+                            <a href="{{ route('user.register')}}">
                                 <button type="button"
                                     class="w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">
                                     ثبت نام

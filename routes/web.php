@@ -18,7 +18,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [HomeController::class, 'Index']);
+Route::get('/', [HomeController::class, 'Index'])->name('home');
 
 Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
 Route::get('/cinema/detail/{cinema}', [CinemaController::class, 'ShowCinema'])->name('cinema.get');

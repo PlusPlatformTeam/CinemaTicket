@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="flex justify-center text-center pb-16 w-full relative">
-                    <a href="/login">
+                    <a href="{{ route('user.login')}}">
                         <button type="button"
                             class="absolute right-0 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">
                             <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="relative w-full flex md:basis-4/12 basis-full ">
-                                <a href="register_verification" class="w-full">
+                                <a href="{{ route('user.register_verification')}}" class="w-full">
                                     <button type="button"
                                         class=" text-center justify-center flex w-full text-white bg-gray-400 hover:bg-gray-900 focus:outline-none 
                                     focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">ادامه
