@@ -33,11 +33,20 @@
 
 <body dir="rtl" class="bg-gray-200">
 
-    @include('.user.navbar')
-
+    @if (Route::currentRouteName() !== 'user.login' 
+    && Route::currentRouteName() !== 'user.register'
+    && Route::currentRouteName() !== 'user.register_verification')
+        @include('.user.navbar')
+    @endif
+    
     @yield('content')
 
+    @if (Route::currentRouteName() !== 'user.login' 
+    && Route::currentRouteName() !== 'user.register'
+    && Route::currentRouteName() !== 'user.register_verification')
     @include('.user.footer')
+    @endif
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js"></script>
     <script src="{{ asset('/js/main.js') }}"></script>

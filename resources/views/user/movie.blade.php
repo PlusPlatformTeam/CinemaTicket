@@ -116,7 +116,28 @@
 
                     <div class="flex flex-row justify-between">
 
-                        <h1 class="text-gray-400 text-xl font-semibold	 mx-4 my-4">انتخاب و سانس</h1>
+                        <div class="block">
+                            <h1 class="text-gray-400 text-xl font-semibold	 mx-4 my-4">انتخاب و سانس</h1>
+
+                            <div class="flex mt-6 text-sm font-light mb-5 px-8">
+                                <div class="text-center ml-3">
+                                    <p class="px-3.5 py-1.5 rounded-full bg-gray-100 mb-2.5 text-center">جمعه</p>
+                                    <p class="text-center">24 تیر</p>
+                                </div>
+                                <div class="text-center ml-3">
+                                    <p class="px-3.5 py-1.5 rounded-full mb-2.5 text-center">شنبه</p>
+                                    <p class="text-center">25 تیر</p>
+                                </div>
+                                <div class="text-center ml-3">
+                                    <p class="px-3.5 py-1.5 rounded-full  mb-2.5 text-center">یکشنبه</p>
+                                    <p class="text-center">26 تیر</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
 
 
                         <form>
@@ -238,58 +259,58 @@
                                             class="w-12">
                                     </div>
 
-                                    <div class="w-11/12 block mr-2  right-0"></div>
-                                    <p class="text-gray-400">{{ $comment['name'] }}</p>
-                                    <h1 class="">{{ $comment['body'] }}</h1>
-                                    <p class="text-gray-400">{{ $comment['created_at'] }}</p>
+                                    <div class="w-11/12 block mr-2  right-0">
+                                        <p class="text-gray-400">{{ $comment['name'] }}</p>
+                                        <h1 class="">{{ $comment['body'] }}</h1>
+                                        <p class="text-gray-400">{{ $comment['created_at'] }}</p>
+                                    </div>
                                 </div>
+                                @if (!$loop->last)
+                                    <div class="bg-gray-200 w-full mt-2" style="height: 1px"></div>
+                                @endif
+                            @endforeach
                         </div>
-                        @if (!$loop->last)
-                            <div class="bg-gray-200 w-full mt-2" style="height: 1px"></div>
-                        @endif
-                    @endforeach
-                </div>
-                @endif
+                    @endif
 
+
+
+                </div>
 
 
             </div>
 
 
-        </div>
 
-
-
-        <div class="hidden lg:block lg:basis-4/12">
-            <ul class="w-96 mr-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
-                <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex flex-row justify-between items-center">
-                        <h1 class="text-lg font-bold text-gray-500">جدول فروش</h1>
-                        <h6>بروزرسانی : دیروز</h6>
-                    </div>
-                </li>
-                @foreach ($topMovies as $key => $tMovies)
-                    <li
-                        class="w-full px-4 py-2 border-b border-gray-200 {{ count($topMovies) == $key + 1 ? 'rounded-b-lg' : '' }}">
-                        <div class="w-full flex flex-row justify-between">
-                            <div class="flex flex-row relative">
-                                <img class="w-16 rounded-lg" src="{{ url($tMovies->main_banner) }}"
-                                    alt{{ $tMovies->title }}>
-                                <div class="flex flex-col justify-between pt-2 mr-2">
-                                    <span class="block font-bold text-gray-800">{{ $key + 1 }} .
-                                        {{ $tMovies->title }}</span>
-                                    <span class="block text-gray-500">{{ $tMovies->director }}</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-row items-center">
-                                <p class="text-gray-600">{{ convertDigitsToFarsi(number_format($tMovies->sale)) }}
-                                </p>
-                            </div>
+            <div class="hidden lg:block lg:basis-4/12">
+                <ul class="w-96 mr-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+                    <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex flex-row justify-between items-center">
+                            <h1 class="text-lg font-bold text-gray-500">جدول فروش</h1>
+                            <h6>بروزرسانی : دیروز</h6>
                         </div>
                     </li>
-                @endforeach
-            </ul>
-        </div>
+                    @foreach ($topMovies as $key => $tMovies)
+                        <li
+                            class="w-full px-4 py-2 border-b border-gray-200 {{ count($topMovies) == $key + 1 ? 'rounded-b-lg' : '' }}">
+                            <div class="w-full flex flex-row justify-between">
+                                <div class="flex flex-row relative">
+                                    <img class="w-16 rounded-lg" src="{{ url($tMovies->main_banner) }}"
+                                        alt{{ $tMovies->title }}>
+                                    <div class="flex flex-col justify-between pt-2 mr-2">
+                                        <span class="block font-bold text-gray-800">{{ $key + 1 }} .
+                                            {{ $tMovies->title }}</span>
+                                        <span class="block text-gray-500">{{ $tMovies->director }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-row items-center">
+                                    <p class="text-gray-600">{{ convertDigitsToFarsi(number_format($tMovies->sale)) }}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     </section>
 @endsection

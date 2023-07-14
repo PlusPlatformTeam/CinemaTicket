@@ -1,0 +1,7 @@
+body{
+    overflow-y:hidden;
+}
+
+.bg-screen{
+    background-image:url('https://cinematicket.org/assets/images/auth_bg.svg');
+}
