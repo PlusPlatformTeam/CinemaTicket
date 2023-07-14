@@ -9,7 +9,7 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/cinema.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cinemas.css') }}">
 @endsection
 
 @section('js')

@@ -1,0 +1,24 @@
+.gradiant-filter::after{
+    background-image: linear-gradient(to bottom, #474747c4, #999);
+}
+
+
+.bg-responsive{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all 0.4s ease-in-out;
+}
+
+.blur-overlay {
+    background-image: linear-gradient(to top, #000, #6b6666);
+}
+
+.bg-responsive:hover{
+    letter-spacing: 1px;
+    background-size: 120%;
+}
+
+#option-filter.active{
+    background-color: #e2e8f0;
+}
