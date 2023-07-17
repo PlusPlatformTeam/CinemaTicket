@@ -39,7 +39,7 @@
     </header>
     <main class="mt-5">
         <div class="flex">
-            <div class="lg:basis-9/12 bg-white pt-6 rounded-lg mx-3">
+            <div class="lg:basis-9/12 md:basis-9/12 basis-full bg-white pt-6 rounded-lg mx-3">
                 <div class="flex flex-row justify-between items-center px-8">
                     <p class="text-gray-700">برنامه اکران {{ $cinema->title }}</p>
                     <div class="text-xs">
@@ -62,11 +62,12 @@
                     </div>
                 </div>
                 @foreach ($lastMovies as $movie)
-                    <div class="flex my-4 hover:bg-gray-100 cursor-pointer p-3">
+                    <div class="flex flex-wrap my-4 hover:bg-gray-100 cursor-pointer p-3">
                         <div class="basis-2/12">
                             <img class="rounded-lg" src="{{ url($movie->main_banner) }}" title="{{ $movie->title }}" alt="{{ $movie->title }}">
                         </div>
-                        <div class="basis-10/12 flex flex-col justify-between mr-3">
+                        <div class="basis-1/12"></div>
+                        <div class="basis-9/12 flex flex-col justify-between">
                             <div class="flex justify-between items-center">
                                 <p class="text-sm">{{ $movie->title }} | <span class="text-gray-500">{{ $movie->director }}</span></p>
                                 <button class="text-red-500 flex items-center hover:bg-red-50 p-2 rounded-lg">
@@ -77,7 +78,7 @@
                                 </button>
                             </div>
                             <div>
-                                <span class="p-2 rounded-lg text-xs bg-gray-100">{{ $movie->category->name }}</span>
+                                <span class="lg:p-2 p-1 rounded-lg text-xs bg-gray-200 ">{{ $movie->category->name }}</span>
                             </div>
                             <div>
                                 <span class="ml-3">
@@ -89,7 +90,7 @@
                                     <i class="fa-regular fa-user"></i>
                                 </span>
                             </div>
-                            <div class="flex">
+                            <div class="hidden lg:flex md:flex">
                                 @foreach ($movie->characters as $character)
                                     <div class="flex items-center ml-3">
                                         <img class="w-8 h-8 rounded-lg object-cover" src="{{$character->avatar}}" alt="{{$character->name}}" title="{{$character->name}}">
@@ -98,10 +99,47 @@
                                 @endforeach
                             </div>
                         </div>
+                        <div class="p-3 mt-3 basis-full">
+                            <a href="{{ route('movie.show', ['slug' => $movie->slug]) }}" class="text-xs text-gray-700 mb-8 hover:text-red-600">درباره {{$movie->title}} <i class="fa-solid fa-angle-left mr-2"></i></a>
+                            <div class="flex flex-wrap flex-row w-full">
+                                <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
+                                    <h5>سالن هشت</h5>
+                                    <div class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
+                                        <div class="flex flex-col">
+                                            <p class="hover:text-red-500">
+                                                <i class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
+                                                <span>سانس {{ convertDigitsToFarsi('20:45') }}</span>
+                                            </p>
+                                            <span class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format('50000')) }} تومان</span>
+                                        </div>
+                                        <button class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
+                                            <i class="fas fa-ticket ml-2"></i>
+                                            <span>خرید بلیت</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="basis-6/12 md:basis-8/12 sm:basis-11/12 my-2">
+                                    <h5>سالن هشت</h5>
+                                    <div class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
+                                        <div class="flex flex-col">
+                                            <p class="hover:text-red-500">
+                                                <i class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
+                                                <span>سانس {{ convertDigitsToFarsi('20:45') }}</span>
+                                            </p>
+                                            <span class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format('50000')) }} تومان</span>
+                                        </div>
+                                        <button class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
+                                            <i class="fas fa-ticket ml-2"></i>
+                                            <span>خرید بلیت</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @endforeach
             </div>
-            <div class="lg:basis-3/12 mx-3">
+            <div class="hidden lg:block md:block lg:basis-3/12 md:basis-3/12 mx-3">
                 <div class="w-96 mb-6">
                     <iframe class="w-full rounded-lg border-8 border-gray-50" height="270" loading="lazy" allowfullscreen src="https://map.ir/lat/36.3238301/lng/59.5586102/z/17/p/%D9%85%D8%A7%20%D8%A7%DB%8C%D9%86%D8%AC%D8%A7%DB%8C%DB%8C%D9%85 " frameborder="1"></iframe>
                 </div>
