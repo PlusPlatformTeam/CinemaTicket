@@ -98,7 +98,7 @@
                     </header>
                     <div class="flex flex-row w-full flex-wrap">
                         @foreach ($cinemas as $cinema)
-                            <a href="cinema/detail/{{ $cinema['id'] }}"
+                            <a href="{{ route('cinema.show', ['id' => $cinema->id]) }}"
                                 class="basis-6/12 lg:basis-4/12 md:basis-4/12 mb-5 rounded-b-2xl">
                                 <div class="mx-1">
                                     <div class="blur-container w-full h-40 rounded-t-3xl relative bg-responsive"
