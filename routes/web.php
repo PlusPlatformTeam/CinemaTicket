@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\UserController;
 
@@ -32,3 +33,5 @@ Route::get('/register', [UserController::class, 'register'])->name('user.registe
 Route::get('/register_verification', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
 
 Route::post('/search', [HomeController::class, 'Search'])->name('search');
+
+Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
