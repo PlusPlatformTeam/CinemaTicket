@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cinema;
 use App\Models\City;
 use App\Models\Movie;
 use Illuminate\Http\Request;
@@ -20,5 +21,20 @@ class HomeController extends Controller
             'cities' => $cities,
             'topMovies' => $top_movies
         ]);
+    }
+
+    public function Search(Request $request)
+    {
+        if (is_null($request->value))
+        {
+            $topMovies  = Movie::orderByDesc('score')->take(3)->select('slug', 'title', 'main_banner')->get();
+            $topCinemas = Cinema::orderByDesc('score')->take(3)->select('id', 'title', 'poster')->get();
+
+            return response([
+                'topMovies'  => $topMovies,
+                'topCinemas' => $topCinemas
+            ], 200);
+        }
+        
     }
 }

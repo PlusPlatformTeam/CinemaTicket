@@ -31,40 +31,38 @@
 
 <nav class="sticky top-0 z-50">
     <div class="navbar-desktop">
-        <nav class="bg-white text-sm white-gray-200 light:bg-gray-900 ">
-            <div class="max-w-screen-xxl flex flex-wrap items-center  mx-auto py-4 px-2">
-                <a href="https://flowbite.com/" class="flex items-center">
-                    <img src="{{ asset('images/logo.svg') }}" class="h-8 mr-3" alt="Flowbite Logo" />
+        <nav class="bg-white text-xs light:bg-gray-900 ">
+            <div class="max-w-screen-xxl flex flex-wrap items-center mx-auto py-4 px-2">
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <img src="{{ asset('images/logo.svg') }}" class="h-7 mr-3" alt="سینما تیکت" />
                     <img src="https://cinematicket.org/v3.17.6/assets/images/typography_dark.svg"
-                        class="self-center text-2xl font-semibold whitespace-nowrap light:text-black" />
+                        class="h-6 self-center text-2xl font-semibold whitespace-nowrap light:text-black" />
                 </a>
 
 
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0">
                     <li>
-                        <a href="#"
-                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                        <a href="{{ route('home') }}"
+                            class="block p-2  text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-400 rounded-lg mr-2"
                             aria-current="page">
-                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-clapperboard" /></i>
+                            <i class="w-5 h-5 inline-block fa-solid fa-clapperboard"></i>
                             فیلم و تئاتر
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('cinema.index') }}"
-                            class="block py-2 px-4 text-black rounded-xl hover:bg-red-50 hover:text-red-500 transition delay-400"
+                            class="block py-2 px-3 mr-1  text-gray-600 rounded-lg rounded-xl hover:bg-red-50 hover:text-red-500 transition delay-400 duration-300"
                             aria-current="page">
-                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-film" /></i>
+                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-film"></i>
                             سینما
                         </a>
                     </li>
                 </ul>
 
 
-                <form>
-                    <div class="flex px-2">
-                        <label for="default-search"
-                            class="mb-2 text-sm font-medium text-gray-900 sr-only light:text-gray-100">Search</label>
-                        <div class="relative">
+                <form class="basis-3/12">
+                    <div class="flex w-full">
+                        <div class="relative w-full">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -72,17 +70,13 @@
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" id="search-navbar" id="mega-menu-dropdown-button"
+                            <input type="text" id="search-navbar"
                                 data-dropdown-toggle="mega-menu-dropdown"
-                                class="block w-full p-2 pl-10 text-sm text-gray-900 border-none rounded-xl bg-white-50 dark:bg-gray-50 dark:placeholder-gray-600 dark:text-gray"
-                                placeholder="جست و جوی فیلم و سینما">
+                                class="block w-full p-2 pl-10 h-12 text-xs text-gray-900 border-none outline-0 rounded-xl bg-gray-50 focus:ring-0"
+                                placeholder="جستجوی فیلم, سینما, بازیگر...">
                         </div>
                     </div>
                 </form>
-
-
-
-
 
                 <ul
                     class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0 absolute left-1">
@@ -90,27 +84,26 @@
                     <li>
                         <!-- Modal toggle -->
 
-                        <a href="#" aria-current="page" data-modal-target="defaultModal"
-                            data-modal-toggle="defaultModal"
-                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent">
+                        <span aria-current="page" data-modal-target="defaultModal" data-modal-toggle="defaultModal"
+                            class="cursor-pointer block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent">
 
-                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot" /></i>
+                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot"></i>
                             شهر خود را انتخاب کنید
-                        </a>
+                        </span>
                     </li>
                     <li>
                         <a href="#"
-                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                            class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent"
                             aria-current="page">
-                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
+                            <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket"></i>
                             بلیط های من
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('user.login')}}"
-                            class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                        <a href="{{ route('user.login') }}"
+                            class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent"
                             aria-current="page">
-                            <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user" /></i>
+                            <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
                             ورود یا ثبت نام
                         </a>
                     </li>
@@ -122,9 +115,6 @@
 </nav>
 
 <div class="navbar-mobile">
-
-
-
     <nav class="bg-white white-gray-200 light:bg-gray-900 ">
         <div class="max-w-screen-xxl flex flex-wrap items-center  mx-auto py-4 px-2">
             <a href="https://flowbite.com/" class="flex items-center">
@@ -132,25 +122,22 @@
                 <img src="https://cinematicket.org/v3.17.6/assets/images/typography_dark.svg"
                     class="self-center text-2xl font-semibold whitespace-nowrap light:text-black" />
             </a>
-
             <ul
                 class="flex font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0 absolute left-1 float">
-
                 <li>
                     <!-- Modal toggle -->
-
                     <a href="#" aria-current="page" data-modal-target="defaultModal"
                         data-modal-toggle="defaultModal"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent">
+                        class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent">
 
-                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot" /></i>
+                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot"></i>
                     </a>
                 </li>
                 <li>
                     <a href="#"
-                        class="block py-2 pl-3 pr-4 text-black md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                        class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent"
                         aria-current="page">
-                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket" /></i>
+                        <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket"></i>
                         بلیط های من
                     </a>
                 </li>
@@ -158,25 +145,19 @@
 
         </div>
     </nav>
-
-
-
-
-
     <div
         class="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
         <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
             <button type="button"
                 class=" inline-flex flex-col items-center justify-center px-5 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                <i class="w-5 h-5 inline-block fa-solid fa-film float-nav" /></i>
-
+                <i class="w-5 h-5 inline-block fa-solid fa-film float-nav"></i>
                 <span
                     class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-blue-500">فیلم
                     ها</span>
             </button>
             <button type="button" data-modal-target="defaultModal" data-modal-toggle="defaultModal"
                 class=" inline-flex flex-col items-center justify-center px-5 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                <i class="w-5 h-5 inline-block fa-solid fa-location-dot float-nav" /></i>
+                <i class="w-5 h-5 inline-block fa-solid fa-location-dot float-nav"></i>
 
                 <span
                     class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-blue-500">انتخاب
@@ -184,7 +165,7 @@
             </button>
             <button type="button"
                 class=" inline-flex flex-col items-center justify-center px-5 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                <i class="w-5 h-5 inline-block fa-solid fa-ticket float-nav" /></i>
+                <i class="w-5 h-5 inline-block fa-solid fa-ticket float-nav"></i>
 
                 <span
                     class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-blue-500">بلیط
@@ -203,9 +184,6 @@
     </div>
 
 </div>
-
-
-
 <!-- City modal -->
 <div id="defaultModal" tabindex="-1" aria-hidden="true"
     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -271,30 +249,25 @@
     </div>
 </div>
 
-
-
-
-
-<div id="mega-menu-dropdown"
-    class="sticky top-20 z-50 grid hidden w-96  text-sm bg-white border border-gray-100 rounded-lg shadow-md border-gray-700  bg-gray-700">
-    <div class="p-4 pb-0 text-gray-900 md:pb-4 text-white">
-        <h4 class="font-medium z-20" style="color:black">
+<div id="mega-menu-dropdown" class="sticky hidden top-20 z-50 grid w-96 text-sm bg-white border border-gray-100 rounded-b-lg shadow-md">
+    <div class="p-4 pb-0 md:pb-4 text-gray-800">
+        <h4 class="font-medium z-20 text-gray-800">
             مجبوب ترین فیلم ها
         </h4>
 
         <div class="w-full sm:mb-16 bg-white">
             <div class="flex flex-wrap justify-between max-w-3xl mx-auto">
                 @foreach ($lastMovies as $key => $movie)
-                    <div class="movie-item-container w-1/3 p-3">
-                        <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}" class="movie-item relative block mx-auto"
-                            style="margin-bottom: 1rem;">
+                    <div id="movie-item-container" class="w-1/3 p-3">
+                        <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
+                            class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
                             <div class="flex justify-center">
                                 <img class="object-cover w-full h-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content "
                                     src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}"
                                     alt="{{ $movie['title'] }}">
                             </div>
                             <div class="w-full text-center text-lg mt-3">
-                                <span style="color:black">{{ $movie['title'] }}</span>
+                                <span>{{ $movie['title'] }}</span>
                             </div>
                         </a>
                     </div>
@@ -306,7 +279,41 @@
                     
                     ?>
                 @endforeach
+                <a href="#" class="mt-1 w-full text-red-500 text-center">نمایش همه نتایج <i class="fa-solid fa-angle-left mr-3"></i></a>
             </div>
         </div>
     </div>
 </div>
+
+<div id="mega-menu-continer"class="hidden w-screen h-full t-0 relative flex z-50">
+    <div class="blur-overlay-light"></div>
+    
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('#search-navbar').on('click', (event) => {
+            $.ajax({
+                url: "{{ route('search') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    value: event.target.value
+                },
+                success: (response) => {
+                    if (response['topMovies'] && response['topCinemas'])
+                    {
+                        console.log(response);
+                    }
+                    else
+                    {
+                        console.log('first')
+                    }
+                },
+                error: (xhr, status, error) => {
+                    console.error(xhr);
+                }
+            })
+        })        
+    });
+</script>
