@@ -12,7 +12,6 @@ class MovieController extends Controller
 {
     public function ShowMovie(Request $request)
     {
-        $last_movies = Movie::with('category')->latest()->take(8)->get();
 
         $movie = Movie::with('category')
             ->with('characters')
@@ -20,7 +19,6 @@ class MovieController extends Controller
             ->firstOrFail();
 
         $top_movies = Movie::orderByDesc('sale')->take(5)->get();
-        $cities = City::get();
         $cinemas = Cinema::get()->toArray();
 
         $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
@@ -30,10 +28,8 @@ class MovieController extends Controller
         ->toArray();
 
         return view('user.movie', [
-            'lastMovies' => $last_movies,
             'movie' => $movie,
             'cinemas' => $cinemas,
-            'cities' => $cities,
             'topMovies' => $top_movies,
             'comments'=>$comments,
         ]);
