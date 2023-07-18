@@ -11,7 +11,7 @@ class CinemaController extends Controller
 {
     public function Index()
     {
-        $cinemas = Cinema::with('options')->get()->toArray();
+        $cinemas = Cinema::with('options')->get();
         return view('user.cinemas', [
             'cinemas'    => $cinemas,
             'cities'     => City::all(),
