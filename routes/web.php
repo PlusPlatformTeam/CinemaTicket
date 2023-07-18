@@ -31,6 +31,4 @@ Route::get('/register', [UserController::class, 'register'])->name('user.registe
 
 Route::get('/register_verification', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
 
-
-
-
+Route::post('/search', [HomeController::class, 'Search'])->name('search');

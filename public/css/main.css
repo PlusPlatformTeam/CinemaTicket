@@ -34,3 +34,16 @@ body {
     z-index: 1;
     background-image: linear-gradient(to left, #000, #6b6666);
 }
+
+.blur-overlay-light{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100rem;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 0.5;
+    z-index: 1;
+    background-color: #6b6666;
+}
