@@ -23,7 +23,7 @@ class UserController extends Controller
     }
 
 
-    public function register_verification(Request $request){
+    public function RegisterVerification(Request $request){
 
         return view('user.register_verification', [
             

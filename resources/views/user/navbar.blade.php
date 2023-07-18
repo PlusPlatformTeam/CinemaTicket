@@ -286,7 +286,7 @@
             <div class="flex flex-wrap justify-between max-w-3xl mx-auto">
                 @foreach ($lastMovies as $key => $movie)
                     <div class="movie-item-container w-1/3 p-3">
-                        <a href="movie/{{ $movie['slug'] }}" class="movie-item relative block mx-auto"
+                        <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}" class="movie-item relative block mx-auto"
                             style="margin-bottom: 1rem;">
                             <div class="flex justify-center">
                                 <img class="object-cover w-full h-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content "

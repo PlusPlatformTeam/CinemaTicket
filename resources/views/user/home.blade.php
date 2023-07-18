@@ -42,7 +42,7 @@
                                         class="text-right bg-gray-700 text-gray-100 text-sm font-medium mr-2 px-2.5 pt-2 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{{ $movie->category->name }}</span>
                                 </div>
                                 <p class="text-white pt-10 movie-description">{{ $movie['info'] }} ...</p>
-                                <a href="movie/{{ $movie['slug'] }}"
+                                <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
                                     class="absolute bottom-0 text-gray-900 bg-gray-50 px-6 py-2 rounded-lg text-center flex justify-center items-center">
                                     <i class="fa-solid fa-ticket-simple mx-3"></i>
                                     <span style="padding-top: 5px" class="text-center flex justify-center items-center">خرید
@@ -84,7 +84,7 @@
                         </div>
                         <p class="text-white pt-10 movie-description">{{ $movie['info'] }} ...</p>
                         <div class="flex w-full">
-                            <a href="movie/{{ $movie['slug'] }}"
+                            <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
                                 class="w-11/12 border-2 border-white text-gray-50 bg-inherit px-6 py-2 rounded-lg text-center flex justify-center items-center hover:bg-white hover:text-gray-900 ">
                                 <i class="fa-solid fa-ticket-simple mx-3"></i>
                                 <span style="padding-top: 5px" class="text-center flex justify-center items-center">خرید
@@ -125,7 +125,7 @@
                             <p style="width: 30ch" class="hidden lg:block text-white movie-description">
                                 {{ $topMovies->first()->info }} ...
                             </p>
-                            <a href="movie/{{ $topMovies->first()->slug }}"
+                            <a href="{{ route('movie.show', ['slug' => $topMovies->first()->slug]) }}"
                                 class="text-gray-50 bg-red-500 px-3 py-1 rounded-lg text-center flex justify-center items-center">
                                 <i class="fa-solid fa-ticket-simple mx-3"></i>
                                 <span style="padding-top: 5px" class="text-center flex justify-center items-center">خرید
@@ -152,7 +152,7 @@
                 <div class="w-full sm:mb-16">
                     <div class="flex flex-wrap bg-responsive w-full z-10 blur-container my-2 rounded-2xl">
                         @foreach ($lastMovies as $movie)
-                            <a href="movie/{{ $movie['slug'] }}"
+                            <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
                                 class="2xl:w-1/5 xl:w-1/4 lg:w-1/4 md:w-1/4 sm:w-1/3 w-1/3 relative released-div mt-4 px-3">
                                 <div class="flex justify-center">
                                     <img class="object-cover transition delay-500 hover:blur-sm w-full h-64 max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content released-img"
