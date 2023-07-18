@@ -29,7 +29,7 @@ Route::get('/login', [UserController::class, 'login'])->name('user.login');
 
 Route::get('/register', [UserController::class, 'register'])->name('user.register');
 
-Route::get('/register_verification', [UserController::class, 'register_verification'])->name('user.register_verification');
+Route::get('/register_verification', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
 
 
 
