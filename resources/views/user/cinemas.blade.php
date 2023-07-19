@@ -22,12 +22,15 @@
             <div class="lg:basis-9/12 md:w-full sm:w-full pl-3">
                 <div class="w-full bg-white py-5 px-2 rounded-lg">
                     <div class="w-full flex-row justify-between items-center hidden lg:flex md:flex sm:flex">
-                        <div class="text-sm">
-                            <span class="p-2 hover:bg-gray-100 transition duration-300 cursor-pointer rounded-lg">همه
+                        <div id="sortOptionContainer" class="text-sm">
+                            <span onclick="SortCinemas(this, 'all', '{{ route('cinema.sort') }}')"
+                                class="active p-2 hover:bg-gray-50 transition duration-300 cursor-pointer rounded-lg">همه
                                 سینماها</span>
-                            <span class="p-2 hover:bg-gray-100 transition duration-300 cursor-pointer rounded-lg">محبوب ترین
+                            <span onclick="SortCinemas(this, 'top', '{{ route('cinema.sort') }}')"
+                                class="p-2 hover:bg-gray-50 transition duration-300 cursor-pointer rounded-lg">محبوب ترین
                                 ها</span>
-                            <span class="p-2 hover:bg-gray-100 transition duration-300 cursor-pointer rounded-lg">نزدیک ترین
+                            <span onclick="SortCinemas(this, 'near', '{{ route('cinema.sort') }}')"
+                                class="p-2 hover:bg-gray-50 transition duration-300 cursor-pointer rounded-lg">نزدیک ترین
                                 ها</span>
                         </div>
                         <div id="option-filter"
@@ -52,7 +55,8 @@
                         </div>
                         <div
                             class="basis-1/12 p-4 flex flex-row justify-center items-center text-center text-red-500 rounded-full hover:bg-gray-100 transition duration-400">
-                            <button data-tooltip-target="tooltip-default" type="button" class="fa-solid fa-filter cursor-pointer"></button>
+                            <button data-tooltip-target="tooltip-default" type="button"
+                                class="fa-solid fa-filter cursor-pointer"></button>
                             <div id="tooltip-default" role="tooltip"
                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                                 فیلتر
@@ -160,3 +164,25 @@
         </div>
     </section>
 @endsection
+
+<script>
+    function SortCinemas(element, val) {
+        $("#sortOptionContainer").find("span.active").removeClass("active");
+        $(element).addClass("active");
+
+        $.ajax({
+            url: "{{ route('cinema.sort') }}",
+            data: {
+                sortValue: val,
+                _token: "{{ csrf_token() }}"
+            },
+            type: "POST",
+            succees: (data) => {
+                console.log(data);
+            },
+            error: (xhr, status, err) => {
+                console.log(xhr);
+            }
+        })
+    }
+</script>
