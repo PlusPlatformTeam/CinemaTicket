@@ -32,3 +32,9 @@ Route::get('/register', [UserController::class, 'register'])->name('user.registe
 Route::get('/register_verification', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
 
 Route::post('/search', [HomeController::class, 'Search'])->name('search');
+
+Route::post('/login', [UserController::class, 'authenticate'])->name('user.authenticate');
+
+Route::post('/register', [UserController::class, 'store'])->name('user.store.step-one');
+
+

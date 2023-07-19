@@ -61,16 +61,19 @@
                         </div>
 
 
-                        <form class="md:flex block  items-center mt-5 relative w-full">
+                        <form class="md:flex block  items-center mt-5 relative w-full" method="POST" method="POST" action="{{ route('user.authenticate') }}">
+                            @csrf
+
                             <div class=" w-full flex md:basis-8/12 md:mb-0 mb-5 basis-full">
 
                                 <input type="text" id="simple-search"
+                                name="mobile"
                                     class="-mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                                     placeholder="شماره موبایل ..." required>
                             </div>
 
                             <div class="relative w-full flex md:basis-4/12 basis-full ">
-                                <button type="button"
+                                <button type="submit"
                                     class=" text-center justify-center flex w-full text-white bg-gray-400 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">ورود</button>
                             </div>
                         </form>

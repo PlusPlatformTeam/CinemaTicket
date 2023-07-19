@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="flex justify-center text-center pb-16 w-full relative">
-                    <a href="{{ route('user.login')}}">
+                    <a href="{{ route('user.login') }}">
                         <button type="button"
                             class="absolute right-0 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">
                             <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -45,17 +45,18 @@
                         </div>
 
 
-                        <form class="md:flex block  items-center mt-5 relative w-full">
+                        <form class="md:flex block  items-center mt-5 relative w-full" method="POST" action="{{ route('user.store.step-one') }}">
+                            @csrf
                             <div class=" w-full flex md:basis-8/12 md:mb-0 mb-5 basis-full">
 
-                                <input type="text" id="simple-search"
+                                <input type="text" id="simple-search" name="mobile"
                                     class="-mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                                     placeholder="شماره موبایل ..." required>
                             </div>
 
-                            <div class="relative w-full flex md:basis-4/12 basis-full ">
-                                <a href="{{ route('user.register_verification')}}" class="w-full">
-                                    <button type="button"
+                            <div class="relative w-full flex md:basis-4/12 basis-full">
+                                <a href="{{ route('user.register_verification') }}" class="w-full">
+                                    <button type="submit"
                                         class=" text-center justify-center flex w-full text-white bg-gray-400 hover:bg-gray-900 focus:outline-none 
                                     focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">ادامه
                                     </button>
