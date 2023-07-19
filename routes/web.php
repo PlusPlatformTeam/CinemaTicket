@@ -31,8 +31,23 @@ Route::get('/login', [UserController::class, 'login'])->name('user.login');
 
 Route::get('/register', [UserController::class, 'register'])->name('user.register');
 
-Route::get('/register_verification', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
+Route::get('/verification_code', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
 
 Route::post('/search', [HomeController::class, 'Search'])->name('search');
+
+Route::post('/login', [UserController::class, 'authenticate'])->name('user.authenticate');
+
+Route::post('/register', [UserController::class, 'store'])->name('user.store.step-one');
+
+Route::post('/verification_code/register', [UserController::class, 'verifyCode'])->name('user.register.verify.code');
+
+Route::post('/verification_code/login', [UserController::class, 'loginVerifyCode'])->name('user.login.verify.code');
+
+Route::post('/resend-code', [UserController::class, 'resendCode'])->name('user.resend.code');
+
+
+
+
+
 
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
