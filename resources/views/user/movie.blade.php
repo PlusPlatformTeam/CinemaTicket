@@ -69,7 +69,7 @@
                     <i class="fa-solid fa-ticket-simple" style="color: #ffffff;"></i>
                     انتخاب سالن تئاتر و خرید بلیط
                 </button>
-                <button type="button"
+                <button data-modal-target="trailerModal" data-modal-toggle="trailerModal" type="button"
                     class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                     <i class="fa-solid fa-play px-2"></i>
                     تیزر فیلم
@@ -79,9 +79,19 @@
         </div>
     </div>
 
-
-
-
+    <!-- Trailer modal -->
+    <div id="trailerModal" tabindex="-1" aria-hidden="true"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <video autoplay class="w-full h-auto max-w-full border border-gray-200 rounded-lg" controls>
+                    <source src="{{ url($movie->trailer) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
 
     <section class="mt-12 lg:px-6" id="content">
 

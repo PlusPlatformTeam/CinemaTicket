@@ -27,6 +27,10 @@
             display: none;
         }
     }
+
+    #dropdownProfile{
+        margin: 9px 30px !important;
+    }
 </style>
 
 <nav class="sticky top-0 z-50">
@@ -42,7 +46,7 @@
 
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0">
                     <li>
-                        <a href="{{ route('home') }}"
+                        <a href="{{ route('movie.all') }}"
                             class="block p-2  text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-400 rounded-lg mr-2"
                             aria-current="page">
                             <i class="w-5 h-5 inline-block fa-solid fa-clapperboard"></i>
@@ -78,7 +82,7 @@
                 </form>
 
                 <ul
-                    class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0 absolute left-1">
+                    class="flex flex-row items-center font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0 absolute left-1">
 
                     <li>
                         <!-- Modal toggle -->
@@ -100,12 +104,63 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('user.login') }}"
-                            class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent"
-                            aria-current="page">
-                            <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
-                            ورود یا ثبت نام
-                        </a>
+                        @auth
+                            <button id="dropdownProfileButton" data-dropdown-toggle="dropdownProfile"
+                                class="p-1 pl-2 flex items-center justify-between text-sm font-medium text-gray-900 rounded-lg hover:bg-gray-50"
+                                type="button">
+                                <span class="sr-only"></span>
+                                <img class="w-8 h-8 ml-2 rounded-full" src="{{ url('images/profile-mine.svg') }}"
+                                    alt="پروفایل">
+                                <span>پروفایل</span>
+                            </button>
+
+                            <!-- dropdownProfile menu -->
+                            <div id="dropdownProfile"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-b-lg shadow-2xl origin-center mx-12 w-96 p-4" style="margin: 10px 30px !important">
+
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownInformdropdownProfileButtonationButton">
+                                    <li class="p-2">
+                                        <a href="#"
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            <i class="fa-regular fa-pen-to-square ml-3"></i>
+                                            <span class="pt-1">اطلاعات کاربری</span>
+                                            <i class="fa-solid fa-angle-left mr-3"></i>
+                                        </a>
+                                    </li>
+                                    <li class="p-2">
+                                        <a href="#"
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            <i class="fas fa-clipboard-check ml-3"></i>
+                                            <span class="pt-1">تراکنش های من</span>
+                                            <i class="fa-solid fa-angle-left mr-3"></i>
+                                        </a>
+                                    </li>
+                                    <li class="p-2">
+                                        <a href="#"
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            <i class="fas fa-ticket ml-3"></i>
+                                            <span class="pt-1">بلیط های من</span>
+                                            <i class="fa-solid fa-angle-left mr-3"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="p-2">
+                                    <a href="#"
+                                        class="flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                        <i class="fas fa-arrow-right-from-bracket ml-3"></i>
+                                        <span class="pt-1">خروج از حساب کاربری</span>    
+                                    </a>
+                                </div>
+                            </div>
+                        @else
+                            <a href="{{ route('user.login') }}"
+                                class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                                aria-current="page">
+                                <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
+                                <span>ورود یا ثبت نام</span>
+                            </a>
+                        @endauth
                     </li>
                 </ul>
 
