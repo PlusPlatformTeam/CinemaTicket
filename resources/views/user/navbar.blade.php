@@ -29,7 +29,7 @@
     }
 
     #dropdownProfile{
-        margin: 3px 30px !important;
+        margin: 9px 30px !important;
     }
 </style>
 
@@ -46,7 +46,7 @@
 
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0">
                     <li>
-                        <a href="{{ route('home') }}"
+                        <a href="{{ route('movie.all') }}"
                             class="block p-2  text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-400 rounded-lg mr-2"
                             aria-current="page">
                             <i class="w-5 h-5 inline-block fa-solid fa-clapperboard"></i>
@@ -106,7 +106,7 @@
                     <li>
                         @auth
                             <button id="dropdownProfileButton" data-dropdown-toggle="dropdownProfile"
-                                class="p-1 pl-2 flex items-center justify-between text-sm font-medium text-gray-900 rounded-b-lg hover:bg-gray-50"
+                                class="p-1 pl-2 flex items-center justify-between text-sm font-medium text-gray-900 rounded-lg hover:bg-gray-50"
                                 type="button">
                                 <span class="sr-only"></span>
                                 <img class="w-8 h-8 ml-2 rounded-full" src="{{ url('images/profile-mine.svg') }}"
@@ -116,7 +116,7 @@
 
                             <!-- dropdownProfile menu -->
                             <div id="dropdownProfile"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-2xl origin-center mx-12 w-96 p-4" style="margin: 10px 30px !important">
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-b-lg shadow-2xl origin-center mx-12 w-96 p-4" style="margin: 10px 30px !important">
 
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdownInformdropdownProfileButtonationButton">
