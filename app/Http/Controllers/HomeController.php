@@ -34,5 +34,12 @@ class HomeController extends Controller
             ], 200);
         }
         
+        $topCinemas = Cinema::where('title', 'LIKE', '%' . $request->value . '%')->take(3)->select('id', 'title', 'poster')->get();
+        $topMovies  = Movie::where('title', 'LIKE', '%' . $request->value . '%')->take(3)->select('slug', 'title', 'main_banner')->get();
+        
+        return response([
+            'topMovies'  => $topMovies,
+            'topCinemas' => $topCinemas
+        ], 200);
     }
 }

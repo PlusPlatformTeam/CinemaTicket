@@ -15,7 +15,7 @@
         color: #878a8e;
     }
 
-    @media only screen and (min-width: 1190px) {
+    @media only screen and (min-width: 990px) {
         /* Show navbar-desktop on screens wider than 768px */
 
         .navbar-desktop {
@@ -83,7 +83,8 @@
                     <li>
                         <!-- Modal toggle -->
 
-                        <span id="city-btn-modal" aria-current="page" data-modal-target="defaultModal" data-modal-toggle="defaultModal"
+                        <span id="city-btn-modal" aria-current="page" data-modal-target="defaultModal"
+                            data-modal-toggle="defaultModal"
                             class="cursor-pointer block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent">
 
                             <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot"></i>
@@ -228,7 +229,7 @@
                 </div>
             </div>
             <!-- Modal body -->
-            <div id = "city-container" class="grid grid-cols-4 gap-4 text-center">
+            <div id="city-container" class="grid grid-cols-4 gap-4 text-center">
                 <span class=" p-2 rounded-md cursor-pointer hover:text-black hover:bg-gray-100">
                 </span>
             </div>
@@ -271,9 +272,9 @@
 
 <script>
     $(document).ready(() => {
-        const baseUrl    = "{{ route('home') }}";
-        const moviesUrl  =  + baseUrl + "/movie/";
-        const cinemasUrl =  + baseUrl + "/cinema/detail/";
+        const baseUrl = "{{ route('home') }}";
+        const moviesUrl = +baseUrl + "/movie/";
+        const cinemasUrl = +baseUrl + "/cinema/detail/";
 
         $('#search-navbar').on('click', (event) => {
             $.ajax({
@@ -292,45 +293,115 @@
                     $(movieItemContainer).html('');
                     $(cinemaItemContainer).html('');
 
-                    topMovies.forEach(movie => {
-                        const element = `
-                                <div class="basis-4/12 p-3">
-                                    <a href="${moviesUrl}${movie.slug}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
-                                        <div class="flex justify-center">
-                                            <img class="object-cover w-full h-full max-w-xs rounded-lg inline-block content"
-                                                src="${baseUrl}/${movie.main_banner}" title="${movie.title}" alt="${movie.title}">
-                                        </div>
-                                        <div class="w-full text-center text-xs mt-3">
-                                            <span>${movie.title}</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            `;
-                        movieItemContainer.append(element);
-                    });
+                    if (topMovies) {
+                        topMovies.forEach(movie => {
+                            const element = `
+                                    <div class="basis-4/12 p-3">
+                                        <a href="${moviesUrl}${movie.slug}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
+                                            <div class="flex justify-center">
+                                                <img class="object-cover w-full h-full max-w-xs rounded-lg inline-block content"
+                                                    src="${baseUrl}/${movie.main_banner}" title="${movie.title}" alt="${movie.title}">
+                                            </div>
+                                            <div class="w-full text-center text-xs mt-3">
+                                                <span>${movie.title}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                `;
+                            movieItemContainer.append(element);
+                        });
+                    }
 
-                    topCinemas.forEach(cinema => {
-                        const element = `
-                                <div class="basis-4/12 p-3">
-                                    <a href="${cinemasUrl}${cinema.id}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
-                                        <div class="flex justify-center">
-                                            <img class="object-cover w-full h-full max-w-xs rounded-lg inline-block content"
-                                                src="${baseUrl}/${cinema.poster}" title="${cinema.title}" alt="${cinema.title}">
-                                        </div>
-                                        <div class="w-full text-center text-xs mt-3">
-                                            <span>${cinema.title}</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            `;
-                        cinemaItemContainer.append(element);
-                    });
-
+                    if (topCinemas) {
+                        topCinemas.forEach(cinema => {
+                            const element = `
+                                    <div class="basis-4/12 p-3">
+                                        <a href="${cinemasUrl}${cinema.id}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
+                                            <div class="flex justify-center">
+                                                <img class="object-cover w-full h-full max-w-xs rounded-lg inline-block content"
+                                                    src="${baseUrl}/${cinema.poster}" title="${cinema.title}" alt="${cinema.title}">
+                                            </div>
+                                            <div class="w-full text-center text-xs mt-3">
+                                                <span>${cinema.title}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                `;
+                            cinemaItemContainer.append(element);
+                        });
+                    }
                 },
                 error: (xhr, status, error) => {
                     console.error(xhr); //TODO Handle it
                 }
             })
+        });
+
+        let timeoutSearchInput;
+        $('#search-navbar').on('keyup', (event) => {
+            clearTimeout(timeoutSearchInput);
+
+            timeoutSearchInput = setTimeout(() => {
+                const searchValue = event.target.value;
+                $.ajax({
+                    url: "{{ route('search') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        value: searchValue
+                    },
+                    success: (response) => {
+                        const topMovies = response.topMovies;
+                        const topCinemas = response.topCinemas;
+                        const movieItemContainer = $('#movie-item-container');
+                        const cinemaItemContainer = $('#cinema-item-container');
+
+                        $(movieItemContainer).html('');
+                        $(cinemaItemContainer).html('');
+
+                        if (topMovies) {
+                            topMovies.forEach(movie => {
+                                const element = `
+                                    <div class="basis-4/12 p-3">
+                                        <a href="${moviesUrl}${movie.slug}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
+                                            <div class="flex justify-center">
+                                                <img class="object-cover w-full h-full max-w-xs rounded-lg inline-block content"
+                                                    src="${baseUrl}/${movie.main_banner}" title="${movie.title}" alt="${movie.title}">
+                                            </div>
+                                            <div class="w-full text-center text-xs mt-3">
+                                                <span>${movie.title}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                `;
+                                movieItemContainer.append(element);
+                            });
+                        }
+
+                        if (topCinemas) {
+                            topCinemas.forEach(cinema => {
+                                const element = `
+                                    <div class="basis-4/12 p-3">
+                                        <a href="${cinemasUrl}${cinema.id}" class="movie-item relative block mx-auto" style="margin-bottom: 1rem;">
+                                            <div class="flex justify-center">
+                                                <img class="object-cover w-full h-full max-w-xs rounded-lg inline-block content"
+                                                    src="${baseUrl}/${cinema.poster}" title="${cinema.title}" alt="${cinema.title}">
+                                            </div>
+                                            <div class="w-full text-center text-xs mt-3">
+                                                <span>${cinema.title}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                `;
+                                cinemaItemContainer.append(element);
+                            });
+                        }
+                    },
+                    error: (xhr, status, error) => {
+                        console.error(xhr); //TODO Handle it
+                    }
+                })
+            }, 800);
         });
 
         $('#city-btn-modal').on('click', (event) => {
@@ -345,8 +416,8 @@
                 },
                 success: (response) => {
                     const cities = response.cities;
-                    
-                    cities.forEach (city => {
+
+                    cities.forEach(city => {
                         let elemnt = `
                             <span class=" p-2 rounded-md cursor-pointer hover:text-black hover:bg-gray-100">
                                 ${city.title}
@@ -356,8 +427,7 @@
                         cityContainer.append(elemnt);
                     })
                 },
-                error: (xhr, status, err) =>
-                {
+                error: (xhr, status, err) => {
                     console.log(xhr);
                 }
             })
