@@ -61,7 +61,7 @@
                         </div>
 
 
-                        <form class="md:flex block  items-center mt-5 relative w-full" method="POST" method="POST" action="{{ route('user.authenticate') }}">
+                        <form class="md:flex block  items-center mt-5 relative w-full" method="POST" action="{{ route('user.authenticate') }}">
                             @csrf
 
                             <div class=" w-full flex md:basis-8/12 md:mb-0 mb-5 basis-full">

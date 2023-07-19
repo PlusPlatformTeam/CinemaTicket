@@ -11,6 +11,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+
         $last_movies = Movie::with('category')->latest()->take(8)->get();
         $top_movies  = Movie::orderByDesc('sale')->take(5)->get();
 

@@ -45,7 +45,8 @@
                         </div>
 
 
-                        <form class="md:flex block  items-center mt-5 relative w-full" method="POST" action="{{ route('user.store.step-one') }}">
+                        <form class="md:flex block  items-center mt-5 relative w-full" method="POST"
+                            action="{{ route('user.store.step-one') }}">
                             @csrf
                             <div class=" w-full flex md:basis-8/12 md:mb-0 mb-5 basis-full">
 
