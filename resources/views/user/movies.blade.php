@@ -19,13 +19,13 @@
 @endsection
 
 @section('content')
-    <section class="lg:px-10 mt-12 flex flex-row w-full justify-between">
+    <section class="lg:px-10 my-12 flex flex-row w-full justify-between">
         <div class="lg:basis-9/12 basis-full">
             <header>
                 <h2 class="text-md text-gray-600 font-bold">فیلم های سینمایی درحال اکران روی پرده سینما</h2>
             </header>
             <div class="w-full sm:mb-16">
-                <div class="flex flex-wrap bg-responsive w-full z-10 blur-container my-2 rounded-2xl">
+                <div class="flex flex-wrap w-full z-10 my-2 rounded-2xl">
                     @foreach ($movies as $movie)
                         <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
                             class="2xl:w-1/6 xl:w-1/5 lg:w-1/4 md:w-1/4 sm:w-1/3 w-1/3 relative released-div mt-4 px-3">

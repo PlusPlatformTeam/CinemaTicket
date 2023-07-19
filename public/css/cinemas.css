@@ -22,3 +22,7 @@
 #option-filter.active{
     background-color: #e2e8f0;
 }
+
+span.active{
+    background-color: rgb(243, 244, 246);
+}
