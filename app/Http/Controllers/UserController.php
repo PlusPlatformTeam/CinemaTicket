@@ -138,6 +138,13 @@ class UserController extends Controller
 }
 
 
+public function profile(Request $request)
+{
+    return view('user.template_profile');
+
+}
+
+
 
 
 }

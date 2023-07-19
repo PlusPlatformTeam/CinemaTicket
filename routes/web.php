@@ -46,6 +46,8 @@ Route::post('/verification_code/login', [UserController::class, 'loginVerifyCode
 
 Route::post('/resend-code', [UserController::class, 'resendCode'])->name('user.resend.code');
 
+Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+
 
 
 
