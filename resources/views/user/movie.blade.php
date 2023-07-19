@@ -1,7 +1,7 @@
 @extends('.user.template')
 
 @section('title')
-    صفحه فیلم
+    {{ $movie->title }} | سینما تیکت
 @endsection
 
 @section('styles')
