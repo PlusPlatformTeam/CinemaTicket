@@ -142,7 +142,7 @@
                         </span>
                     </div>
                     <div>
-                        <a href="#"
+                        <a href="{{ route('movie.all') }}"
                             class="flex flex-row items-center text-red-500 hover:bg-gray-300 px-2 py-1 rounded-lg transition delay-300">
                             <span class="flex flex-row items-center pt-1">مشاهده همه</span>
                             <i class="fas fa-chevron-left mr-2"></i>

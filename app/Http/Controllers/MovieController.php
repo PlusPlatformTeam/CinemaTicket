@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
 use App\Models\Movie;
 use App\Models\Cinema;
 use App\Models\Comment;
@@ -10,6 +9,14 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
+    public function GetAll(Request $request)
+    {
+        $movies = Movie::all(['slug', 'title', 'score', 'director', 'main_banner', 'sale']);
+
+        return view('user.movies', [
+            'movies' => $movies
+        ]);
+    }
     public function ShowMovie(Request $request)
     {
 
