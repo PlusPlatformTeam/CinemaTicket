@@ -22,12 +22,15 @@
             <div class="lg:basis-9/12 md:w-full sm:w-full pl-3">
                 <div class="w-full bg-white py-5 px-2 rounded-lg">
                     <div class="w-full flex-row justify-between items-center hidden lg:flex md:flex sm:flex">
-                        <div class="text-sm">
-                            <span class="p-2 hover:bg-gray-100 transition duration-300 cursor-pointer rounded-lg">همه
+                        <div id="sortOptionContainer" class="text-sm">
+                            <span onclick="SortCinemas(this, 'all', '{{ route('cinema.sort') }}')"
+                                class="active p-2 hover:bg-gray-50 transition duration-300 cursor-pointer rounded-lg">همه
                                 سینماها</span>
-                            <span class="p-2 hover:bg-gray-100 transition duration-300 cursor-pointer rounded-lg">محبوب ترین
+                            <span onclick="SortCinemas(this, 'top', '{{ route('cinema.sort') }}')"
+                                class="p-2 hover:bg-gray-50 transition duration-300 cursor-pointer rounded-lg">محبوب ترین
                                 ها</span>
-                            <span class="p-2 hover:bg-gray-100 transition duration-300 cursor-pointer rounded-lg">نزدیک ترین
+                            <span onclick="SortCinemas(this, 'near', '{{ route('cinema.sort') }}')"
+                                class="p-2 hover:bg-gray-50 transition duration-300 cursor-pointer rounded-lg">نزدیک ترین
                                 ها</span>
                         </div>
                         <div id="option-filter"
@@ -52,7 +55,8 @@
                         </div>
                         <div
                             class="basis-1/12 p-4 flex flex-row justify-center items-center text-center text-red-500 rounded-full hover:bg-gray-100 transition duration-400">
-                            <button data-tooltip-target="tooltip-default" type="button" class="fa-solid fa-filter cursor-pointer"></button>
+                            <button data-tooltip-target="tooltip-default" type="button"
+                                class="fa-solid fa-filter cursor-pointer"></button>
                             <div id="tooltip-default" role="tooltip"
                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                                 فیلتر
@@ -96,7 +100,7 @@
                     <header class="my-2 text-lg">
                         <h2>همه سینماها</h2>
                     </header>
-                    <div class="flex flex-row w-full flex-wrap">
+                    <div id="cinemasContainer" class="flex flex-row w-full flex-wrap">
                         @foreach ($cinemas as $cinema)
                             <a href="{{ route('cinema.show', ['cinema' => $cinema->id]) }}"
                                 class="basis-6/12 lg:basis-4/12 md:basis-4/12 mb-5 rounded-b-2xl">
@@ -159,4 +163,82 @@
             </div>
         </div>
     </section>
+    <script>
+        const baseUrl = "{{ route('home') }}";
+        const cinemaUrl = `${baseUrl}/cinema/detail/`;
+
+        function convertDigitsToFarsi(number) {
+            const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+            return number.replaceAll(new RegExp(englishDigits.join('|'), 'g'), (match) => {
+                return persianDigits[englishDigits.indexOf(match)];
+            });
+        }
+
+        function SortCinemas(element, val) {
+            $("#sortOptionContainer").find("span.active").removeClass("active");
+            $(element).addClass("active");
+
+            $.ajax({
+                url: "{{ route('cinema.sort') }}",
+                data: {
+                    sortValue: val,
+                    _token: "{{ csrf_token() }}"
+                },
+                type: "POST",
+                success: (response) => {
+                    const cinemaContainer = $('#cinemasContainer');
+                    const cinemas = response.cinemas;
+                    $(cinemaContainer).html('');
+
+                    if (cinemas) {
+                        cinemas.forEach(cinema => {
+                            let options = cinema.options;
+                            let optionElement = '';
+
+                            options.forEach(option => {
+                                optionElement += `
+                                    <i class="${option.icon} ml-2.5"></i>
+                                `;
+                            });
+
+                            let is_top = cinema.score > 4.0 ? 'text-green-400' : '';
+                            let score = convertDigitsToFarsi(`${cinema.score}/5`);
+                            let element = `
+                                <a href="${cinemaUrl}${cinema.id}"
+                                    class="basis-6/12 lg:basis-4/12 md:basis-4/12 mb-5 rounded-b-2xl">
+                                    <div class="mx-1">
+                                        <div class="blur-container w-full h-40 rounded-t-3xl relative bg-responsive"
+                                            style="background-image: url(${baseUrl}/${cinema.banner})">
+                                            <div class="blur-overlay"></div>
+                                            <h2 class="absolute bottom-2 text-white font-bold right-3">${cinema.title}
+                                            </h2>
+                                        </div>
+                                        <div class="bg-white rounded-b-2xl">
+                                            <p class="pr-4 pt-3"><i
+                                                    class="fa-solid fa-location-dot ml-3"></i>${cinema.address}</p>
+                                            <p
+                                                class="text-gray-400 pt-2 pr-4 ${is_top}">
+                                                <span
+                                                    class="font-bold">${score}</span>
+                                                <i class="fas fa-star"></i>
+                                            </p>
+                                            <p class="pr-4 text-xs text-gray-900 pt-3 pb-5">
+                                                ${optionElement}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>          
+                                `;
+                                cinemaContainer.append(element);
+                        });
+                    }
+                },
+                error: (xhr, status, err) => {
+                    console.log(xhr);
+                }
+            })
+        }
+    </script>
 @endsection
