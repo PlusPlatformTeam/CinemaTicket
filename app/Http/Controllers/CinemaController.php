@@ -37,12 +37,14 @@ class CinemaController extends Controller
         if ($request->sortValue === 'all')
         {
             return response([
-                'cinemas' => Cinema::all()
+                'cinemas' => Cinema::with('options')->get()
             ], 200);
         }
         elseif ($request->sortValue === 'top')
         {
-
+            return response([
+                'cinemas' => Cinema::with('options')->orderByDesc('score')->get()
+            ], 200);
         }
         else
         {

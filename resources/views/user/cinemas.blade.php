@@ -100,7 +100,7 @@
                     <header class="my-2 text-lg">
                         <h2>همه سینماها</h2>
                     </header>
-                    <div class="flex flex-row w-full flex-wrap">
+                    <div id="cinemasContainer" class="flex flex-row w-full flex-wrap">
                         @foreach ($cinemas as $cinema)
                             <a href="{{ route('cinema.show', ['cinema' => $cinema->id]) }}"
                                 class="basis-6/12 lg:basis-4/12 md:basis-4/12 mb-5 rounded-b-2xl">
@@ -163,26 +163,82 @@
             </div>
         </div>
     </section>
+    <script>
+        const baseUrl = "{{ route('home') }}";
+        const cinemaUrl = `${baseUrl}/cinema/detail/`;
+
+        function convertDigitsToFarsi(number) {
+            const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+            return number.replaceAll(new RegExp(englishDigits.join('|'), 'g'), (match) => {
+                return persianDigits[englishDigits.indexOf(match)];
+            });
+        }
+
+        function SortCinemas(element, val) {
+            $("#sortOptionContainer").find("span.active").removeClass("active");
+            $(element).addClass("active");
+
+            $.ajax({
+                url: "{{ route('cinema.sort') }}",
+                data: {
+                    sortValue: val,
+                    _token: "{{ csrf_token() }}"
+                },
+                type: "POST",
+                success: (response) => {
+                    const cinemaContainer = $('#cinemasContainer');
+                    const cinemas = response.cinemas;
+                    $(cinemaContainer).html('');
+
+                    if (cinemas) {
+                        cinemas.forEach(cinema => {
+                            let options = cinema.options;
+                            let optionElement = '';
+
+                            options.forEach(option => {
+                                optionElement += `
+                                    <i class="${option.icon} ml-2.5"></i>
+                                `;
+                            });
+
+                            let is_top = cinema.score > 4.0 ? 'text-green-400' : '';
+                            let score = convertDigitsToFarsi(`${cinema.score}/5`);
+                            let element = `
+                                <a href="${cinemaUrl}${cinema.id}"
+                                    class="basis-6/12 lg:basis-4/12 md:basis-4/12 mb-5 rounded-b-2xl">
+                                    <div class="mx-1">
+                                        <div class="blur-container w-full h-40 rounded-t-3xl relative bg-responsive"
+                                            style="background-image: url(${baseUrl}/${cinema.banner})">
+                                            <div class="blur-overlay"></div>
+                                            <h2 class="absolute bottom-2 text-white font-bold right-3">${cinema.title}
+                                            </h2>
+                                        </div>
+                                        <div class="bg-white rounded-b-2xl">
+                                            <p class="pr-4 pt-3"><i
+                                                    class="fa-solid fa-location-dot ml-3"></i>${cinema.address}</p>
+                                            <p
+                                                class="text-gray-400 pt-2 pr-4 ${is_top}">
+                                                <span
+                                                    class="font-bold">${score}</span>
+                                                <i class="fas fa-star"></i>
+                                            </p>
+                                            <p class="pr-4 text-xs text-gray-900 pt-3 pb-5">
+                                                ${optionElement}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>          
+                                `;
+                                cinemaContainer.append(element);
+                        });
+                    }
+                },
+                error: (xhr, status, err) => {
+                    console.log(xhr);
+                }
+            })
+        }
+    </script>
 @endsection
-
-<script>
-    function SortCinemas(element, val) {
-        $("#sortOptionContainer").find("span.active").removeClass("active");
-        $(element).addClass("active");
-
-        $.ajax({
-            url: "{{ route('cinema.sort') }}",
-            data: {
-                sortValue: val,
-                _token: "{{ csrf_token() }}"
-            },
-            type: "POST",
-            succees: (data) => {
-                console.log(data);
-            },
-            error: (xhr, status, err) => {
-                console.log(xhr);
-            }
-        })
-    }
-</script>
