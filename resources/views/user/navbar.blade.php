@@ -122,34 +122,34 @@
                                     aria-labelledby="dropdownInformdropdownProfileButtonationButton">
                                     <li class="p-2">
                                         <a href="#"
-                                            class="block p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
                                             <i class="fa-regular fa-pen-to-square ml-3"></i>
-                                            <span>اطلاعات کاربری</span>
+                                            <span class="pt-1">اطلاعات کاربری</span>
                                             <i class="fa-solid fa-angle-left mr-3"></i>
                                         </a>
                                     </li>
                                     <li class="p-2">
                                         <a href="#"
-                                            class="block p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
                                             <i class="fas fa-clipboard-check ml-3"></i>
-                                            <span>تراکنش های من</span>
+                                            <span class="pt-1">تراکنش های من</span>
                                             <i class="fa-solid fa-angle-left mr-3"></i>
                                         </a>
                                     </li>
                                     <li class="p-2">
                                         <a href="#"
-                                            class="block p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
                                             <i class="fas fa-ticket ml-3"></i>
-                                            <span>بلیط های من</span>
+                                            <span class="pt-1">بلیط های من</span>
                                             <i class="fa-solid fa-angle-left mr-3"></i>
                                         </a>
                                     </li>
                                 </ul>
                                 <div class="p-2">
                                     <a href="#"
-                                        class="block p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                        class="flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                                         <i class="fas fa-arrow-right-from-bracket ml-3"></i>
-                                        <span>خروج از حساب کاربری</span>    
+                                        <span class="pt-1">خروج از حساب کاربری</span>    
                                     </a>
                                 </div>
                             </div>
