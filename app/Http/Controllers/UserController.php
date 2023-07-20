@@ -140,7 +140,19 @@ class UserController extends Controller
 
 public function profile(Request $request)
 {
-    return view('user.template_profile');
+    return view('user.profile');
+
+}
+
+public function transaction(Request $request)
+{
+    return view('user.transaction');
+
+}
+
+public function tickets(Request $request)
+{
+    return view('user.tickets');
 
 }
 

@@ -48,6 +48,12 @@ Route::post('/resend-code', [UserController::class, 'resendCode'])->name('user.r
 
 Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
 
+Route::get('/transaction', [UserController::class, 'transaction'])->name('user.transaction');
+
+Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
+
+
+
 
 
 
