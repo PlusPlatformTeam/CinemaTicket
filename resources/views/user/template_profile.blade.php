@@ -16,6 +16,8 @@
 
     <!-- css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link type="text/css" rel="stylesheet" href="{{url("datePicker/jalalidatepicker.min.css")}}" />
+<script type="text/javascript" src="{{url("datePicker/jalalidatepicker.min.js")}}"></script>
     <link href="https://cdn.tailwindcss.com" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -36,9 +38,9 @@
 
     @include('.user.navbar')
 
-    <div class="w-full h-screen">
+    <div class="w-full h-screen flex flex-row">
 
-        <div class="w-3/12 bg-white w-full h-screen p-7">
+        <div class="w-3/12 bg-white w-full h-screen p-7" style="height: calc(100vh + 7rem)">
 
             <ul class="block">
                 <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2">
