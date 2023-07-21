@@ -22,17 +22,16 @@ class Movie extends Model
 
     public function characters()
     {
-        return $this->belongsToMany(character::class,'video_characters');
-    }
-
-    public function cinemas()
-    {
-        return $this->belongsToMany(Cinema::class,'cinemas');
+        return $this->belongsToMany(character::class, 'video_characters');
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'comments');
+        return $this->hasMany(Comment::class, 'comments');
     }
 
+    public function sans()
+    {
+        return $this->belongsToMany(Sans::class, 'sans_movies', 'movie_id', 'sans_id');
+    }
 }
