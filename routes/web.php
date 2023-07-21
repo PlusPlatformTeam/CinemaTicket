@@ -52,11 +52,4 @@ Route::get('/transaction', [UserController::class, 'transaction'])->name('user.t
 
 Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
 
-
-
-
-
-
-
-
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');

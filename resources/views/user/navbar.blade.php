@@ -129,7 +129,7 @@
                                         </a>
                                     </li>
                                     <li class="p-2">
-                                        <a href="#"
+                                        <a href="{{ route('user.transaction') }}"
                                             class="flex items-center p-4 hover:bg-gray-50 rounded-lg ">
                                             <i class="fas fa-clipboard-check ml-3"></i>
                                             <span class="pt-1">تراکنش های من</span>
@@ -137,7 +137,7 @@
                                         </a>
                                     </li>
                                     <li class="p-2">
-                                        <a href="#"
+                                        <a href="{{ route('user.tickets') }}"
                                             class="flex items-center p-4 hover:bg-gray-50 rounded-lg ">
                                             <i class="fas fa-ticket ml-3"></i>
                                             <span class="pt-1">بلیط های من</span>
