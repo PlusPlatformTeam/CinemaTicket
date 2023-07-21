@@ -6,6 +6,7 @@ use App\Models\Cinema;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Option;
+use App\Models\Sans;
 
 class CinemaController extends Controller
 {
@@ -18,13 +19,25 @@ class CinemaController extends Controller
             'options'    => Option::all()
         ]);
     }
+//        $date = new \jDateTime(true, true, 'Asia/Tehran');
 
     public function ShowCinema(Cinema $cinema)
     {
+        $timezone = new \DateTimeZone('+0330');
+        $start    = new \DateTime('now', $timezone);
+        $start    = $start->format('Y-m-d H:i:s');
+        $end      = date('Y-m-d'). ' 23:59:59';
+        $sans     = Sans::with(['cinema', 'movie.characters', 'movie.category', 'hall'])
+                    ->where('cinema_id', $cinema->id)
+                    ->whereBetween('started_at', [$start, $end])
+                    ->get()->toArray();
+
         return view('user.cinema', [
             'cinema'     => $cinema,
             'topMovies'  => Movie::orderByDesc('sale')->take(5)->get(),
-            'options'    => Option::all()
+            'options'    => Option::all(),
+            'sans'       => $sans,
+            'lastMovies' => Movie::all()
         ]);
     }
 
