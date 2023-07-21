@@ -47,7 +47,7 @@
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-4 md:mt-0 md:border-0">
                     <li>
                         <a href="{{ route('movie.all') }}"
-                            class="block p-2  text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-400 rounded-lg mr-2"
+                            class="{{ url()->current() === route('movie.all') ? 'bg-red-50 text-red-500 ' : '' }}block p-2 text-gray-600 rounded-lg hover:bg-red-50 hover:text-red-400 rounded-lg mr-2"
                             aria-current="page">
                             <i class="w-5 h-5 inline-block fa-solid fa-clapperboard"></i>
                             فیلم و تئاتر
@@ -55,7 +55,7 @@
                     </li>
                     <li>
                         <a href="{{ route('cinema.index') }}"
-                            class="block py-2 px-3 mr-1  text-gray-600 rounded-lg rounded-xl hover:bg-red-50 hover:text-red-500 transition delay-400 duration-300"
+                            class="{{ url()->current() === route('cinema.index') ? 'bg-red-50 text-red-500 ' : '' }}block py-2 px-3 mr-1 text-gray-600 rounded-lg rounded-xl hover:bg-red-50 hover:text-red-500 transition delay-400 duration-300"
                             aria-current="page">
                             <i class="w-5 h-5 inline-block mr-2 fa-solid fa-film"></i>
                             سینما
@@ -121,8 +121,8 @@
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdownInformdropdownProfileButtonationButton">
                                     <li class="p-2">
-                                        <a href="#"
-                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <a href="{{ route('user.profile') }}"
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg ">
                                             <i class="fa-regular fa-pen-to-square ml-3"></i>
                                             <span class="pt-1">اطلاعات کاربری</span>
                                             <i class="fa-solid fa-angle-left mr-3"></i>
@@ -130,7 +130,7 @@
                                     </li>
                                     <li class="p-2">
                                         <a href="#"
-                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg ">
                                             <i class="fas fa-clipboard-check ml-3"></i>
                                             <span class="pt-1">تراکنش های من</span>
                                             <i class="fa-solid fa-angle-left mr-3"></i>
@@ -138,7 +138,7 @@
                                     </li>
                                     <li class="p-2">
                                         <a href="#"
-                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg dark:hover:bg-gray-600 dark:hover:text-white">
+                                            class="flex items-center p-4 hover:bg-gray-50 rounded-lg ">
                                             <i class="fas fa-ticket ml-3"></i>
                                             <span class="pt-1">بلیط های من</span>
                                             <i class="fa-solid fa-angle-left mr-3"></i>
@@ -271,7 +271,7 @@
                 </div>
                 <div class="flex items-center ml-auto">
                     <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white absolute left-1"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center  absolute left-1"
                         data-modal-hide="defaultModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
