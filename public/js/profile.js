@@ -13,10 +13,14 @@
     }
   });
 
-  // Trigger the file input when clicking on the circle image
+
   circleImage.addEventListener('click', function () {
     imageUpload.click();
   });
+
+
+
+  
 
 
   jalaliDatepicker.startWatch();

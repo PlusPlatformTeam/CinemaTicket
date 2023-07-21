@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -140,9 +141,61 @@ class UserController extends Controller
 
 public function profile(Request $request)
 {
-    return view('user.profile');
+    $user = Auth::user();
 
+    return view('user.profile', [
+        'user' => $user ,
+    ]);
 }
+
+public function profileUpdate(Request $request)
+{
+    $user = $request->user();
+
+    $name = $request->input('user-name');
+    $email = $request->input('email');
+    $mobile = $request->input('mobile');
+    $birthday = $request->input('birthday');
+
+
+    if ($name != $user->name || $email != $user->email || $mobile != $user->mobile || $birthday != $user->birthday) {
+        $user->name = $name;
+        $user->email = $email;
+        $user->mobile = $mobile;
+        $user->birthday = $birthday;
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    } else {
+        return redirect()->back()->with('info', 'No changes were made.');
+    }
+}
+
+
+
+
+public function profileUpdateAvatar(Request $request)
+{
+    $user = $request->user();
+
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $path = $avatar->store('avatars', 'public');
+            dd($path);
+            $user->avatar = $path;
+        }
+
+        $user->save();
+
+        return response()->json(['avatar_url' => asset('storage/' . $path)]);
+    
+    } 
+
+
+
+
+
 
 public function transaction(Request $request)
 {
