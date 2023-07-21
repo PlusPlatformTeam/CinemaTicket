@@ -1,3 +1,39 @@
+@php
+    $movies = [];
+    foreach ($sans as $key => $value) 
+    {
+        $movie = $value['movie'][0];
+
+        if (array_key_exists($movie['slug'], $movies))
+        {
+            $movies[$movie['slug']]['sans'][] = [
+                'id'   => $value['id'],
+                'slug' => $value['slug'],
+                'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                'name' => $value['hall'][0]['title'],
+                'price'=> $value['price'],
+            ];
+        }
+        else
+        {
+            $movie['sans'][] = [
+                'id'   => $value['id'],
+                'slug' => $value['slug'],
+                'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                'name' => $value['hall'][0]['title'],
+                'price'=> $value['price'],
+            ];
+
+            $movies[$movie['slug']] = $movie;
+        }
+        
+        // echo "<pre style='text-align:left' dir='ltr'>";
+        // var_dump($value['movie'][0]);
+        // echo "</pre>";
+    }
+    // dd($movies);
+@endphp 
+</div>
 @extends('.user.template')
 
 @section('title')
@@ -61,15 +97,15 @@
                         <p class="text-center">26 تیر</p>
                     </div>
                 </div>
-                @foreach ($lastMovies as $movie)
+                @foreach ($movies as $movie)
                     <div class="flex flex-wrap my-4 hover:bg-gray-100 cursor-pointer p-3">
                         <div class="basis-2/12">
-                            <img class="rounded-lg" src="{{ url($movie->main_banner) }}" title="{{ $movie->title }}" alt="{{ $movie->title }}">
+                            <img class="rounded-lg" src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}" alt="{{ $movie['title'] }}">
                         </div>
                         <div class="basis-1/12"></div>
                         <div class="basis-9/12 flex flex-col justify-between">
                             <div class="flex justify-between items-center">
-                                <p class="text-sm">{{ $movie->title }} | <span class="text-gray-500">{{ $movie->director }}</span></p>
+                                <p class="text-sm">{{ $movie['title'] }} | <span class="text-gray-500">{{ $movie['director'] }}</span></p>
                                 <button class="text-red-500 flex items-center hover:bg-red-50 p-2 rounded-lg">
                                     <span>
                                         سانس ها
@@ -78,11 +114,11 @@
                                 </button>
                             </div>
                             <div>
-                                <span class="lg:p-2 p-1 rounded-lg text-xs bg-gray-200 ">{{ $movie->category->name }}</span>
+                                <span class="lg:p-2 p-1 rounded-lg text-xs bg-gray-200 ">{{ $movie['category']['name'] }}</span>
                             </div>
                             <div>
                                 <span class="ml-3">
-                                    <span>{{ convertDigitsToFarsi($movie->score.'/'.'5') }}</span>
+                                    <span>{{ convertDigitsToFarsi($movie['score'].'/'.'5') }}</span>
                                     <i class="fas fa-heart text-red-400 text-xs"></i>
                                 </span>
                                 <span>
@@ -91,49 +127,35 @@
                                 </span>
                             </div>
                             <div class="hidden lg:flex md:flex">
-                                @foreach ($movie->characters as $character)
+                                @foreach ($movie['characters'] as $character)
                                     <div class="flex items-center ml-3">
-                                        <img class="w-8 h-8 rounded-lg object-cover" src="{{$character->avatar}}" alt="{{$character->name}}" title="{{$character->name}}">
-                                        <span class="text-xs mr-2">{{$character->name}}</span>
+                                        <img class="w-8 h-8 rounded-lg object-cover" src="{{$character['avatar']}}" alt="{{$character['name']}}" title="{{$character['name']}}">
+                                        <span class="text-xs mr-2">{{$character['name']}}</span>
                                     </div>
                                 @endforeach
                             </div>
                         </div>
                         <div class="p-3 mt-3 basis-full">
-                            <a href="{{ route('movie.show', ['slug' => $movie->slug]) }}" class="text-xs text-gray-700 mb-8 hover:text-red-600">درباره {{$movie->title}} <i class="fa-solid fa-angle-left mr-2"></i></a>
+                            <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}" class="text-xs text-gray-700 mb-8 hover:text-red-600">درباره {{$movie['title']}} <i class="fa-solid fa-angle-left mr-2"></i></a>
                             <div class="flex flex-wrap flex-row w-full">
-                                <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
-                                    <h5>سالن هشت</h5>
-                                    <div class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
-                                        <div class="flex flex-col">
-                                            <p class="hover:text-red-500">
-                                                <i class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
-                                                <span>سانس {{ convertDigitsToFarsi('20:45') }}</span>
-                                            </p>
-                                            <span class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format('50000')) }} تومان</span>
+                                @foreach ($movie['sans'] as $movieSession)
+                                    <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
+                                        <h5>{{ $movieSession['name'] }}</h5>
+                                        <div class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
+                                            <div class="flex flex-col">
+                                                <p class="hover:text-red-500">
+                                                    <i class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
+                                                    <span>سانس {{ $movieSession['time'] }}</span>
+                                                </p>
+                                                <span class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format($movieSession['price'])) }} تومان</span>
+                                            </div>
+                                            <button class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
+                                                <i class="fas fa-ticket ml-2"></i>
+                                                <span>خرید بلیت</span>
+                                            </button>
                                         </div>
-                                        <button class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
-                                            <i class="fas fa-ticket ml-2"></i>
-                                            <span>خرید بلیت</span>
-                                        </button>
                                     </div>
-                                </div>
-                                <div class="basis-6/12 md:basis-8/12 sm:basis-11/12 my-2">
-                                    <h5>سالن هشت</h5>
-                                    <div class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
-                                        <div class="flex flex-col">
-                                            <p class="hover:text-red-500">
-                                                <i class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
-                                                <span>سانس {{ convertDigitsToFarsi('20:45') }}</span>
-                                            </p>
-                                            <span class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format('50000')) }} تومان</span>
-                                        </div>
-                                        <button class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
-                                            <i class="fas fa-ticket ml-2"></i>
-                                            <span>خرید بلیت</span>
-                                        </button>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

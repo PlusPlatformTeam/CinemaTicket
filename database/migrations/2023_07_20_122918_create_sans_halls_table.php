@@ -11,15 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sans', function (Blueprint $table) {
+        Schema::create('sans_halls', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id();
-            $table->unsignedBigInteger('cinema_id');
-            $table->unsignedBigInteger('movie_id');
+            $table->unsignedBigInteger('sans_id');
             $table->unsignedBigInteger('hall_id');
-            $table->timestamp('started_at');
-            $table->integer('price');
-            $table->string('slug', 50)->collation('ascii_bin');
+
+            $table->foreign('hall_id')
+                ->references('id')->on('halls')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('sans_id')
+                ->references('id')->on('sans')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sans');
+        Schema::dropIfExists('sans_halls');
     }
 };
