@@ -15,10 +15,8 @@ class Cinema extends Model
         return $this->belongsToMany(Option::class, 'cinemas_options');
     }
 
-
-    public function movies()
+    public function sans()
     {
-        return $this->hasMany(Movie::class,'movies');
+        return $this->belongsToMany(Sans::class,'sans_cinemas', 'cinema_id', 'sans_id');
     }
-
 }
