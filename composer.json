@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "doctrine/dbal": "^3.6",
         "guzzlehttp/guzzle": "^7.2",
         "hashids/hashids": "^5.0",
         "laravel/framework": "^10.0",
@@ -28,7 +29,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/HelperFunctions.php"
+            "app/Helpers/HelperFunctions.php",
+            "app/Helpers/jdatetime.class.php"
         ]
     },
     "autoload-dev": {
