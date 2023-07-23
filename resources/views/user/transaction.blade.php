@@ -34,69 +34,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b ">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                <a href="">
-                                    بخارست
-                                    <i class="  fa-solid fa-chevron-left text-end justify-end  "></i>
-                                </a>
+                        @foreach ($tickets as $ticket)
+                            <tr class="bg-white border-b ">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                    <a href="{{ route('movie.show', ['slug' => $ticket['sans']['movie']['slug']]) }}">
+                                        {{ $ticket['sans']['movie']['title'] }}
+                                        <i class="  fa-solid fa-chevron-left text-end justify-end  "></i>
+                                    </a>
 
-                            </th>
-                            <td class="px-6 py-4">
-                                <i class="fa-regular fa-clock"></i>
-                                1398/11/12
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-700 text-green-50 text-xs font-medium mr-2 px-2.5 py-0.5 rounded ">موفق</span>
+                                </th>
+                                <td class="px-6 py-4">
+                                    <i class="fa-regular fa-clock"></i>
+                                    {{ $ticket['created_at_jalali'] }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if ($ticket['state'] === 'Valid')
+                                        <span
+                                            class="bg-green-700 text-green-50 text-xs font-medium mr-2 px-2.5 py-0.5 rounded ">موفق</span>
+                                    @else
+                                        <span
+                                            class="bg-red-700 text-red-50 text-xs font-medium mr-2 px-2.5 py-0.5 rounded ">ناموفق</span>
+                                    @endif
 
-                            </td>
-                            <td class="px-6 py-4">
-                             {{convertDigitsToFarsi(number_format("33600"))}} تومان
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ convertDigitsToFarsi(number_format($ticket['total_price'])) }} تومان
+                                </td>
+                            </tr>
+                        @endforeach
 
-                        <tr class="bg-white border-b ">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                <a href="">
-                                    بخارست
-                                    <i class="  fa-solid fa-chevron-left text-end justify-end  "></i>
-                                </a>
 
-                            </th>
-                            <td class="px-6 py-4">
-                                <i class="fa-regular fa-clock"></i>
-                                1398/11/12
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-700 text-green-50 text-xs font-medium mr-2 px-2.5 py-0.5 rounded ">موفق</span>
-
-                            </td>
-                            <td class="px-6 py-4">
-                             {{convertDigitsToFarsi(number_format("33600"))}} تومان
-                            </td>
-                        </tr>
-
-                        <tr class="bg-white border-b ">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                <a href="">
-                                    بخارست
-                                    <i class="  fa-solid fa-chevron-left text-end justify-end  "></i>
-                                </a>
-
-                            </th>
-                            <td class="px-6 py-4">
-                                <i class="fa-regular fa-clock"></i>
-                                1398/11/12
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-700 text-green-50 text-xs font-medium mr-2 px-2.5 py-0.5 rounded ">موفق</span>
-
-                            </td>
-                            <td class="px-6 py-4">
-                             {{convertDigitsToFarsi(number_format("33600"))}} تومان
-                            </td>
-                        </tr>
-             
                     </tbody>
                 </table>
             </div>

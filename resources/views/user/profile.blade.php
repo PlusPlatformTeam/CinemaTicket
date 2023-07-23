@@ -18,24 +18,27 @@
 
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8  h-screen">
 
-            <div class="circle-image" id="avatar-container">
-                <img id="preview-image" src="{{url("images/profile-mine.svg")}}" alt="Profile Image">
-                <div class="overlay"></div>
+            <div class="circle-image mr-4" id="avatar-container">
+                @if ($user->avatar)
+                    <img id="preview-image" src="{{ asset('storage/' . $user->avatar) }}" alt="Profile Image">
+                @else
+                    <img id="preview-image" src="{{ url('images/profile-mine.svg') }}" alt="Profile Image">
+                    <i class="icon fas fa-camera"></i>
+                    <div class="overlay"></div>
+
+                @endif
                 <input type="file" id="image-upload" accept="image/*" />
-                <i class="icon fas fa-camera"></i>
-              </div>
-              
+            </div>
+
 
             <form id="myform" class=" w-full flex flex-wrap" method="POST" action="{{ route('user.profile.update') }}">
-               @csrf
+                @csrf
                 <div class="w-6/12 p-5">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                         <i class="fa-solid fa-user-large"></i>
                         نام و نام خانوادگی
                     </label>
-                    <input type="text"  id="email"
-                    value="{{$user->name}}"
-                    name="user-name"
+                    <input type="text" id="email" value="{{ $user->name }}" name="user-name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                         placeholder="اصغر فرهادی" required>
                 </div>
@@ -44,9 +47,7 @@
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                         <i class="fa-solid fa-mobile-screen"></i>
                         شماره موبایل </label>
-                    <input type="number"  
-                    value="{{$user->mobile}}"
-                    name="mobile"
+                    <input type="number" value="{{ $user->mobile }}" name="mobile"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                         placeholder="" required>
                 </div>
@@ -56,12 +57,9 @@
                         <i class="fa-solid fa-envelope"></i>
                         ایمیل
                     </label>
-                    <input type="email"  id="email"
+                    <input type="email" id="email"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                        placeholder="name@company.com"
-                        value="{{$user->email}}"
-                        name="email"
-                        required>
+                        placeholder="name@company.com" value="{{ $user->email }}" name="email" required>
                 </div>
 
                 <div class="w-6/12 p-5">
@@ -69,12 +67,9 @@
                         <i class="fa-solid fa-calendar-days"></i>
                         تاریخ تولد
                     </label>
-                    <input data-jdp   
+                    <input data-jdp
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                        placeholder="" required
-                        value="{{$user->birthday}}"
-                        name="birthday"
-                        >
+                        placeholder="" required value="{{ $user->birthday }}" name="birthday">
                 </div>
 
             </form>
@@ -107,58 +102,59 @@
     </section>
 
     <script>
+$(document).ready(function() {
+    const avatarContainer = $('#avatar-container');
+    const imageUpload = $('#image-upload');
+    const previewImage = $('#preview-image');
+    const overlay = $('.overlay');
+    const cameraIcon = $('.icon');
 
-        $(document).ready(function() {
-            const avatarContainer = $('#avatar-container');
-            const imageUpload = $('#image-upload');
-            const previewImage = $('#preview-image');
-    
-            // Trigger the file input when clicking on the avatar container
-            avatarContainer.on('click', function() {
-                imageUpload.click();
-            });
-    
-            // Handle image selection and update the preview
-            imageUpload.on('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function() {
-                        //previewImage.attr('src', reader.result);
-                        uploadAvatar(file); // Call the function to upload the avatar immediately
-                    };
-                    reader.readAsDataURL(file);
+    // Trigger the file input when clicking on the avatar container
+    avatarContainer.on('click', function() {
+        imageUpload.click();
+    });
+
+    // Handle image selection and update the preview
+    imageUpload.on('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                uploadAvatar(file); // Call the function to upload the avatar immediately
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Function to upload the avatar via AJAX
+    function uploadAvatar(file) {
+        const formData = new FormData();
+        formData.append('avatar', file);
+        formData.append('_token', "{{ csrf_token() }}");
+
+        $.ajax({
+            url: '{{ route('user.profile.update.avatar') }}',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Handle the response from the server
+                if (response.avatar_url) {
+                    // Update the image src with the saved avatar URL
+                    previewImage.attr('src', response.avatar_url);
+
+                    // Hide the shadow overlay and camera icon
+                    overlay.hide();
+                    cameraIcon.hide();
                 }
-            });
-    
-            // Function to upload the avatar via AJAX
-            function uploadAvatar(file) {
-                const formData = new FormData();
-                formData.append('avatar', file);
-                formData.append('_token', "{{ csrf_token() }}");
-
-                $.ajax({
-                    url: '{{ route('user.profile.update.avatar') }}',
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        // Handle the response from the server
-                        if (response.avatar_url) {
-                            // Update the image src with the saved avatar URL
-                            previewImage.attr('src', response.avatar_url);
-    
-                            // Hide the shadow overlay and camera icon
-                            avatarContainer.removeClass('has-shadow');
-                            $('.icon').hide();
-                        }
-                    },
-                    error: function(error) {
-                        console.error(error); // Handle any error that occurs during the AJAX request
-                    }
-                });
+            },
+            error: function(error) {
+                console.error(error); // Handle any error that occurs during the AJAX request
             }
         });
+    }
+});
+
     </script>
 @endsection

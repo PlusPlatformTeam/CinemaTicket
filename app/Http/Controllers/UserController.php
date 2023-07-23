@@ -1,11 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\DB;
+use Morilog\Jalali\jDateTime;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -175,29 +180,55 @@ public function profileUpdate(Request $request)
 
 
 
+
 public function profileUpdateAvatar(Request $request)
 {
     $user = $request->user();
 
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $path = $avatar->store('avatars', 'public');
-            dd($path);
-            $user->avatar = $path;
-        }
+    if ($request->hasFile('avatar')) {
+        $avatar = $request->file('avatar');
+        $path = $avatar->hashName('avatars'); // Generate a unique filename and save it in the "avatars" directory
+        Storage::disk('public')->put($path, file_get_contents($avatar)); // Save the image to the public disk
 
+        $user->avatar = $path;
         $user->save();
 
         return response()->json(['avatar_url' => asset('storage/' . $path)]);
-    
-} 
+    }
+
+    return response()->json(['message' => 'No avatar image provided.']);
+}
+
 
 
 public function transaction(Request $request)
 {
-    return view('user.transaction');
+    $user = $request->user();
+    $tickets = Ticket::where('user_id', $user->id)
+        ->with('sans') 
+        ->get()
+        ->toArray();
 
+    foreach ($tickets as &$ticket) {
+        $movieId = $ticket['sans']['movie_id'];
+        $movie = DB::table('movies')->where('id', $movieId)->first();
+        $jalaliDate = \jDateTime::date('Y/m/d', strtotime($ticket['created_at']), false, true, 'Asia/Tehran');
+        $ticket['created_at_jalali'] = $jalaliDate;
+        $ticket['sans']['movie'] = $movie;
+        if ($movie) {
+            $ticket['sans']['movie'] = [
+                'title' => $movie->title,
+                'slug' => $movie->slug,
+            ];
+        } else {
+            $ticket['sans']['movie'] = null;
+        }
+    }
+    return view('user.transaction', [
+        'tickets' => $tickets
+    ]);
 }
+
 
 public function tickets(Request $request)
 {
