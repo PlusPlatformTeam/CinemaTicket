@@ -9,6 +9,7 @@ class Sans extends Model
 {
     use HasFactory;
     protected $table = 'sans';
+
     public function movie()
     {
         return $this->belongsToMany(Movie::class, 'sans_movies', 'sans_id', 'movie_id');
@@ -22,4 +23,10 @@ class Sans extends Model
     {
         return $this->belongsToMany(Cinema::class, 'sans_cinemas', 'sans_id', 'cinema_id');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+   
 }

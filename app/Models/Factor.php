@@ -12,4 +12,9 @@ class Factor extends Model
     const PAID = 'Paid';
 
     const STATES = [self::PAID, self::UNPAID];
+
+    public function factor()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
 }

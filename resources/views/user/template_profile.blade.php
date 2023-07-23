@@ -16,8 +16,8 @@
 
     <!-- css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link type="text/css" rel="stylesheet" href="{{url("datePicker/jalalidatepicker.min.css")}}" />
-<script type="text/javascript" src="{{url("datePicker/jalalidatepicker.min.js")}}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url('datePicker/jalalidatepicker.min.css') }}" />
+    <script type="text/javascript" src="{{ url('datePicker/jalalidatepicker.min.js') }}"></script>
     <link href="https://cdn.tailwindcss.com" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -43,59 +43,59 @@
         <div class="w-3/12 bg-white w-full h-screen p-7" style="height: calc(100vh + 7rem)">
 
             <ul class="block">
-                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2">
-                    <a href="#" class="w-full flex flex-row">
+                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.profile') ? 'bg-red-50 text-red-500 ' : '' }}">
+                    <a href="{{ route('user.profile') }}" class="w-full flex flex-row">
 
-                    <div class="text-start justify-start flex flex-row w-full mt-3">
-                        <i class="fa-regular fa-address-card"></i>
-                        <h1 class="text-black text-md font-normal mr-3">اطلاعات کاربری</h1>
-                    </div>
-                    <div w-full>
-                        <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
-                    </div>
-                </a>
-
-                </li>
-
-                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2">
-                    <a href="#" class="w-full flex flex-row">
-
-                    <div class="text-start justify-start flex flex-row w-full mt-3">
-                        <i class="fas fa-clipboard-check"></i>
-                        <h1 class="text-black text-md font-normal mr-3">تراکنش ها</h1>
-                    </div>
-                    <div w-full>
-                        <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
-                    </div>
-                </a>
+                        <div class="text-start justify-start flex flex-row w-full mt-3">
+                            <i class="fa-regular fa-address-card"></i>
+                            <h1 class="text-black text-md font-normal mr-3">اطلاعات کاربری</h1>
+                        </div>
+                        <div w-full>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                        </div>
+                    </a>
 
                 </li>
 
-                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2">
-                    <a href="#" class="w-full flex flex-row">
-                    <div class="text-start justify-start flex flex-row w-full mt-3">
-                        <i class="fas fa-ticket "></i>
-                        <h1 class="text-black text-md font-normal mr-3">بلیت های من</h1>
-                    </div>
-                    <div w-full>
-                        <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
-                    </div>
-                </a>
+                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.transaction') ? 'bg-red-50 text-red-500 ' : '' }}">
+                    <a href="{{ route('user.transaction') }}" class="w-full flex flex-row">
+
+                        <div class="text-start justify-start flex flex-row w-full mt-3">
+                            <i class="fas fa-clipboard-check"></i>
+                            <h1 class="text-black text-md font-normal mr-3">تراکنش ها</h1>
+                        </div>
+                        <div w-full>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                        </div>
+                    </a>
+
                 </li>
 
-                <hr/>
+                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.tickets') ? 'bg-red-50 text-red-500 ' : '' }}">
+                    <a href="{{ route('user.tickets') }}" class="w-full flex flex-row">
+                        <div class="text-start justify-start flex flex-row w-full mt-3">
+                            <i class="fas fa-ticket "></i>
+                            <h1 class="text-black text-md font-normal mr-3">بلیت های من</h1>
+                        </div>
+                        <div w-full>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                        </div>
+                    </a>
+                </li>
+
+                <hr />
 
                 <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 mt-16">
                     <a href="#" class="w-full flex flex-row">
 
-                    <div class="text-start justify-start flex flex-row w-full mt-3">
-                        <i class="fas fa-arrow-right-from-bracket ml-3"></i>
-                        <h1 class="text-black text-md font-normal mr-3">خروج از حساب کاربری</h1>
-                    </div>
-                    <div w-full>
-                        <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
-                    </div>
-                </a>
+                        <div class="text-start justify-start flex flex-row w-full mt-3">
+                            <i class="fas fa-arrow-right-from-bracket ml-3"></i>
+                            <h1 class="text-black text-md font-normal mr-3">خروج از حساب کاربری</h1>
+                        </div>
+                        <div w-full>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                        </div>
+                    </a>
 
                 </li>
 

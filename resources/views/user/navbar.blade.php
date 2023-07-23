@@ -116,9 +116,9 @@
 
                             <!-- dropdownProfile menu -->
                             <div id="dropdownProfile"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-b-lg shadow-2xl origin-center mx-12 w-96 p-4" style="margin: 10px 30px !important">
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-b-lg shadow-2xl origin-center mx-12 w-96 p-4 " style="margin: 10px 30px !important">
 
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                <ul class="py-2 text-sm text-gray-700 text-gray-200 "
                                     aria-labelledby="dropdownInformdropdownProfileButtonationButton">
                                     <li class="p-2">
                                         <a href="{{ route('user.profile') }}"
@@ -147,7 +147,7 @@
                                 </ul>
                                 <div class="p-2">
                                     <a href="#"
-                                        class="flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                        class="flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-200 hover:text-white">
                                         <i class="fas fa-arrow-right-from-bracket ml-3"></i>
                                         <span class="pt-1">خروج از حساب کاربری</span>    
                                     </a>
@@ -155,7 +155,7 @@
                             </div>
                         @else
                             <a href="{{ route('user.login') }}"
-                                class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent"
+                                class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:bg-transparent"
                                 aria-current="page">
                                 <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
                                 <span>ورود یا ثبت نام</span>

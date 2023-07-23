@@ -13,4 +13,21 @@ class Ticket extends Model
     const VALID = 'Valid';
 
     const STATES = [self::EXPIRED, self::VALID, self::VOID];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function factor()
+    {
+        return $this->belongsTo(Factor::class);
+    }
+
+    public function sans()
+    {
+        return $this->belongsTo(Sans::class);
+    }
+
 }
