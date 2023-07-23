@@ -190,11 +190,7 @@ public function profileUpdateAvatar(Request $request)
 
         return response()->json(['avatar_url' => asset('storage/' . $path)]);
     
-    } 
-
-
-
-
+} 
 
 
 public function transaction(Request $request)
