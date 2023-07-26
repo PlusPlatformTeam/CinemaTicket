@@ -232,9 +232,51 @@ public function transaction(Request $request)
 
 public function tickets(Request $request)
 {
-    return view('user.tickets');
+    $user = $request->user();
+    $tickets = Ticket::where('user_id', $user->id)
+        ->with('sans') 
+        ->get()
+        ->toArray();
+
+    foreach ($tickets as &$ticket) {
+        $sansTime = Carbon::parse($ticket["sans"]["started_at"])->format('H:i');
+        $movieId = $ticket['sans']['movie_id'];
+        $cinemaId= $ticket['sans']['cinema_id'];
+        $movie = DB::table('movies')->where('id', $movieId)->first();
+        $cinema = DB::table('cinemas')->where('id', $cinemaId)->first();
+        $cinemaTitle = $cinema->title;
+        $ticket["sansTime"]=$sansTime;        
+        if ($movie) {
+            $ticket['movie'] = [
+                'title' => $movie->title,
+                'slug' => $movie->slug,
+                'main_banner' => $movie->main_banner,
+            ];
+        } else {
+            $ticket['sans']['movie'] = null;
+        }
+        if ($cinema) {
+            $ticket['cinema_title'] = $cinemaTitle;
+        } else {
+            $ticket['sans']['movie'] = null;
+        }
+    }
+    return view('user.tickets', [
+        'tickets' => $tickets
+    ]);
 
 }
+
+
+public function logout()
+{
+    Auth::logout();
+    return redirect('/');
+}
+
+
+
+
 
 
 

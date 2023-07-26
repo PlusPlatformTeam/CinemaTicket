@@ -28,7 +28,7 @@
         }
     }
 
-    #dropdownProfile{
+    #dropdownProfile {
         margin: 9px 30px !important;
     }
 </style>
@@ -116,7 +116,8 @@
 
                             <!-- dropdownProfile menu -->
                             <div id="dropdownProfile"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-b-lg shadow-2xl origin-center mx-12 w-96 p-4 " style="margin: 10px 30px !important">
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-b-lg shadow-2xl origin-center mx-12 w-96 p-4 "
+                                style="margin: 10px 30px !important">
 
                                 <ul class="py-2 text-sm text-gray-700 text-gray-200 "
                                     aria-labelledby="dropdownInformdropdownProfileButtonationButton">
@@ -146,10 +147,10 @@
                                     </li>
                                 </ul>
                                 <div class="p-2">
-                                    <a href="#"
-                                        class="flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-200 hover:text-white">
+                                    <a id="logout-btn"
+                                        class="cursor-pointer flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-200 hover:text-white">
                                         <i class="fas fa-arrow-right-from-bracket ml-3"></i>
-                                        <span class="pt-1">خروج از حساب کاربری</span>    
+                                        <span class="pt-1">خروج از حساب کاربری</span>
                                     </a>
                                 </div>
                             </div>
@@ -326,6 +327,27 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#logout-btn').click(function() {
+            const formData = new FormData();
+            formData.append('_token', "{{ csrf_token() }}");
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('user.logout') }}',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    window.location.href = '/';
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+
+
     $(document).ready(() => {
         const baseUrl = "{{ route('home') }}";
         const moviesUrl = +baseUrl + "/movie/";

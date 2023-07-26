@@ -52,9 +52,13 @@ Route::post('/profile', [UserController::class, 'profileUpdate'])->name('user.pr
 
 Route::post('/profile/avatar', [UserController::class, 'profileUpdateAvatar'])->name('user.profile.update.avatar');
 
+Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+
 
 Route::get('/transaction', [UserController::class, 'transaction'])->name('user.transaction');
 
 Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
+
+Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
 
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
