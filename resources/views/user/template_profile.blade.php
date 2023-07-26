@@ -43,7 +43,8 @@
         <div class="w-3/12 bg-white w-full h-screen p-7" style="height: calc(100vh + 7rem)">
 
             <ul class="block">
-                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.profile') ? 'bg-red-50 text-red-500 ' : '' }}">
+                <li
+                    class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.profile') ? 'bg-red-50 text-red-500 ' : '' }}">
                     <a href="{{ route('user.profile') }}" class="w-full flex flex-row">
 
                         <div class="text-start justify-start flex flex-row w-full mt-3">
@@ -57,7 +58,8 @@
 
                 </li>
 
-                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.transaction') ? 'bg-red-50 text-red-500 ' : '' }}">
+                <li
+                    class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.transaction') ? 'bg-red-50 text-red-500 ' : '' }}">
                     <a href="{{ route('user.transaction') }}" class="w-full flex flex-row">
 
                         <div class="text-start justify-start flex flex-row w-full mt-3">
@@ -71,7 +73,8 @@
 
                 </li>
 
-                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.tickets') ? 'bg-red-50 text-red-500 ' : '' }}">
+                <li
+                    class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 {{ url()->current() === route('user.tickets') ? 'bg-red-50 text-red-500 ' : '' }}">
                     <a href="{{ route('user.tickets') }}" class="w-full flex flex-row">
                         <div class="text-start justify-start flex flex-row w-full mt-3">
                             <i class="fas fa-ticket "></i>
@@ -86,7 +89,7 @@
                 <hr />
 
                 <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 mt-16">
-                    <a href="#" class="w-full flex flex-row">
+                    <a id="logout-btn" class="w-full flex flex-row cursor-pointer">
 
                         <div class="text-start justify-start flex flex-row w-full mt-3">
                             <i class="fas fa-arrow-right-from-bracket ml-3"></i>
@@ -119,6 +122,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
     @yield('js')
+    <script>
+        $(document).ready(function() {
+            $('#logout-btn').click(function() {
+                const formData = new FormData();
+                formData.append('_token', "{{ csrf_token() }}");
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('user.logout') }}',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        window.location.href = '/';
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 
