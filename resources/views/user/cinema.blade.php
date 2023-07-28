@@ -26,11 +26,10 @@
 
             $movies[$movie['slug']] = $movie;
         }
-        
-        // echo "<pre style='text-align:left' dir='ltr'>";
-        // var_dump($value['movie'][0]);
-        // echo "</pre>";
     }
+    // echo "<pre style='text-align:left' dir='ltr'>";
+    // var_dump($daysOfWeek);
+    // echo "</pre>";
     // dd($movies);
 @endphp 
 </div>
@@ -84,18 +83,12 @@
                     </div>
                 </div>
                 <div class="flex mt-6 text-sm font-light mb-5 px-8">
-                    <div class="text-center ml-3">
-                        <p class="px-3.5 py-1.5 rounded-full bg-gray-100 mb-2.5 text-center">جمعه</p>
-                        <p class="text-center">24 تیر</p>
-                    </div>
-                    <div class="text-center ml-3">
-                        <p class="px-3.5 py-1.5 rounded-full mb-2.5 text-center">شنبه</p>
-                        <p class="text-center">25 تیر</p>
-                    </div>
-                    <div class="text-center ml-3">
-                        <p class="px-3.5 py-1.5 rounded-full  mb-2.5 text-center">یکشنبه</p>
-                        <p class="text-center">26 تیر</p>
-                    </div>
+                    @foreach ($daysOfWeek as $key => $day)
+                        <div class="text-center ml-3 cursor-pointer">
+                            <p class="px-3.5 py-1.5 rounded-full {{ $key == 0 ? 'bg-gray-100' : '' }} mb-2.5 text-center">{{ $day[0] }}</p>
+                            <p class="text-center">{{ $day[1] . ' ' . $day[2] }}</p>
+                        </div>
+                    @endforeach
                 </div>
                 @foreach ($movies as $movie)
                     <div class="flex flex-wrap my-4 hover:bg-gray-100 cursor-pointer p-3">
