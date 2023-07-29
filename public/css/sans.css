@@ -1,0 +1,19 @@
+#dropdownProfile {
+    margin: 2px 30px !important;
+}
+
+.scroll-dark::-webkit-scrollbar{
+    width: 10px;
+}
+
+.scroll-dark::-webkit-scrollbar-thumb{
+    background-color: #475569;
+    border-radius: 8px;
+}
+
+.scroll-dark::-webkit-scrollbar-track{
+    background-color: #1e293b;
+}
+body{
+    background-color: #1e293b;
+}

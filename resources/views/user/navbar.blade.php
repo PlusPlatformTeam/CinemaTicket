@@ -148,7 +148,7 @@
                                 </ul>
                                 <div class="p-2">
                                     <a id="logout-btn"
-                                        class="cursor-pointer flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-200 hover:text-white">
+                                        class="cursor-pointer flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 text-gray-200">
                                         <i class="fas fa-arrow-right-from-bracket ml-3"></i>
                                         <span class="pt-1">خروج از حساب کاربری</span>
                                     </a>
@@ -156,7 +156,7 @@
                             </div>
                         @else
                             <a href="{{ route('user.login') }}"
-                                class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:bg-transparent"
+                                class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg"
                                 aria-current="page">
                                 <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
                                 <span>ورود یا ثبت نام</span>
