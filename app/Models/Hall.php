@@ -12,11 +12,11 @@ class Hall extends Model
 
     public function sans()
     {
-        return $this->belongsToMany(character::class,'sans_halls',  'hall_id', 'sans_id');
+        return $this->belongsToMany(Sans::class,'sans_halls',  'hall_id', 'sans_id');
     }
 
     public function cinemas()
     {
-        return $this->belongsToMany(Sans::class, 'cinemas');
+        return $this->belongsToMany(Cinema::class, 'cinemas');
     }
 }

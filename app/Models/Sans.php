@@ -29,4 +29,8 @@ class Sans extends Model
         return $this->hasMany(Ticket::class);
     }
    
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+    }
 }

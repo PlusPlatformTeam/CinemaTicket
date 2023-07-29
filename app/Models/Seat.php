@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Seat extends Model
 {
     use HasFactory;
+    protected $table = 'seats';
+
+    public function sans()
+    {
+        return $this->belongsTo(Sans::class);
+    }
 }

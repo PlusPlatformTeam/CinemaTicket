@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\SansController;
 use App\Http\Controllers\UserController;
 
 
@@ -59,6 +60,6 @@ Route::get('/transaction', [UserController::class, 'transaction'])->name('user.t
 
 Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
 
-Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
+Route::get('/ticket/choose-seat/{sans}', [SansController::class, 'Show'])->name('sans.show');
 
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
