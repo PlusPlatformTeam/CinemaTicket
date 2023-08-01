@@ -79,7 +79,7 @@ return [
     |
     */
 
-    "locale" => "en",
+    "locale" => "fa",
     "supported_languages" => ["fa", "en"],
 
     /*

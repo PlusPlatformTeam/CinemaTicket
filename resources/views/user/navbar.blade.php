@@ -349,9 +349,9 @@
 
 
     $(document).ready(() => {
-        const baseUrl = "{{ route('home') }}";
-        const moviesUrl = +baseUrl + "/movie/";
-        const cinemasUrl = +baseUrl + "/cinema/detail/";
+        const baseUrl    = "{{ route('home') }}";
+        const moviesUrl  = baseUrl + "/movie/";
+        const cinemasUrl = baseUrl + "/cinema/detail/";
 
         $('#search-navbar').on('click', (event) => {
             $.ajax({
