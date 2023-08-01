@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cinema;
-use App\Models\City;
 use App\Models\Movie;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-
-        $last_movies = Movie::with('category')->latest()->take(8)->get();
+        $last_movies = Movie::with(['category'])->latest()->take(8)->get();
         $top_movies  = Movie::orderByDesc('sale')->take(5)->get();
 
         return view('user.home', [
