@@ -1,7 +1,7 @@
 @extends('.user.template')
 
 @section('title')
-    {{ $movie->title }} | سینما تیکت
+    فیلم {{ $movie->title }} | سینما تیکت
 @endsection
 
 @section('styles')
@@ -28,34 +28,43 @@
 
 
         <div class="basis-full lg:basis-9/12 px-6">
-            <h2 class="text-white text-2xl pb-8 content">{{ $movie->title }} |
-                {{ $movie->director }}</h2>
-            <span class="text-right text-white text-xl pb-8 content ">{{ $movie->category->name }}</span>
-            <div class=" flex flex-row text-right mt-2">
-                <span class="text-right text-white text-xl pb-8 content">
+            <h2 class="text-white pb-8 content">
+                <span class="text-lg text-bold">فیلم {{ $movie->title }}</span>
+                |
+                <span class="text-xs">{{ $movie->director }}</span></h2>
+            <span class="text-right text-white text-xs pb-8 content ">{{ $movie->category->name }}</span>
+            <div class=" flex items-center flex-row text-right mt-2 mb-8">
+                <span class="text-right text-white text-sm content">
+                    <span id="score">{{ convertDigitsToFarsi('5 / ' . $movie->score) }}</span>
                     <i class="fa-solid fa-heart text-red-600"></i>
-                    {{ convertDigitsToFarsi('5 / ' . $movie->score) }}
                 </span>
-                <span class="text-right text-white text-xl pb-8 content mx-4">
+                <span class="text-right text-white text-sm content mx-4">
                     <i class="float-nav fa-solid fa-user"></i>
                     {{ convertDigitsToFarsi('120') }}
                 </span>
-                <span class="text-center text-white text-xl pb-8 content ">
+                <span class="text-center text-white text-sm content ">
                     |
                 </span>
-                <button class="text-right text-white text-xl pb-8 content mx-4">
-                    <i class="fa-regular fa-heart "></i>
-                    امتیاز شما
-                </button>
+                @auth
+                    <button data-modal-target="score-modal" data-modal-toggle="score-modal" class="flex items-center text-right text-white text-xs py-1 px-2 content mx-4 bg-glass-dark rounded-lg">
+                        <i class="{{ $userScore > 0 ? 'fa-solid' : 'fa-regular'}} fa-heart"></i>
+                        <span class="pt-1 mr-2">امتیاز شما</span>
+                    </button>
+                @else
+                    <a href="{{ route('user.login') }}" class="flex items-center text-right text-white text-xs py-1 px-2 content mx-4 bg-glass-dark rounded-lg">
+                        <i class="fa-regular fa-heart "></i>
+                        <span class="pt-1 mr-2">امتیاز شما</span>
+                    </a>
+                @endauth
             </div>
             <div class="flex flex-row lg:justify-between justify-end items-center -mt-5">
                 <div class="flex text-right">
                     @foreach ($movie->characters as $actor)
                         <div class="flex items-center ">
                             <img src="{{ $actor->avatar }}" alt="{{ $actor->name }}"
-                                class="w-12 h-12 rounded-lg object-cover">
+                                class="w-10 h-10 rounded-lg object-cover">
                             <div class="ml-4 mr-1">
-                                <div class="font-medium text-lg text-white">{{ $actor->name }}</div>
+                                <div class="font-medium text-sm text-white">{{ $actor->name }}</div>
                                 <div class="text-gray-500">{{ $actor->role }}</div>
                             </div>
                         </div>
@@ -63,7 +72,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-row lg:justify-start mt-3 right-0">
+            <div class="flex flex-row lg:justify-start mt-12 right-0">
                 <button type="button"
                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2">
                     <i class="fa-solid fa-ticket-simple" style="color: #ffffff;"></i>
@@ -80,18 +89,20 @@
     </div>
 
     <!-- Trailer modal -->
-    <div id="trailerModal" tabindex="-1" aria-hidden="true"
-        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <video class="w-full h-auto max-w-full border border-gray-200 rounded-lg" controls>
-                    <source src="{{ url($movie->trailer) }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+    @if ($movie->trailer)
+        <div id="trailerModal" tabindex="-1" aria-hidden="true"
+            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <video class="w-full h-auto max-w-full border border-gray-200 rounded-lg" controls>
+                        <source src="{{ url($movie->trailer) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <section class="mt-12 lg:px-6" id="content">
 
@@ -165,7 +176,7 @@
                                     </div>
                                     <input type="text" id="search-navbar" id="mega-menu-dropdown-button"
                                         data-dropdown-toggle="mega-menu-dropdown"
-                                        class="block w-full text-gray-300 p-2 pl-10 text-sm text-gray-900 border-none rounded-xl bg-white-50 dark:bg-gray-50 dark:placeholder-gray-600 dark:text-gray"
+                                        class="block w-full text-gray-300 p-2 pl-10 text-sm text-gray-900 border-none rounded-xl bg-white-50"
                                         placeholder="جست و جوی فیلم و سینما">
                                 </div>
                             </div>
@@ -323,4 +334,61 @@
             </div>
         </div>
     </section>
+    @auth
+        <!-- score Modal -->
+        <div id="score-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-md max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white text-xs rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex flex-row-reverse items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center" data-modal-hide="score-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                            امتیاز شما به فیلم {{ $movie->title }}
+                        </h3>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <div onclick="selectScore(this, 1)" class="{{  $userScore == 1 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                            <span>۱/۵</span>
+                            <i class="{{  $userScore == 1 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <span>اصلا فیلم خوبی نبود</span>
+                        </div>
+                        <div onclick="selectScore(this, 2)" class="{{  $userScore == 2 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                            <span>۲/۵</span>
+                            <i class="{{  $userScore == 2 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <span>فیلم خوبی نبود ولی قابل تحمل بود</span>
+                        </div>
+                        <div onclick="selectScore(this, 3)" class="{{  $userScore == 3 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                            <span>۳/۵</span>
+                            <i class="{{  $userScore == 3 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <span>فیلم متوسطی بود. نه خیلی خوب نه بد</span>
+                        </div>
+                        <div onclick="selectScore(this, 4)" class="{{  $userScore == 4 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                            <span>۴/۵</span>
+                            <i class="{{  $userScore == 4 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <span>فیلم خوبی بود. میتونست بهتر باشه</span>
+                        </div>
+                        <div onclick="selectScore(this, 5)" class="{{  $userScore == 5 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                            <span>۵/۵</span>
+                            <i class="{{  $userScore == 5 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <span>عالی بود ! انتظاراتم برآورده شد</span>
+                        </div>
+                        @csrf
+                        <input type="hidden" id="movie_id" value="{{ $movie->id }}">
+                        <input type="hidden" id="url" value="{{ route('movie.score') }}">
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="block p-6 w-full">
+                        <button id="submit-score-btn" data-modal-hide="score-modal" type="button" class="text-md text-white rounded-lg bg-red-500 py-3 px-4 w-full">ثبت امتیاز</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endauth
 @endsection
