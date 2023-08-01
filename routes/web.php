@@ -28,6 +28,7 @@ Route::post('cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort
 
 Route::get('/movie/more', [MovieController::class, 'GetAll'])->name('movie.all');
 Route::get('/movie/{slug}', [MovieController::class, 'ShowMovie'])->name('movie.show');
+Route::post('/movie/score', [MovieController::class, 'Score'])->middleware('auth')->name('movie.score');
 
 Route::get('/login', [UserController::class, 'login'])->name('user.login');
 
