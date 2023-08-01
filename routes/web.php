@@ -24,7 +24,8 @@ Route::get('/', [HomeController::class, 'Index'])->name('home');
 
 Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
 Route::get('/cinema/detail/{cinema}', [CinemaController::class, 'ShowCinema'])->name('cinema.show');
-Route::post('cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort');
+Route::post('/cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort');
+Route::post('/cinema/score', [CinemaController::class, 'Score'])->middleware('auth')->name('cinema.score');
 
 Route::get('/movie/more', [MovieController::class, 'GetAll'])->name('movie.all');
 Route::get('/movie/{slug}', [MovieController::class, 'ShowMovie'])->name('movie.show');
