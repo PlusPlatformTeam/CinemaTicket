@@ -76,5 +76,7 @@ class MovieController extends Controller
         {
             return response(['message' => 'امتیاز شما با موفقیت ثبت شد', 'totalScore' => convertDigitsToFarsi('5 / ' . $movie->score)], 200);
         }
+        return response(['message' => 'خطا رخ  داده است لطفا بعدا تلاش کنید'], 500);
+
     }
 }
