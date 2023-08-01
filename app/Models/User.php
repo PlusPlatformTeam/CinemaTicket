@@ -29,9 +29,6 @@ class User extends Authenticatable
         'verified_code',
         'birthday',
         'avatar',
-
-
-
     ];
 
     /**
@@ -57,5 +54,10 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class,'comments');
+    }
+
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
     }
 }
