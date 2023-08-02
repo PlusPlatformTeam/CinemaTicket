@@ -26,11 +26,10 @@
 
             $movies[$movie['slug']] = $movie;
         }
-        
-        // echo "<pre style='text-align:left' dir='ltr'>";
-        // var_dump($value['movie'][0]);
-        // echo "</pre>";
     }
+    // echo "<pre style='text-align:left' dir='ltr'>";
+    // var_dump($daysOfWeek);
+    // echo "</pre>";
     // dd($movies);
 @endphp 
 </div>
@@ -60,11 +59,19 @@
                 <p class="text-gray-800 text-lg mb-1.5">{{ $cinema->title }}</p>
                 <p class=" text-gray-600 text-sm mb-1.5"><i class="fas fa-location-dot ml-1"></i> {{ $cinema->address }}</p>
                 <p class="mb-2.5">
-                    <span class="text-gray-500">{{ convertDigitsToFarsi($cinema->score.'/'.'5') }} <i class="fas fa-star"></i></span>
-                    <span class="px-1.5 py-1 text-sm rounded-xl bg-gray-300 inline-flex items-center">
+                    <span class="text-gray-500"><span id="score">{{ convertDigitsToFarsi($cinema->score.'/'.'5') }}</span> <i class="fas fa-star"></i></span>
+                    
+                @auth
+                    <button data-modal-target="score-modal" data-modal-toggle="score-modal" type="button"  class="px-1.5 py-1 text-sm rounded-xl bg-gray-300 inline-flex items-center">
                         <i class="fas fa-star text-green-400"></i>
                         <span class="text-white pt-1 pr-1.5">امتیاز شما</span>
-                    </span>
+                    </button>
+                @else
+                    <a href="{{ route('user.login') }}" class="flex items-center text-right text-white text-xs py-1 px-2 content mx-4 bg-glass-dark rounded-lg">
+                        <i class="fa-regular fa-heart "></i>
+                        <span class="pt-1 mr-2">امتیاز شما</span>
+                    </a>
+                @endauth
                 </p>
                 <p class="">
                     @foreach ($cinema->options as $option)
@@ -84,18 +91,12 @@
                     </div>
                 </div>
                 <div class="flex mt-6 text-sm font-light mb-5 px-8">
-                    <div class="text-center ml-3">
-                        <p class="px-3.5 py-1.5 rounded-full bg-gray-100 mb-2.5 text-center">جمعه</p>
-                        <p class="text-center">24 تیر</p>
-                    </div>
-                    <div class="text-center ml-3">
-                        <p class="px-3.5 py-1.5 rounded-full mb-2.5 text-center">شنبه</p>
-                        <p class="text-center">25 تیر</p>
-                    </div>
-                    <div class="text-center ml-3">
-                        <p class="px-3.5 py-1.5 rounded-full  mb-2.5 text-center">یکشنبه</p>
-                        <p class="text-center">26 تیر</p>
-                    </div>
+                    @foreach ($daysOfWeek as $key => $day)
+                        <div class="text-center ml-3 cursor-pointer">
+                            <p class="px-3.5 py-1.5 rounded-full {{ $key == 0 ? 'bg-gray-100' : '' }} mb-2.5 text-center">{{ $day[0] }}</p>
+                            <p class="text-center">{{ $day[1] . ' ' . $day[2] }}</p>
+                        </div>
+                    @endforeach
                 </div>
                 @foreach ($movies as $movie)
                     <div class="flex flex-wrap my-4 hover:bg-gray-100 cursor-pointer p-3">
@@ -196,4 +197,41 @@
         </div>
     </main>
 </section>
+@auth
+        <!-- score Modal -->
+        <div id="score-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-md max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white text-xs rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex flex-row-reverse items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center" data-modal-hide="score-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                            امتیاز شما به  {{ $cinema->title }}
+                        </h3>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 flex justify-between">
+                        <button onclick="selectScore(this, 1)" type="button" class="{{  $userScore == 1 ? 'bg-slate-100 ' : '' }}text-bold text-lg border-[1px] border-gray-200 py-2 px-4 rounded-xl text-center hover:bg-gray-100 active:bg-slate-100 focus:bg-slate-100">۱</button>
+                        <button onclick="selectScore(this, 2)" type="button" class="{{  $userScore == 2 ? 'bg-slate-100 ' : '' }}text-bold text-lg border-[1px] border-gray-200 py-2 px-4 rounded-xl text-center hover:bg-gray-100 active:bg-slate-100 focus:bg-slate-100">۲</button>
+                        <button onclick="selectScore(this, 3)" type="button" class="{{  $userScore == 3 ? 'bg-slate-100 ' : '' }}text-bold text-lg border-[1px] border-gray-200 py-2 px-4 rounded-xl text-center hover:bg-gray-100 active:bg-slate-100 focus:bg-slate-100">۳</button>
+                        <button onclick="selectScore(this, 4)" type="button" class="{{  $userScore == 4 ? 'bg-slate-100 ' : '' }}text-bold text-lg border-[1px] border-gray-200 py-2 px-4 rounded-xl text-center hover:bg-gray-100 active:bg-slate-100 focus:bg-slate-100">۴</button>
+                        <button onclick="selectScore(this, 5)" type="button" class="{{  $userScore == 5 ? 'bg-slate-100 ' : '' }}text-bold text-lg border-[1px] border-gray-200 py-2 px-4 rounded-xl text-center hover:bg-gray-100 active:bg-slate-100 focus:bg-slate-100">۵</button>
+                        @csrf
+                        <input type="hidden" id="cinema_id" value="{{ $cinema->id }}">
+                        <input type="hidden" id="url" value="{{ route('cinema.score') }}">
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="block p-6 w-full">
+                        <button id="submit-score-btn" data-modal-hide="score-modal" type="button" class="text-md text-white rounded-lg bg-red-500 py-3 px-4 w-full">ثبت امتیاز</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endauth
 @endsection

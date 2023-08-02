@@ -13,7 +13,7 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('/js/cinema.js') }}"></script>
+    <script src="{{ asset('/js/cinemas.js') }}"></script>
 @endsection
 
 @section('content')
@@ -203,8 +203,17 @@
                                 `;
                             });
 
-                            let is_top = cinema.score > 4.0 ? 'text-green-400' : '';
-                            let score = convertDigitsToFarsi(`${cinema.score}/5`);
+                            
+                            let score = cinema.scores[0] ? parseFloat(cinema.scores[0].val) : 0;
+
+                            if (Math.floor(score) === score) {
+                                score = score.toString();
+                            }
+                            else{
+                                score = score.toFixed(1)
+                            }
+                            let is_top = score > 4.0 ? 'text-green-400' : '';
+                            score = convertDigitsToFarsi(`${score}/5`);
                             let element = `
                                 <a href="${cinemaUrl}${cinema.id}"
                                     class="basis-6/12 lg:basis-4/12 md:basis-4/12 mb-5 rounded-b-2xl">

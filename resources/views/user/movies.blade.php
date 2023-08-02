@@ -38,7 +38,7 @@
                                         <span
                                             class="text-right bg-gray-700 text-white text-xs font-medium px-1.5 pt-1 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                             <i class="fa-solid fa-heart text-red-600"></i>
-                                            {{ convertDigitsToFarsi('5 / ' . $movie['score']) }}
+                                            {{ convertDigitsToFarsi('5 / ' . $movie->score) }}
                                         </span>
                                         <span
                                             class="text-right bg-gray-700 text-gray-100 text-xs font-medium mr-2 px-1.5 pt-1 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">

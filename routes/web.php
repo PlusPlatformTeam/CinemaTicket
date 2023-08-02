@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\SansController;
 use App\Http\Controllers\UserController;
 
 
@@ -24,10 +25,12 @@ Route::get('/', [HomeController::class, 'Index'])->name('home');
 
 Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
 Route::get('/cinema/detail/{cinema}', [CinemaController::class, 'ShowCinema'])->name('cinema.show');
-Route::post('cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort');
+Route::post('/cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort');
+Route::post('/cinema/score', [CinemaController::class, 'Score'])->middleware('auth')->name('cinema.score');
 
 Route::get('/movie/more', [MovieController::class, 'GetAll'])->name('movie.all');
 Route::get('/movie/{slug}', [MovieController::class, 'ShowMovie'])->name('movie.show');
+Route::post('/movie/score', [MovieController::class, 'Score'])->middleware('auth')->name('movie.score');
 
 Route::get('/actor/{character}', [CharacterController::class, 'show'])->name('actor.show');
 
@@ -63,6 +66,6 @@ Route::get('/transaction', [UserController::class, 'transaction'])->name('user.t
 
 Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
 
-Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
+Route::get('/ticket/choose-seat/{sans}', [SansController::class, 'Show'])->name('sans.show');
 
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
