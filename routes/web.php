@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CharacterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
@@ -27,6 +28,9 @@ Route::post('cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort
 
 Route::get('/movie/more', [MovieController::class, 'GetAll'])->name('movie.all');
 Route::get('/movie/{slug}', [MovieController::class, 'ShowMovie'])->name('movie.show');
+
+Route::get('/actor/{character}', [CharacterController::class, 'show'])->name('actor.show');
+
 
 Route::get('/login', [UserController::class, 'login'])->name('user.login');
 
