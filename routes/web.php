@@ -8,6 +8,9 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SansController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
+
+
 
 
 /*
@@ -60,6 +63,9 @@ Route::post('/profile', [UserController::class, 'profileUpdate'])->name('user.pr
 Route::post('/profile/avatar', [UserController::class, 'profileUpdateAvatar'])->name('user.profile.update.avatar');
 
 Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+
+Route::post('/addComment', [CommentController::class, 'addComment'])->name('comment.add');
+
 
 
 Route::get('/transaction', [UserController::class, 'transaction'])->name('user.transaction');

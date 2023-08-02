@@ -31,7 +31,8 @@
             <h2 class="text-white pb-8 content">
                 <span class="text-lg text-bold">فیلم {{ $movie->title }}</span>
                 |
-                <span class="text-xs">{{ $movie->director }}</span></h2>
+                <span class="text-xs">{{ $movie->director }}</span>
+            </h2>
             <span class="text-right text-white text-xs pb-8 content ">{{ $movie->category->name }}</span>
             <div class=" flex items-center flex-row text-right mt-2 mb-8">
                 <span class="text-right text-white text-sm content">
@@ -46,12 +47,14 @@
                     |
                 </span>
                 @auth
-                    <button data-modal-target="score-modal" data-modal-toggle="score-modal" class="flex items-center text-right text-white text-xs py-1 px-2 content mx-4 bg-glass-dark rounded-lg">
-                        <i class="{{ $userScore > 0 ? 'fa-solid' : 'fa-regular'}} fa-heart"></i>
+                    <button data-modal-target="score-modal" data-modal-toggle="score-modal"
+                        class="flex items-center text-right text-white text-xs py-1 px-2 content mx-4 bg-glass-dark rounded-lg">
+                        <i class="{{ $userScore > 0 ? 'fa-solid' : 'fa-regular' }} fa-heart"></i>
                         <span class="pt-1 mr-2">امتیاز شما</span>
                     </button>
                 @else
-                    <a href="{{ route('user.login') }}" class="flex items-center text-right text-white text-xs py-1 px-2 content mx-4 bg-glass-dark rounded-lg">
+                    <a href="{{ route('user.login') }}"
+                        class="flex items-center text-right text-white text-xs py-1 px-2 content mx-4 bg-glass-dark rounded-lg">
                         <i class="fa-regular fa-heart "></i>
                         <span class="pt-1 mr-2">امتیاز شما</span>
                     </a>
@@ -123,17 +126,17 @@
 
                     <div class="flex text-right mt-6">
                         @foreach ($movie->characters as $actor)
-                        <a href="{{ route('actor.show', ['character' => $actor->id]) }}">
+                            <a href="{{ route('actor.show', ['character' => $actor->id]) }}">
 
-                            <div class="flex items-center mr-8">
-                                <img src="{{ $actor->avatar }}" alt="{{ $actor->name }}"
-                                    class="w-12 h-12 rounded-lg object-cover">
-                                <div class="ml-4 mr-1">
-                                    <div class="font-medium text-lg">{{ $actor->name }}</div>
-                                    <div class="text-gray-500">{{ $actor->role }}</div>
+                                <div class="flex items-center mr-8">
+                                    <img src="{{ $actor->avatar }}" alt="{{ $actor->name }}"
+                                        class="w-12 h-12 rounded-lg object-cover">
+                                    <div class="ml-4 mr-1">
+                                        <div class="font-medium text-lg">{{ $actor->name }}</div>
+                                        <div class="text-gray-500">{{ $actor->role }}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
                         @endforeach
                     </div>
                 </div>
@@ -268,13 +271,41 @@
 
                     <div class="flex flex-row ">
 
-                        <h1 class="text-gray-400 text-xl font-semibold	 mx-4 my-4">دیدگاه های فیلم {{ $movie['title'] }}
+                        <h1 class="text-gray-400 text-xl font-semibold mx-4 my-4">دیدگاه های فیلم {{ $movie['title'] }}
                         </h1>
-                        <p class="text-gray-400 text-sm font-normal	mx-4  mt-5">(215) دیدگاه ثبت شده</p>
+                        <p class="text-gray-400 text-sm font-normal	mx-4 mt-5">({{ $commentCount }}) دیدگاه ثبت شده</p>
 
                     </div>
 
-                    <div class="bg-gray-200 w-full" style="height: 1px"></div>
+                    <hr class="bg-gray-200 w-full" style="height: 1px" />
+
+
+                    <form class="w-full" method="POST" action="{{ route('comment.add') }}">
+                        @csrf
+                        <div class="w-9/12 flex flex-col mx-auto mt-3">
+                            <input type="hidden" name="movie_id" value="{{ $movie->id }}">
+                            <textarea class="resize-none bg-gray-50 border-none border-gray-200 focus:border-gray-400 rounded-md p-2"
+                                rows="4" maxlength="500" name="message" id="message" placeholder="دیدگاه شما ..."></textarea>
+                            <div class="flex flex-row justify-between">
+                                <p class="text-sm text-right text-gray-500 mt-6"><span id="message-counter">0</span>/500
+                                </p>
+                                @auth
+                                    <button type="submit"
+                                        class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
+                                        دیدگاه
+                                    </button>
+                                @else
+                                       <a href="{{ route('user.login') }}"
+                                        class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
+                                        دیدگاه
+                                    </a> 
+                            
+                                @endauth
+
+                            </div>
+                        </div>
+                    </form>
+
 
                     @if (!empty($comments))
                         <div class="cinema p-4">
@@ -292,7 +323,7 @@
                                     </div>
                                 </div>
                                 @if (!$loop->last)
-                                    <div class="bg-gray-200 w-full mt-2" style="height: 1px"></div>
+                                    <hr class="bg-gray-200 w-full mt-2" style="height: 1px" />
                                 @endif
                             @endforeach
                         </div>
@@ -341,15 +372,21 @@
     </section>
     @auth
         <!-- score Modal -->
-        <div id="score-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div id="score-modal" tabindex="-1"
+            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative w-full max-w-md max-h-full">
                 <!-- Modal content -->
                 <div class="relative bg-white text-xs rounded-lg shadow dark:bg-gray-700">
                     <!-- Modal header -->
-                    <div class="flex flex-row-reverse items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center" data-modal-hide="score-modal">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    <div
+                        class="flex flex-row-reverse items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                        <button type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center"
+                            data-modal-hide="score-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                             </svg>
                             <span class="sr-only">Close modal</span>
                         </button>
@@ -359,29 +396,34 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-6 space-y-6">
-                        <div onclick="selectScore(this, 1)" class="{{  $userScore == 1 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                        <div onclick="selectScore(this, 1)"
+                            class="{{ $userScore == 1 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
                             <span>۱/۵</span>
-                            <i class="{{  $userScore == 1 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <i class="{{ $userScore == 1 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
                             <span>اصلا فیلم خوبی نبود</span>
                         </div>
-                        <div onclick="selectScore(this, 2)" class="{{  $userScore == 2 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                        <div onclick="selectScore(this, 2)"
+                            class="{{ $userScore == 2 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
                             <span>۲/۵</span>
-                            <i class="{{  $userScore == 2 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <i class="{{ $userScore == 2 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
                             <span>فیلم خوبی نبود ولی قابل تحمل بود</span>
                         </div>
-                        <div onclick="selectScore(this, 3)" class="{{  $userScore == 3 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                        <div onclick="selectScore(this, 3)"
+                            class="{{ $userScore == 3 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
                             <span>۳/۵</span>
-                            <i class="{{  $userScore == 3 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <i class="{{ $userScore == 3 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
                             <span>فیلم متوسطی بود. نه خیلی خوب نه بد</span>
                         </div>
-                        <div onclick="selectScore(this, 4)" class="{{  $userScore == 4 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                        <div onclick="selectScore(this, 4)"
+                            class="{{ $userScore == 4 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
                             <span>۴/۵</span>
-                            <i class="{{  $userScore == 4 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <i class="{{ $userScore == 4 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
                             <span>فیلم خوبی بود. میتونست بهتر باشه</span>
                         </div>
-                        <div onclick="selectScore(this, 5)" class="{{  $userScore == 5 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
+                        <div onclick="selectScore(this, 5)"
+                            class="{{ $userScore == 5 ? 'bg-slate-100 ' : '' }}flex cursor-pointer rounded-lg border-[1px] p-3 border-gray-200 my-2 hover:bg-gray-50 text-center justify-center itmes-center">
                             <span>۵/۵</span>
-                            <i class="{{  $userScore == 5 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
+                            <i class="{{ $userScore == 5 ? 'text-rose-500 ' : '' }}mx-1 fas fa-heart"></i>
                             <span>عالی بود ! انتظاراتم برآورده شد</span>
                         </div>
                         @csrf
@@ -390,7 +432,8 @@
                     </div>
                     <!-- Modal footer -->
                     <div class="block p-6 w-full">
-                        <button id="submit-score-btn" data-modal-hide="score-modal" type="button" class="text-md text-white rounded-lg bg-red-500 py-3 px-4 w-full">ثبت امتیاز</button>
+                        <button id="submit-score-btn" data-modal-hide="score-modal" type="button"
+                            class="text-md text-white rounded-lg bg-red-500 py-3 px-4 w-full">ثبت امتیاز</button>
                     </div>
                 </div>
             </div>

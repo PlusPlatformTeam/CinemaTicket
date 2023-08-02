@@ -30,15 +30,18 @@ class MovieController extends Controller
         $top_movies = Movie::orderByDesc('sale')->take(5)->get();
         $cinemas    = Cinema::get();
 
-        $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id') //TODO FIX 
+        $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
         ->where('comments.movie_id', $movie->id)
+        ->where('comments.state', Comment::ACCEPT) 
         ->select('comments.*', 'users.*')
         ->get()
         ->toArray();
-
-        foreach ($comments as &$comment) { 
-            $comment['created_at'] = $date->date("j F Y ", strtotime($comment['created_at']));
-        }
+    
+    $commentCount = count($comments);
+    
+    foreach ($comments as &$comment) { 
+        $comment['created_at'] = $date->date("j F Y ", strtotime($comment['created_at']));
+    }
         $userScore = Score::where([
                             ['user_id', auth()->id()],
                             ['scorable_id', $movie->id],
@@ -50,6 +53,7 @@ class MovieController extends Controller
             'cinemas'   => $cinemas,
             'topMovies' => $top_movies,
             'comments'  => $comments,
+            'commentCount' =>$commentCount,
             'userScore' => $userScore->score ?? null
         ]);
     }
