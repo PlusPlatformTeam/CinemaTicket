@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'body',
+        'cinema_id',
+        'movie_id',
+        'user_id',
+    ];
+
     const PENDING = 'Pending';
     const ACCEPT = 'Accept';
     const REJECT = 'Reject';

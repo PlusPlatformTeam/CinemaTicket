@@ -19,18 +19,12 @@ public function show(Character $character){
         $query->where('characters.id', $character->id);
     })->get();
 
-
-
     return view('user.character', [
 
         'actor'        => $actor,
         'actorMovies'  => $actorMovies,
 
     ]);
-
-
-
-
 }
 
 
