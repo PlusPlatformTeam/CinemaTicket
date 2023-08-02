@@ -11,78 +11,89 @@
 
 @section('content')
     <section>
-        <div class="w-full flex flex-row gap-4 bg-responsive px-6 py-8 w-full h-64 z-10 blur-container "
-            {{-- style="background-image: url({{ url($movie->second_banner) }})"> --}}
+        <div class="w-full flex flex-row gap-4   w-full h-64 z-10 blur-container actor-banner"
+            style="background-image: url({{ asset('images/actor-banner.webp') }})">
             <div class="blur-overlay"></div>
         </div>
     </section>
 
 
-    {{-- <div class="w-full flex flex-row absolute z-20 top-32">
-        <div class="hidden lg:flex lg:basis-3/12 lg:flex-row lg:justify-end">
-            <img class="h-64 rounded-lg drop-shadow-2xl shadow-lg inline-block content" src="{{ url($movie->main_banner) }}"
-                title="{{ $movie->title }}" alt="{{ $movie->title }}">
-        </div>
+    <div class="w-full absolute">
+        <div class="w-8/12 mx-auto relative">
 
+            <div class="w-full flex flex-row absolute z-20 -top-56 right-12">
+                <div class=" md:flex  md:flex-row md:justify-end">
+                    <img class="w-20 h-20 bg-cover rounded-full drop-shadow-2xl shadow-lg " src="{{ url($actor->avatar) }}"
+                        alt="">
+                </div>
 
-        <div class="basis-full lg:basis-9/12 px-6">
-            <h2 class="text-white text-2xl pb-8 content">{{ $movie->title }} |
-                {{ $movie->director }}</h2>
-            <span class="text-right text-white text-xl pb-8 content ">{{ $movie->category->name }}</span>
-            <div class=" flex flex-row text-right mt-2">
-                <span class="text-right text-white text-xl pb-8 content">
-                    <i class="fa-solid fa-heart text-red-600"></i>
-                    {{ convertDigitsToFarsi('5 / ' . $movie->score) }}
-                </span>
-                <span class="text-right text-white text-xl pb-8 content mx-4">
-                    <i class="float-nav fa-solid fa-user"></i>
-                    {{ convertDigitsToFarsi('120') }}
-                </span>
-                <span class="text-center text-white text-xl pb-8 content ">
-                    |
-                </span>
-                <button class="text-right text-white text-xl pb-8 content mx-4">
-                    <i class="fa-regular fa-heart "></i>
-                    امتیاز شما
-                </button>
-            </div>
-            <div class="flex flex-row lg:justify-between justify-end items-center -mt-5">
-                <div class="flex text-right">
-                    @foreach ($movie->characters as $actor)
-                    <a  href="{{ route('actor.show', ['id' => $actor->id]) }}">
-                          <div class="flex items-center ">
-                            <img src="{{ $actor->avatar }}" alt="{{ $actor->name }}"
-                                class="w-12 h-12 rounded-lg object-cover">
-                            <div class="ml-4 mr-1">
-                                <div class="font-medium text-lg text-white">{{ $actor->name }}</div>
-                                <div class="text-gray-500">{{ $actor->role }}</div>
-                            </div>
-                        </div>
-                    </a>
-                      
-                    @endforeach
+                <div class="block mr-4 mt-3">
+                    <h1 class="text-white font-semibold text-lg">{{ $actor->name }}</h1>
+                    <h1 class="text-white font-normal text-sm  mt-4">بازیگر</h1>
                 </div>
             </div>
 
-            <div class="flex flex-row lg:justify-start mt-5 right-0">
-                <button type="button"
-                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2">
-                    <i class="fa-solid fa-ticket-simple" style="color: #ffffff;"></i>
-                    انتخاب سالن تئاتر و خرید بلیط
-                </button>
-                <button data-modal-target="trailerModal" data-modal-toggle="trailerModal" type="button"
-                    class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                    <i class="fa-solid fa-play px-2"></i>
-                    تیزر فیلم
-                </button>
+
+            <div class="block  w-full z-20 absolute -mt-28 px-12">
+                <h1 class="text-white font-normal text-md">
+                    متولد {{ $actor->birthday }}
+                </h1>
+
+                <h1 class="text-white font-normal text-sm mt-2 xl:pl-96">
+                    {{ $actor->description }}
+                </h1>
+            </div>
+        </div>
+
+    </div>
+
+
+    <section>
+        <div class="p-5 w-full block">
+            <div class="bg-white w-8/12 block mx-auto rounded-md relative">
+                <h1 class="text-black font-normal text-md relative right-5 top-5">
+                    آثار هنرمند
+                </h1>
+
+                <div class="w-full sm:mb-16 py-5">
+                    <div class="flex flex-wrap w-full z-10  rounded-2xl">
+                        @foreach ($actorMovies as $movie)
+                            <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
+                                class="2xl:w-1/5 xl:w-1/5 lg:w-1/4 md:w-1/4 sm:w-1/3 w-1/3 relative released-div mt-4 px-3">
+                                <div class="flex justify-center">
+                                    <img class="object-cover transition delay-500 hover:blur-sm w-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content released-img"
+                                        src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}"
+                                        alt="{{ $movie['title'] }}">
+                                    <div
+                                        class="absolute bottom-14 z-20 justify-center sm:text-xs text-center released-score-view">
+                                        <div>
+                                            <span
+                                                class="text-right bg-gray-700 text-white text-xs font-medium px-1.5 pt-1 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                                <i class="fa-solid fa-heart text-red-600"></i>
+                                                {{ convertDigitsToFarsi('5 / ' . $movie->score) }}
+                                            </span>
+                                            <span
+                                                class="text-right bg-gray-700 text-gray-100 text-xs font-medium mr-2 px-1.5 pt-1 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                                <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
+                                                <span>{{ convertDigitsToFarsi(rand(50, 999)) }}</span>
+                                            </span>
+                                            <h5 class="text-white content text-center mt-4 ">
+                                                کارگردان :
+                                                <span class="font-thin">{{ $movie['director'] }}</span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full text-center text-sm mt-3">
+                                    <span>{{ $movie['title'] }}</span>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
 
             </div>
         </div>
-    </div> --}}
-
-    <section>
-
 
     </section>
-   
-    @endsection
+@endsection

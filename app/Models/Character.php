@@ -15,5 +15,11 @@ class Character extends Model
         return $this->belongsToMany(Movie::class,'video_characters');
     }
 
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+  
 
 }

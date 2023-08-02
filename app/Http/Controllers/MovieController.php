@@ -21,7 +21,7 @@ class MovieController extends Controller
     }
     public function ShowMovie(Request $request) //TODO FIX use modelBinding key
     {
-
+        $date = new \jDateTime(true, true, 'Asia/Tehran');
         $movie = Movie::with('category') //TODO FIX 
             ->with('characters')
             ->where('slug', $request->slug)
@@ -36,6 +36,9 @@ class MovieController extends Controller
         ->get()
         ->toArray();
 
+        foreach ($comments as &$comment) { 
+            $comment['created_at'] = $date->date("j F Y ", strtotime($comment['created_at']));
+        }
         $userScore = Score::where([
                             ['user_id', auth()->id()],
                             ['scorable_id', $movie->id],
