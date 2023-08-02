@@ -57,22 +57,24 @@
                     </a>
                 @endauth
             </div>
-            <div class="flex flex-row lg:justify-between justify-end items-center -mt-5">
+            <div class="flex flex-row lg:justify-between justify-end items-center -mt-3">
                 <div class="flex text-right">
                     @foreach ($movie->characters as $actor)
-                        <div class="flex items-center ">
-                            <img src="{{ $actor->avatar }}" alt="{{ $actor->name }}"
-                                class="w-10 h-10 rounded-lg object-cover">
-                            <div class="ml-4 mr-1">
-                                <div class="font-medium text-sm text-white">{{ $actor->name }}</div>
-                                <div class="text-gray-500">{{ $actor->role }}</div>
+                        <a href="{{ route('actor.show', ['character' => $actor->id]) }}">
+                            <div class="flex items-center ">
+                                <img src="{{ $actor->avatar }}" alt="{{ $actor->name }}"
+                                    class="w-12 h-12 rounded-lg object-cover">
+                                <div class="ml-4 mr-1">
+                                    <div class="font-medium text-lg text-white">{{ $actor->name }}</div>
+                                    <div class="text-gray-500">{{ $actor->role }}</div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
 
-            <div class="flex flex-row lg:justify-start mt-12 right-0">
+            <div class="flex flex-row lg:justify-start mt-5 right-0">
                 <button type="button"
                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2">
                     <i class="fa-solid fa-ticket-simple" style="color: #ffffff;"></i>
@@ -121,6 +123,8 @@
 
                     <div class="flex text-right mt-6">
                         @foreach ($movie->characters as $actor)
+                        <a href="{{ route('actor.show', ['character' => $actor->id]) }}">
+
                             <div class="flex items-center mr-8">
                                 <img src="{{ $actor->avatar }}" alt="{{ $actor->name }}"
                                     class="w-12 h-12 rounded-lg object-cover">
@@ -129,6 +133,7 @@
                                     <div class="text-gray-500">{{ $actor->role }}</div>
                                 </div>
                             </div>
+                        </a>
                         @endforeach
                     </div>
                 </div>

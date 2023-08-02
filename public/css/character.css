@@ -1,0 +1,21 @@
+.actor-banner {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+
+
+.released-score-view,
+.released-director {
+
+  opacity: 0;
+  color: #fff;
+  z-index: 10;
+  transition: opacity 0.5s ease;
+}
+
+.released-img:hover + .released-score-view,
+.released-img:hover + .released-div > .released-director {
+  opacity: 1 !important;
+}
