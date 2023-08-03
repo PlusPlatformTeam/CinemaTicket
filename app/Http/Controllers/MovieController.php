@@ -76,8 +76,7 @@ class MovieController extends Controller
             'userScore' => $userScore->score ?? null,
             'daysOfWeek' => $daysOfWeek,
             'commentCount' =>$commentCount,
-
-
+            'formattedDateString' => $formattedDateString
         ]);
     }
     public function Score(Request $request)
