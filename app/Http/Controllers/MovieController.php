@@ -24,6 +24,11 @@ class MovieController extends Controller
     }
     public function ShowMovie(Movie $movie)
     {
+        $date = new \jDateTime(true, true, 'Asia/Tehran');
+
+        $dateString = $movie['created_at'];
+        $formattedDateString = $date->date("Y", strtotime($dateString));
+
         $top_movies = Movie::orderByDesc('sale')->take(5)->get();
         $daysOfWeek = [];
         $jdate      = new \jDateTime(true, true, 'Asia/Tehran');
@@ -63,8 +68,6 @@ class MovieController extends Controller
                             ['scorable_type', 'App\Models\Movie']
                         ])->first();
 
-        // dd($sans);
-
         return view('user.movie', [
             'movie'     => $movie,
             'sans'      => $sans,
@@ -73,6 +76,7 @@ class MovieController extends Controller
             'userScore' => $userScore->score ?? null,
             'daysOfWeek' => $daysOfWeek,
             'commentCount' =>$commentCount,
+
 
         ]);
     }

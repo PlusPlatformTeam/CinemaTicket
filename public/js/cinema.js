@@ -1,6 +1,23 @@
 let accessSubmitScore = false;
 let selectedScore = '';
 
+
+const message = document.getElementById('message');
+const counter = document.getElementById('message-counter');
+
+message.addEventListener('input', () => {
+  const count = message.value.length;
+
+  counter.innerHTML = count;
+
+  if (count >= 500) {
+    counter.classList.add('text-red-500');
+  } else {
+    counter.classList.remove('text-red-500');
+  }
+});
+
+
 function selectScore(element, score) {
     accessSubmitScore = true;
     selectedScore = score;

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Option;
 use App\Models\Sans;
+use App\Models\Comment;
+
 use Illuminate\Support\Facades\DB;
 
 class CinemaController extends Controller
@@ -35,7 +37,20 @@ class CinemaController extends Controller
         $sans       = Sans::with(['cinema', 'movie.characters', 'movie.category', 'hall'])
             ->where('cinema_id', $cinema->id)
             ->whereBetween('started_at', [$start, $end])
-            ->get()->toArray();
+            ->get();
+
+            $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
+            ->where('comments.cinema_id', $cinema->id)
+            ->where('comments.state', Comment::ACCEPT) 
+            ->select('comments.*', 'users.*')
+            ->get()
+            ->toArray();
+        
+        $commentCount = count($comments);
+        
+        foreach ($comments as &$comment) { 
+            $comment['created_at'] = $jdate->date("j F Y ", strtotime($comment['created_at']));
+        }
 
         for ($i = 0; $i < 4; $i++) {
             $timestamp    = strtotime("+$i days");
@@ -50,13 +65,15 @@ class CinemaController extends Controller
         ])->first();
 
         return view('user.cinema', [
-            'cinema'     => $cinema,
-            'topMovies'  => Movie::orderByDesc('sale')->take(5)->get(),
-            'options'    => Option::all(),
-            'sans'       => $sans,
-            'lastMovies' => Movie::all(),
-            'daysOfWeek' => $daysOfWeek,
-            'userScore'  => $userScore->score ?? -1
+            'cinema'        => $cinema,
+            'topMovies'     => Movie::orderByDesc('sale')->take(5)->get(),
+            'options'       => Option::all(),
+            'sans'          => $sans,
+            'comments'      => $comments,
+            'commentCount'  => $commentCount,
+            'lastMovies'    => Movie::all(),
+            'daysOfWeek'    => $daysOfWeek,
+            'userScore'     => $userScore->score ?? -1
         ]);
     }
 
