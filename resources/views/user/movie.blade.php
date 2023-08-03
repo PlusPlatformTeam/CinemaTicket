@@ -262,25 +262,25 @@
                     <h2 class="font-bold text-gray-500 text-2xl ">سایر اطلاعات {{ $movie->title }}</h2>
                     <h3 class="font-medium text-base mt-3	">
                         سال ساخت :
-                        {{ $movie->created_at->format('Y') }}
+                        {{ $formattedDateString}}
                     </h3>
                 </div>
 
 
-                <div class="bg-white w-full rounded-lg mt-16 mb-16">
+                <div class="bg-white w-full rounded-lg mt-16 mb-16 ">
 
                     <div class="flex flex-row ">
 
                         <h1 class="text-gray-400 text-xl font-semibold mx-4 my-4">دیدگاه های فیلم {{ $movie['title'] }}
                         </h1>
-                        <p class="text-gray-400 text-sm font-normal	mx-4 mt-5">({{ $commentCount }}) دیدگاه ثبت شده</p>
+                        <p class="text-gray-400 text-sm font-normal	mx-4 mt-5">({{ convertDigitsToFarsi($commentCount) }}) دیدگاه ثبت شده</p>
 
                     </div>
 
                     <hr class="bg-gray-200 w-full" style="height: 1px" />
 
 
-                    <form class="w-full" method="POST" action="{{ route('comment.add') }}">
+                    <form class="w-full p-5" method="POST" action="{{ route('comment.add') }}" >
                         @csrf
                         <div class="w-9/12 flex flex-col mx-auto mt-3">
                             <input type="hidden" name="movie_id" value="{{ $movie->id }}">
@@ -328,16 +328,10 @@
                             @endforeach
                         </div>
                     @endif
-
-
-
                 </div>
-
-
             </div>
 
-
-
+            
             <div class="hidden lg:block lg:basis-4/12">
                 <ul class="w-96 mr-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
                     <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">

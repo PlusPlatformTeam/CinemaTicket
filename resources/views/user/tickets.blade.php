@@ -60,7 +60,7 @@
                             <div class="mt-4">
                                 <h1 class="text-gray-700 font-normal text-sm mx-2 text-right ">
                                     <i class="fa-solid fa-clock text-sm text-gray-600"></i>
-                                    سه شنبه 5 اردیبهشت، ساعت {{$ticket["sansTime"]}}
+                                       {{$ticket["sansDay"]}} ساعت {{$ticket["sansTime"]}} 
                                 </h1>
                             </div>
 
