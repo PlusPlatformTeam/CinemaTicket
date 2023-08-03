@@ -27,6 +27,9 @@ class MovieController extends Controller
             ->where('slug', $request->slug)
             ->firstOrFail();
 
+            $dateString = $movie['created_at'];
+            $formattedDateString = $date->date("Y", strtotime($dateString));
+
         $top_movies = Movie::orderByDesc('sale')->take(5)->get();
         $cinemas    = Cinema::get();
 
@@ -49,12 +52,13 @@ class MovieController extends Controller
                         ])->first();
 
         return view('user.movie', [
-            'movie'     => $movie,
-            'cinemas'   => $cinemas,
-            'topMovies' => $top_movies,
-            'comments'  => $comments,
-            'commentCount' =>$commentCount,
-            'userScore' => $userScore->score ?? null
+            'movie'               => $movie,
+            'formattedDateString' => $formattedDateString,
+            'cinemas'             => $cinemas,
+            'topMovies'           => $top_movies,
+            'comments'            => $comments,
+            'commentCount'        =>$commentCount,
+            'userScore'           => $userScore->score ?? null
         ]);
     }
     public function Score(Request $request)

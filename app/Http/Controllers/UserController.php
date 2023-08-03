@@ -239,13 +239,18 @@ public function tickets(Request $request)
         ->toArray();
 
     foreach ($tickets as &$ticket) {
-        $sansTime = Carbon::parse($ticket["sans"]["started_at"])->format('H:i');
+        $timestamp = strtotime($ticket["sans"]["started_at"]);
+        $date = new \jDateTime(true, true, 'Asia/Tehran');
+        $sansDay = $date->date("l j F", $timestamp);
+        $sansTime = $date->date("H", $timestamp);
         $movieId = $ticket['sans']['movie_id'];
         $cinemaId= $ticket['sans']['cinema_id'];
         $movie = DB::table('movies')->where('id', $movieId)->first();
         $cinema = DB::table('cinemas')->where('id', $cinemaId)->first();
         $cinemaTitle = $cinema->title;
+        $ticket["sansDay"]=$sansDay; 
         $ticket["sansTime"]=$sansTime;        
+       
         if ($movie) {
             $ticket['movie'] = [
                 'title' => $movie->title,
@@ -262,7 +267,7 @@ public function tickets(Request $request)
         }
     }
     return view('user.tickets', [
-        'tickets' => $tickets
+        'tickets' => $tickets,
     ]);
 
 }
