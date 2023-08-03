@@ -82,7 +82,7 @@
                     @for ($i = 1; $i <= $seats['maxRow']; $i++)
                         @for ($j = 1; $j <= $seats['maxCol']; $j++)
                             <span data-tooltip-target="tooltip-seat{{ $i . '-' . $j }}" data-tooltip-style="light"
-                                class="cursor-pointer block m-1 w-8 h-8 rounded-full {{ $sans->seats[0]->row == $i && $sans->seats[0]->col == $j ? 'bg-gray-950 border-2 border-gray-300' : 'bg-gray-300' }}"></span>
+                                class="cursor-pointer block m-1 w-8 h-8 rounded-full {{ isset($sans->seats[0]) && $sans->seats[0]->row == $i && $sans->seats[0]->col == $j ? 'bg-gray-950 border-2 border-gray-300' : 'bg-gray-300' }}"></span>
                             <div id="tooltip-seat{{ $i . '-' . $j }}" role="tooltip"
                                 class="p-5 absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip">
                                 <div>
