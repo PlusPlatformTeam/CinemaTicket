@@ -9,19 +9,22 @@ class Cinema extends Model
 {
     use HasFactory;
     protected $table = 'cinemas';
+    protected $fillable = ['score'];
+    protected $casts = [
+        'location' => 'array',
+    ];
 
     public function getScoreAttribute()
     {
-        $score = $this->averageScore();
-        if (is_null($score))   
+        if (is_null($this->attributes['score']))   
             return '0'; 
         
-        if (floor($score) == $score)
+        if (floor($this->attributes['score']) == $this->attributes['score'])
         {
-            return intval($score);
+            return intval($this->attributes['score']);
         }
 
-        return number_format($score, 1);
+        return number_format($this->attributes['score'] , 1);
     }
     
     public function options()

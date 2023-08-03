@@ -1,3 +1,29 @@
+@php
+    $cinemas = [];
+    foreach ($sans as $key => $value) {
+        $cinema = $value['cinema'][0];
+    
+        if (array_key_exists($cinema['id'], $cinemas)) {
+            $cinemas[$cinema['id']]['sans'][] = [
+                'id' => $value['id'],
+                'slug' => $value['slug'],
+                'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                'name' => $value['hall'][0]['title'],
+                'price' => $value['price'],
+            ];
+        } else {
+            $cinema['sans'][] = [
+                'id' => $value['id'],
+                'slug' => $value['slug'],
+                'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                'name' => $value['hall'][0]['title'],
+                'price' => $value['price'],
+            ];
+    
+            $cinemas[$cinema['id']] = $cinema;
+        }
+    }
+@endphp
 @extends('.user.template')
 
 @section('title')
@@ -149,26 +175,18 @@
                             <h1 class="text-gray-400 text-xl font-semibold	 mx-4 my-4">انتخاب و سانس</h1>
 
                             <div class="flex mt-6 text-sm font-light mb-5 px-8">
-                                <div class="text-center ml-3">
-                                    <p class="px-3.5 py-1.5 rounded-full bg-gray-100 mb-2.5 text-center">جمعه</p>
-                                    <p class="text-center">24 تیر</p>
-                                </div>
-                                <div class="text-center ml-3">
-                                    <p class="px-3.5 py-1.5 rounded-full mb-2.5 text-center">شنبه</p>
-                                    <p class="text-center">25 تیر</p>
-                                </div>
-                                <div class="text-center ml-3">
-                                    <p class="px-3.5 py-1.5 rounded-full  mb-2.5 text-center">یکشنبه</p>
-                                    <p class="text-center">26 تیر</p>
-                                </div>
+                                @if (!empty($cinemas))
+                                    @foreach ($daysOfWeek as $key => $day)
+                                        <div class="text-center ml-3 cursor-pointer">
+                                            <p
+                                                class="px-3.5 py-1.5 rounded-full {{ $key == 0 ? 'bg-gray-100' : '' }} mb-2.5 text-center">
+                                                {{ $day[0] }}</p>
+                                            <p class="text-center text-xs text-gray-700">{{ $day[1] . ' ' . $day[2] }}</p>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
-
-
-
-
-
-
                         <form>
                             <div class="flex px-2 mt-3 w-96	">
                                 <label for="default-search"
@@ -201,22 +219,17 @@
                             @foreach ($cinemas as $key => $cinema)
                                 <div class="block relative">
                                     <div class="flex flex-row flex-wrap w-full mt-3 ">
-
-                                        <a href="cinema/slug" class="w-5/6 flex flex-row">
-
+                                        <div class="w-5/6 flex flex-row">
                                             <img src="{{ url($cinema['banner']) }}" alt="{{ $cinema['title'] }}"
                                                 class=" w-60 h-36 rounded-xl  bg-responsive">
-
                                             <div class="block">
                                                 <h3 class="text-black text-xl font-semibold mx-3">{{ $cinema['title'] }}
                                                 </h3>
-
                                                 <div class="flex flex-row mt-4">
                                                     <i class="fa-solid fa-location-dot mr-3"></i>
                                                     <h4 class="text-black text-normal font-normal mx-3">
                                                         {{ $cinema['address'] }}</h4>
                                                 </div>
-
                                                 <div class="mt-4">
                                                     <span
                                                         class=" mt-3 mr-3 text-right bg-gray-400 text-white text-sm font-medium px-2.5 pt-2 pb-0.5 rounded-full dark:bg-gray-400 dark:text-gray-300">
@@ -225,37 +238,73 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                        </a>
-
+                                        </div>
                                         <div class="w-1/6 ">
-
                                             <button type="button" class="flex flex-row text-red-500 dropdown-btn"
                                                 onclick="toggleDropdown({{ $cinema['id'] }})">
                                                 <h2 class="text-md font-semibold ml-2">سانس ها</h2>
                                                 <i class="fa-solid fa-chevron-down  drop-icon-{{ $cinema['id'] }}"></i>
                                             </button>
-
-
                                         </div>
-
                                     </div>
-
                                     <div class="dropdown-wrapper drop-div-{{ $cinema['id'] }} hidden bg-red w-full my-4">
                                         <div class="mt-2">
-
-                                            <div class="flex flex-row">
+                                            <a href="{{ route('cinema.show', ['cinema' => $cinema['id']]) }}" class="flex flex-row w-full">
                                                 <h1 class="ml-1">درباره {{ $cinema['title'] }}</h1>
                                                 <i class="fa-solid fa-chevron-left font-sm text-gray-500"></i>
+                                            </a>
+                                            <div class="flex flex-wrap flex-row w-full">
+                                                @foreach ($cinema['sans'] as $cinemaSession)
+                                                    <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
+                                                        <h5>{{ $cinemaSession['name'] }}</h5>
+                                                        <div
+                                                            class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
+                                                            <div class="flex flex-col">
+                                                                <p class="hover:text-red-500">
+                                                                    <i
+                                                                        class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
+                                                                    <span>سانس {{ $cinemaSession['time'] }}</span>
+                                                                </p>
+                                                                <span
+                                                                    class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format($cinemaSession['price'])) }}
+                                                                    تومان</span>
+                                                            </div>
+                                                            <a href="{{ route('sans.show', ['sans' => $cinemaSession['slug']] ) }}"
+                                                                class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
+                                                                <i class="fas fa-ticket ml-2"></i>
+                                                                <span>خرید بلیت</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
-
                                         </div>
                                     </div>
-
                                 </div>
                             @endforeach
                         </div>
+                    @else
+                        <div class="w-full flex justify-center items-center mt-8">
+                            <div class="flex flex-col ">
+                                <div class="flex justify-center mb-4">
+                                    <img src="{{ url('images/session.svg') }}" alt="سینما تیکت">
+                                </div>
+                                <div>
+                                    <a href="{{ route('movie.all') }}"
+                                        class="py-3 px-4 text-white bg-red-500 rounded-lg">
+                                        <i class="fa-solid fa-clapperboard ml-3"></i>
+                                        <span>فیلم های دیگر</span>
+                                    </a>
+                                    <button id="city-btn-modal" data-modal-target="defaultModal"
+                                        data-modal-toggle="defaultModal"
+                                        class="mr-3 py-3 px-4 text-red-500 bg-white border-[1px] border-red-500 hover:bg-red-50 rounded-lg">
+                                        <i class="fa-solid fa-location-dot ml-3"></i>
+                                        <span>تغییر شهر (مشهد)</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     @endif
-
                 </div>
 
                 <div class="more-info-movie ">

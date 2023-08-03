@@ -32,7 +32,7 @@ Route::post('/cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sor
 Route::post('/cinema/score', [CinemaController::class, 'Score'])->middleware('auth')->name('cinema.score');
 
 Route::get('/movie/more', [MovieController::class, 'GetAll'])->name('movie.all');
-Route::get('/movie/{slug}', [MovieController::class, 'ShowMovie'])->name('movie.show');
+Route::get('/movie/{movie}', [MovieController::class, 'ShowMovie'])->name('movie.show');
 Route::post('/movie/score', [MovieController::class, 'Score'])->middleware('auth')->name('movie.score');
 
 Route::get('/actor/{character}', [CharacterController::class, 'show'])->name('actor.show');

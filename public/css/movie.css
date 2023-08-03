@@ -4,12 +4,3 @@
     white-space: nowrap;
     max-width: 45ch;
 }
-
-.bg-glass-dark {
-    background: rgba(52, 52, 52, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-}

@@ -203,15 +203,7 @@
                                 `;
                             });
 
-                            
-                            let score = cinema.scores[0] ? parseFloat(cinema.scores[0].val) : 0;
-
-                            if (Math.floor(score) === score) {
-                                score = score.toString();
-                            }
-                            else{
-                                score = score.toFixed(1)
-                            }
+                            let score = cinema.score;
                             let is_top = score > 4.0 ? 'text-green-400' : '';
                             score = convertDigitsToFarsi(`${score}/5`);
                             let element = `
