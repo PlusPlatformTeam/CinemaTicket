@@ -284,7 +284,7 @@
                             @endforeach
                         </div>
                     @else
-                        <div class="w-full flex justify-center items-center mt-8">
+                        <div class="w-full flex justify-center items-center py-12">
                             <div class="flex flex-col ">
                                 <div class="flex justify-center mb-4">
                                     <img src="{{ url('images/session.svg') }}" alt="سینما تیکت">
