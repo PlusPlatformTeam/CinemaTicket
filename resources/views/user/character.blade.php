@@ -58,7 +58,7 @@
                 <div class="w-full sm:mb-16 py-5">
                     <div class="flex flex-wrap w-full z-10  rounded-2xl">
                         @foreach ($actorMovies as $movie)
-                            <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
+                            <a href="{{ route('movie.show', ['movie' => $movie['slug']]) }}"
                                 class="2xl:w-1/5 xl:w-1/5 lg:w-1/4 md:w-1/4 sm:w-1/3 w-1/3 relative released-div mt-4 px-3">
                                 <div class="flex justify-center">
                                     <img class="object-cover transition delay-500 hover:blur-sm w-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content released-img"

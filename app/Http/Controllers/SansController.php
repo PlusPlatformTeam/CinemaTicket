@@ -14,6 +14,7 @@ class SansController extends Controller
         $maxCol       = floor($sans->hall[0]->capacity / $maxRow);
         $seatReminder = $sans->hall[0]->capacity - $maxCol * $maxRow;
         
+        // dd($seatReminder, $maxCol, $maxRow);
         return view('user.sans', [
             'sans'  => $sans,
             'time'  => [

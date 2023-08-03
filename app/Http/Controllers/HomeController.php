@@ -23,8 +23,8 @@ class HomeController extends Controller
     {
         if (is_null($request->value))
         {
-            $topMovies  = Movie::take(3)->select('slug', 'title', 'main_banner')->get();
-            $topCinemas = Cinema::take(3)->select('id', 'title', 'poster')->get();
+            $topMovies  = Movie::orderByDesc('score')->take(3)->select('slug', 'title', 'main_banner')->get();
+            $topCinemas = Cinema::orderByDesc('score')->take(3)->select('id', 'title', 'poster')->get();
 
             return response([
                 'topMovies'  => $topMovies,

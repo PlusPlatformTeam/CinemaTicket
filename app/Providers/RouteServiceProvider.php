@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Movie;
+use App\Models\Sans;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -25,6 +27,13 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRateLimiting();
+
+        Route::bind('movie', function ($value) {
+            return Movie::where('slug', $value)->firstOrFail();
+        });
+        Route::bind('sans', function ($value) {
+            return Sans::where('slug', $value)->firstOrFail();
+        });
 
         $this->routes(function () {
             Route::middleware('api')

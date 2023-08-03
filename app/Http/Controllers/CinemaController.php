@@ -86,23 +86,14 @@ class CinemaController extends Controller
         if ($request->sortValue === 'all') 
         {
             return response([
-                'cinemas' => Cinema::with(['scores' => function ($query) 
-                {
-                    $query->select('scorable_id', DB::raw('AVG(score) as val'))
-                        ->groupBy('scorable_id');
-                }, 'options'])->get()
+                'cinemas' => Cinema::with(['options'])->get()
             ], 200);
         } 
         elseif ($request->sortValue === 'top') 
         {
             return response([
-                'cinemas' => Cinema::with(['scores' => function ($query) 
-                {
-                    $query->select('scorable_id', DB::raw('AVG(score) as val'))
-                        ->groupBy('scorable_id')
-                        ->orderByRaw('AVG(score) DESC');
-                }, 'options'])
-                    ->get()
+                'cinemas' => Cinema::with(['options'])
+                    ->orderByDesc('score')->get()
             ], 200);
         } 
         else 
@@ -132,7 +123,10 @@ class CinemaController extends Controller
             ]
         );
 
-        if (!$score) {
+        $cinema->score = $cinema->averageScore();
+        $cinema->save();
+
+        if ($score) {
             return response(['message' => 'امتیاز شما با موفقیت ثبت شد', 'totalScore' => convertDigitsToFarsi('5 / ' . $cinema->score)], 200);
         }
         return response(['message' => 'خطا رخ  داده است لطفا بعدا تلاش کنید'], 500);

@@ -1,6 +1,6 @@
 @php
-    $cnt       = 0;
-    $movies    = collect($movies);
+    $cnt = 0;
+    $movies = collect($movies);
     $topMovies = $movies->sortByDesc('score')->take(5);
 @endphp
 
@@ -27,13 +27,14 @@
             <div class="w-full sm:mb-16">
                 <div class="flex flex-wrap w-full z-10 my-2 rounded-2xl">
                     @foreach ($movies as $movie)
-                        <a href="{{ route('movie.show', ['slug' => $movie['slug']]) }}"
+                        <a href="{{ route('movie.show', ['movie' => $movie['slug']]) }}"
                             class="2xl:w-1/6 xl:w-1/5 lg:w-1/4 md:w-1/4 sm:w-1/3 w-1/3 relative released-div mt-4 px-3">
                             <div class="flex justify-center">
                                 <img class="object-cover transition delay-500 hover:blur-sm w-full max-w-xs rounded-lg drop-shadow-2xl shadow-lg inline-block content released-img"
                                     src="{{ url($movie['main_banner']) }}" title="{{ $movie['title'] }}"
                                     alt="{{ $movie['title'] }}">
-                                <div class="absolute bottom-14 z-20 justify-center sm:text-xs text-center released-score-view">
+                                <div
+                                    class="absolute bottom-14 z-20 justify-center sm:text-xs text-center released-score-view">
                                     <div>
                                         <span
                                             class="text-right bg-gray-700 text-white text-xs font-medium px-1.5 pt-1 pb-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -46,10 +47,9 @@
                                             <span>{{ convertDigitsToFarsi(rand(50, 999)) }}</span>
                                         </span>
                                         <h5 class="text-white content text-center mt-4 ">
-                                            کارگردان : 
-                                            <span
-                                                class="font-thin">{{ $movie['director'] }}</span>
-                                            </h5>
+                                            کارگردان :
+                                            <span class="font-thin">{{ $movie['director'] }}</span>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
