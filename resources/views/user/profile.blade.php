@@ -139,18 +139,15 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(response) {
-                // Handle the response from the server
+              
                 if (response.avatar_url) {
-                    // Update the image src with the saved avatar URL
                     previewImage.attr('src', response.avatar_url);
-
-                    // Hide the shadow overlay and camera icon
                     overlay.hide();
                     cameraIcon.hide();
                 }
             },
             error: function(error) {
-                console.error(error); // Handle any error that occurs during the AJAX request
+                console.error(error); 
             }
         });
     }
