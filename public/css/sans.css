@@ -16,4 +16,5 @@
 }
 body{
     background-color: #1e293b;
+    overflow-y: hidden;
 }

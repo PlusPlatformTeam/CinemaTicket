@@ -64,6 +64,7 @@ class CinemaController extends Controller
             ['scorable_type', 'App\Models\Cinema']
         ])->first();
 
+
         return view('user.cinema', [
             'cinema'        => $cinema,
             'topMovies'     => Movie::orderByDesc('sale')->take(5)->get(),

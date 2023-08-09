@@ -74,4 +74,8 @@ Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets')
 
 Route::get('/ticket/choose-seat/{sans}', [SansController::class, 'Show'])->name('sans.show');
 
+Route::post('/ticket/preFactor', [SansController::class, 'preFactor'])->name('sans.preFactor');
+
+Route::post('/ticket/buy', [SansController::class, 'buy'])->name('sans.buy');
+
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
