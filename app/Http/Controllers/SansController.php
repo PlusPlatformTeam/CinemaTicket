@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movie;
 use App\Models\Sans;
 use App\Models\Seat;
 use Illuminate\Support\Facades\Auth;
@@ -57,42 +58,51 @@ class SansController extends Controller
 
 
     public function buy(Request $request)
-    {
+{
+    try {
+        $currentUser   = Auth::user()->id;
+        $selectedItems = json_decode($request->input('selected_items'), true);
+        $sansId        = $request->input('sansId');
+        $sans          = Sans::where('id', $sansId)->first();
 
-        try {
-            $currentUser = Auth::user()->id;
-            $selectedItems = $request->input('selectedItems');
-            $sansId = $request->input('sansId');
-
-            foreach ($selectedItems as $item) {
-                 Seat::create([
-                    'row' => $item['row'],
-                    'col' => $item['col'],  
-                    'user_id' => $currentUser,
-                    'sans_id' =>$sansId,
-                              ]);
-            }
-            
-            return response()->json(['message' => 'Request processed successfully'], 200);
-        } catch (\Exception $e) {
-            // Log or handle the exception
-            Log::error($e->getMessage());
-            return response()->json(['error' => $e], 500);
+        foreach ($selectedItems as $item) {
+            Seat::create([
+                'row' => $item['row'],
+                'col' => $item['col'],  
+                'user_id' => $currentUser,
+                'sans_id' => $sansId,
+            ]);
         }
+
+        return redirect()->route('movie.show', ['movie' => $sans->movie[0]->slug]);
+    } catch (\Exception $e) {
+        Log::error($e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
 
     public function preFactor(Request $request)
     {
-
-        $currentUser = Auth::user()->id;
-        $selectedItems = $request->input('selectedItems');
-        $sansSlug = $request->input('sansSlug');
-
-
-        dd( $selectedItems,$sansSlug);
-
+        $seatsDetail = json_decode($request->input('selected_items'));
+        $sansSlug    = $request->input('sansSlug');
+        $sans        = Sans::where('slug', $sansSlug)->first();
+        $date = new \DateTime($sans->started_at);
+        $jdate = new \jDateTime(true, true, 'Asia/Tehran');
+        $countSelectedSeat=count($seatsDetail);
+        $totalPriceCount=$countSelectedSeat*$sans->price;
+        $taksPrice = 0.04 * $totalPriceCount;
+        $totalPrice=$totalPriceCount+$taksPrice;
 
         return view('user.preFactor', [
+        'seatsDetail'=>$seatsDetail,
+        'sans'=>$sans,
+        'totalPriceCount'=>$totalPriceCount,
+        'taksPrice'=>$taksPrice,
+        'totalPrice'=>$totalPrice,
+        'time' => [
+            'date' => $jdate->date('l j F', false, true, true, 'Asia/Tehran'),
+            'clock' => $date->format('H:i')
+        ],
 
         ]);
 

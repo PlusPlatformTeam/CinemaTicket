@@ -223,10 +223,18 @@
                 <div class="flex justify-center text-white items-center pl-3 w-3/12">
                     <div id="price-container" class="text-end text-sm">
                         <p id="total-price" class="text-start font-bold">هنوز بلیتی را انتخاب نکرده اید!</p>
-                        <button id="submit-button" type="button"
-                            class="text-center py-2 px-4 bg-gray-400 rounded-lg mt-3"> ثبت صندلی و
-                            نمایش
-                            جزییات </button>
+                        <form method="POST" action="{{ route('sans.preFactor') }}">
+                            @csrf
+                            <input type="hidden" name="selected_items" id="selected-items-input">
+                            <input type="hidden" name="sansSlug" value="{{ $sans['slug'] }}">
+
+                            <button id="submit-button" type="submit "
+                                class="text-center py-2 px-4 bg-gray-400 rounded-lg mt-3" disabled> ثبت صندلی و
+                                نمایش
+                                جزییات
+                            </button>
+                        </form>
+
                     </div>
                 </div>
             </main>
@@ -238,6 +246,7 @@
         $(document).ready(function() {
             var selectedItems = [];
             var sansId = {{ $sans['id'] }};
+            var submitButton = $('#submit-button');
 
             $('span.cursor-pointer').click(function() {
                 $(this).toggleClass('bg-red-500 border-2 border-gray-300');
@@ -260,11 +269,20 @@
                     removeSelectedDiv(item);
                 }
 
+                $('#selected-items-input').val(JSON.stringify(selectedItems));
                 console.log('Selected Items:', selectedItems);
                 var totalPrice = calculateTotalPrice(selectedItems);
                 var totalPriceElement = $('#total-price');
                 totalPriceElement.text(totalPrice + '  ' + 'تومان ');
+
+
+                if (selectedItems.length > 0) {
+                    submitButton.removeAttr('disabled'); 
+                }
+
             });
+
+            
 
 
             function calculateTotalPrice(selectedItems) {
@@ -299,7 +317,7 @@
                     '</div>' +
                     '<h1 class="text-gray-50 text-xs justify-start text-start mt-2 mr-2">' +
                     '<i class="fa-solid fa-ticket ml-1"></i>' +
-                    '{{ convertDigitsToFarsi(number_format(4500)) }} تومان' +
+                    '{{ convertDigitsToFarsi($sans['price']) }} تومان' +
                     '</h1>' +
                     '</div>';
 
@@ -307,32 +325,6 @@
 
             }
 
-
-
-
-            // $('#submit-button').click(function() {
-
-            //     $.ajaxSetup({
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         }
-            //     });
-
-            //     $.ajax({
-            //         url: '{{ route('sans.preFactor') }}',
-            //         method: 'POST',
-            //         data: {
-            //             selectedItems: selectedItems,
-            //             sansSlug: {{ $sans['slug'] }}
-            //         },
-            //         success: function(response) {
-            //             console.log('AJAX request succeeded:', response);
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.log('AJAX request failed:', error);
-            //         }
-            //     });
-            // });
 
         });
     </script>
