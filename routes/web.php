@@ -27,7 +27,7 @@ use Illuminate\Http\Request;
 Route::get('/', [HomeController::class, 'Index'])->name('home');
 
 // Cinemas
-Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
+Route::get('/cinema', [CinemaController::class, 'Index'])->middleware('web')->name('cinema.index');
 Route::get('/cinema/detail/{cinema}', [CinemaController::class, 'ShowCinema'])->name('cinema.show');
 Route::post('/cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort');
 Route::post('/cinema/score', [CinemaController::class, 'Score'])->middleware('auth')->name('cinema.score');

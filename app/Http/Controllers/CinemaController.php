@@ -16,9 +16,22 @@ use Illuminate\Support\Facades\DB;
 
 class CinemaController extends Controller
 {
-    public function Index()
+    public function index(Request $request)
     {
-        $cinemas = Cinema::with('options')->get();
+        $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId'] : null;
+    
+        if ($selectedCityId !== null) {
+            $cinemas = Cinema::with('options')
+                ->where('city_id', $selectedCityId)
+                ->get();
+    
+            if ($cinemas->isEmpty()) {
+                $cinemas = Cinema::with('options')->get();
+            }
+        } else {
+            $cinemas = Cinema::with('options')->get();
+        }
+    
         return view('user.cinemas', [
             'cinemas'    => $cinemas,
             'topMovies'  => Movie::orderByDesc('sale')->take(5)->get(),

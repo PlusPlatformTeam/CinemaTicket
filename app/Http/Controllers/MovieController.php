@@ -27,6 +27,9 @@ class MovieController extends Controller
     }
     public function ShowMovie(Movie $movie)
     {
+
+        $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId'] : null;
+
         $date = new \jDateTime(true, true, 'Asia/Tehran');
 
         $dateString = $movie['created_at'];
@@ -39,12 +42,29 @@ class MovieController extends Controller
         $start      = new \DateTime('now', $timezone);
         $start      = $start->format('Y-m-d H:i:s');
         $end        = date('Y-m-d') . ' 23:59:59';
-        $sans       = Sans::with(['cinema', 'hall'])
-            ->where('movie_id', $movie->id)
-            ->whereBetween('started_at', [$start, $end])
-            ->select('sans.*')
-            ->get()->toArray();
+        $allSans = Sans::with(['cinema', 'hall'])
+                ->where('movie_id', $movie->id)
+                ->whereBetween('started_at', [$start, $end])
+                ->select('sans.*')
+                ->get()
+                ->toArray();
 
+        if ($selectedCityId !== null) {
+            $sans = Sans::with(['cinema', 'hall'])
+                ->where('movie_id', $movie->id)
+                ->whereBetween('started_at', [$start, $end])
+                ->where('city_id', $selectedCityId)
+                ->select('sans.*')
+                ->get()
+                ->toArray();
+        
+            if (collect($sans)->isEmpty()) {
+                $sans = $allSans;
+            }
+        } else {
+            $sans = $allSans;
+        }
+       
         $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id') //TODO Replace with relations
         ->where('comments.movie_id', $movie->id)
         ->where('comments.state', Comment::ACCEPT) 
