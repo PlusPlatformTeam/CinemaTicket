@@ -9,6 +9,12 @@ class Seat extends Model
 {
     use HasFactory;
     protected $table = 'seats';
+    protected $fillable = [
+        'row',
+        'col',
+        'sans_id',
+        'user_id',
+    ];
 
     public function sans()
     {

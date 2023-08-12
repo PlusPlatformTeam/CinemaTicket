@@ -9,6 +9,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="cinematicket, سینما تیکت, بلیط سینما, رزرو بلیط سینما, سینما و تیاتر" name="keywords">
     <meta content="سینما تیکت بزرگترین مرج رزرو و خرید بلیط سینما سراسر کشور" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ asset('images/logo.png') }}" rel="icon">
 

@@ -87,8 +87,6 @@ Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
 
 Route::post('/addComment', [CommentController::class, 'addComment'])->name('comment.add');
 
-
-
 Route::get('/transaction', [UserController::class, 'transaction'])->name('user.transaction');
 
 Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
@@ -119,3 +117,7 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin1/manage'], function($
     $router->get('/tickets', [AdminController::class, 'Tickets'])->name('admin.manage.tickets');
 
 });
+Route::post('/ticket/preFactor', [SansController::class, 'preFactor'])->name('sans.preFactor');
+
+Route::post('/ticket/buy', [SansController::class, 'buy'])->name('sans.buy');
+
