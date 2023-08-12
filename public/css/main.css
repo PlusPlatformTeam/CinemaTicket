@@ -3,7 +3,8 @@
     src: url('/fonts/iran.ttf') format('truetype');
 }
 
-html, *{
+html,
+* {
     scroll-behavior: smooth;
     box-sizing: border-box;
 }
@@ -12,12 +13,13 @@ body {
     font-family: 'IranSans', sans-serif;
     overflow-x: hidden;
 }
+
 .blur-container {
     position: relative;
     overflow: hidden;
 }
 
-.blur-container > * {
+.blur-container>* {
     position: relative;
     z-index: 2;
 }
@@ -35,7 +37,7 @@ body {
     background-image: linear-gradient(to left, #000, #6b6666);
 }
 
-.blur-overlay-light{
+.blur-overlay-light {
     position: absolute;
     top: 0;
     left: 0;
@@ -54,4 +56,17 @@ body {
     -webkit-backdrop-filter: blur(15px);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@media screen and (max-width: 992px) {
+    .movie-description {
+        width: 30ch;
+    }
+}
+
+.movie-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 45ch;
 }

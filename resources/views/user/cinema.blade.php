@@ -238,6 +238,10 @@
                     @endif
                 </div>
                 <div class="hidden lg:block md:block lg:basis-3/12 md:basis-3/12 mx-3">
+                    @php
+                        if (!is_array($cinema->location)) // TODO fix 
+                            $cinema->location = json_decode($cinema->location, true)
+                    @endphp
                     <div class="w-96 mb-6">
                         <iframe class="w-full rounded-lg border-8 border-gray-50" height="270" loading="lazy"
                             allowfullscreen

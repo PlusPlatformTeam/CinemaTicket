@@ -9,10 +9,9 @@ class Movie extends Model
 {
     use HasFactory;
     protected $table = 'movies';
+    protected $guarded = [];
     const PLAYING = 'Playing';
     const EXPIRED = 'Expired';
-
-    protected $fillable = ['score'];
     const STATES = [self::PLAYING, self::EXPIRED];
 
     public function getScoreAttribute()
