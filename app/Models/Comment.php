@@ -24,12 +24,12 @@ class Comment extends Model
 
     public function movie()
     {
-        return $this->belongsTo(Movie::class,'movies');
+        return $this->belongsTo(Movie::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class,'users');
+        return $this->belongsTo(User::class);
     }
 
 

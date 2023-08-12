@@ -9,7 +9,7 @@ class Cinema extends Model
 {
     use HasFactory;
     protected $table = 'cinemas';
-    protected $fillable = ['score'];
+    protected $guarded = [];
     protected $casts = [
         'location' => 'array',
     ];
@@ -45,5 +45,10 @@ class Cinema extends Model
     public function averageScore()
     {
         return $this->scores()->average('score');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

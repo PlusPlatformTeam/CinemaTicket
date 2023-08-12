@@ -44,13 +44,6 @@
     z-index: 2;
 }
 
-.movie-description {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 45ch;
-}
-
 .mobile-swiper-container{
     display: flex;
     align-items: center;
@@ -93,10 +86,3 @@
 .released-img:hover + .released-div > .released-director {
   opacity: 1 !important;
 }
-
-
-@media screen and (max-width: 992px) {
-    .movie-description{
-        width: 30ch;
-    }
-  }

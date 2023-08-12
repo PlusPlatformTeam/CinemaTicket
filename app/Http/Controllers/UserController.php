@@ -59,11 +59,12 @@ class UserController extends Controller
     
             $user->verified_code = null;
             $user->save();
-    
-            return redirect()->intended('/');
-        } else {
-            return redirect()->back()->withErrors(['Invalid credentials']);
-        }
+            $redirect = $user->type === User::ADMIN_TYPE ? 'admin.dashboard' : 'home';
+            
+            return redirect()->route($redirect);
+        } 
+
+        return redirect()->back()->withErrors(['Invalid credentials']);
 
     }
     
@@ -89,7 +90,7 @@ class UserController extends Controller
               Log::info($randomCode);
 
               return redirect('/verification_code')->with('success', 'code sent')->with('parent_send', 'user.register.verify.code');
-            }
+    }
 
     public function registerVerification(Request $request)
     {
@@ -116,10 +117,11 @@ class UserController extends Controller
             $user->verified_at = Carbon::now();
             $user->save();
     
-            return redirect()->intended('/');
-        } else {
-            return redirect()->back()->withErrors(['Invalid credentials']);
+            $redirect = $user->type === User::ADMIN_TYPE ? 'admin.dashboard' : 'home';
+            
+            return redirect()->route($redirect);
         }
+            return redirect()->back()->withErrors(['Invalid credentials']);
     }
 
     public function resendCode(Request $request)

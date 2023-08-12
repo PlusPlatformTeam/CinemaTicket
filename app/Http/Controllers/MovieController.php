@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Movie;
 use App\Models\Cinema;
 use App\Models\Comment;
@@ -10,7 +11,9 @@ use App\Models\Score;
 use App\Rules\MovieExists;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class MovieController extends Controller
 {
@@ -115,5 +118,85 @@ class MovieController extends Controller
         }
         return response(['message' => 'خطا رخ  داده است لطفا بعدا تلاش کنید'], 500);
 
+    }
+
+    public function ManageMovies()
+    {
+        return view('admin.manage_movies', [
+            'movies' => Movie::paginate(2),
+            'categories' => Category::all(),
+
+        ]);
+    }
+
+    public function Delete(Request $request)
+    {
+        $request->validate([
+            'movie' => 'required|exists:movies,id',
+        ]);
+
+        $movieId = $request->movie;
+
+        $movie = Movie::find($movieId);
+
+        if ($movie) {
+            $movie->delete();
+
+            return response()->json([
+                'message' => 'فیلم با موفقیت پاک شد',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'فیلم یافت نشد',
+            ], 404);
+        }
+    }
+
+    public function Create(Request $request)
+    {
+        try{
+            $request->validate([
+                'title'       => 'required|string',
+                'category'    => 'required|exists:categories,id',
+                'duration'    => 'required|min:30|max:180|numeric',
+                'info'        => 'required|string',
+                'director'    => 'required|string',
+                'poster'      => 'required|file',
+                'banner'      => 'required|file',
+            ]);
+            
+            $poster = $request->file('poster');
+            $banner = $request->file('banner');
+    
+            $poster_name = getRandomFileName().'poster.'.$poster->getClientOriginalExtension();
+            $banner_name = getRandomFileName().'banner.'.$banner->getClientOriginalExtension();
+    
+            $slug = Str::random(8);
+            $directory = public_path("movies/{$slug}");
+    
+            if (!File::exists($directory)) {
+                File::makeDirectory($directory, 0777, true);
+            }
+    
+            $poster_path = $poster->move($directory, $poster_name);
+            $banner_path = $banner->move($directory, $banner_name);
+    
+            $movie = Movie::create([
+                'title'       => $request->title,
+                'slug'        => $slug,
+                'category_id' => $request->category,
+                'director'    => $request->director,
+                'info'        => $request->info,
+                'duration'    => $request->duration,
+                'main_banner' => "movies/{$slug}/{$banner_name}",
+                'second_banner'=> "movies/{$slug}/{$poster_name}"
+            ]);
+    
+            return redirect()->back()->with('success', "فیلم {$movie->title} با موفقیت ایجاد شد");
+        }
+        catch(Exception $ex)
+        {
+            dd($ex);
+        }
     }
 }

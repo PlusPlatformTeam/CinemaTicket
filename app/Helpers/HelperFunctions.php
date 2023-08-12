@@ -11,3 +11,8 @@ function convertDigitsToFarsi($number): array|string
 
     return str_replace($englishDigits, $persianDigits, $number);
 }
+
+function getRandomFileName() : string 
+{
+    return md5(hash('sha256', md5(uniqid().time())));    
+}

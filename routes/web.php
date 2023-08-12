@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CharacterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -9,9 +11,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SansController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
-
-
-
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,17 +26,38 @@ use App\Http\Controllers\CommentController;
 
 Route::get('/', [HomeController::class, 'Index'])->name('home');
 
+// Cinemas
 Route::get('/cinema', [CinemaController::class, 'Index'])->name('cinema.index');
 Route::get('/cinema/detail/{cinema}', [CinemaController::class, 'ShowCinema'])->name('cinema.show');
 Route::post('/cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort');
 Route::post('/cinema/score', [CinemaController::class, 'Score'])->middleware('auth')->name('cinema.score');
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/cinema'], function($router){
+    $router->get('/', [CinemaController::class, 'ManageCinemas'])->name('admin.manage.cinemas.show');
+    $router->post('/', [CinemaController::class, 'Create'])->name('admin.manage.cinemas.create');
+    $router->put('/', [CinemaController::class, 'Update'])->name('admin.manage.cinemas.update');
+    $router->delete('/', [CinemaController::class, 'Delete'])->name('admin.manage.cinemas.delete');
+});
 
+// Movies
 Route::get('/movie/more', [MovieController::class, 'GetAll'])->name('movie.all');
 Route::get('/movie/{movie}', [MovieController::class, 'ShowMovie'])->name('movie.show');
 Route::post('/movie/score', [MovieController::class, 'Score'])->middleware('auth')->name('movie.score');
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/movie'], function($router){
+    $router->get('/', [MovieController::class, 'ManageMovies'])->name('admin.manage.movies.show');
+    $router->post('/', [MovieController::class, 'Create'])->name('admin.manage.movies.create');
+    $router->put('/', [MovieController::class, 'Update'])->name('admin.manage.movies.update');
+    $router->delete('/', [MovieController::class, 'Delete'])->name('admin.manage.movies.delete');
+});
+
+// Categories
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/category'], function($router){
+    $router->get('/', [CategoryController::class, 'Show'])->name('admin.manage.categories');
+    $router->post('/', [CategoryController::class, 'Create'])->name('admin.manage.category.create');
+    $router->put('/', [CategoryController::class, 'Update'])->name('admin.manage.category.update');
+    $router->delete('/', [CategoryController::class, 'Delete'])->name('admin.manage.category.delete');
+});
 
 Route::get('/actor/{character}', [CharacterController::class, 'show'])->name('actor.show');
-
 
 Route::get('/login', [UserController::class, 'login'])->name('user.login');
 
@@ -74,4 +95,27 @@ Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets')
 
 Route::get('/ticket/choose-seat/{sans}', [SansController::class, 'Show'])->name('sans.show');
 
+// City
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/cities'], function($router){
+    $router->get('/', [CityController::class, 'Show'])->name('admin.manage.cities');
+    $router->post('/', [CityController::class, 'Create'])->name('admin.manage.city.create');
+    $router->put('/', [CityController::class, 'Update'])->name('admin.manage.city.update');
+    $router->delete('/', [CityController::class, 'Delete'])->name('admin.manage.city.delete');
+});
+
+Route::group(['middleware' => 'admin', 'prefix' => '/admin1'], function($router){
+    $router->get('/', [AdminController::class, 'Index'])->name('admin.dashboard');
+});
+Route::group(['middleware' => 'admin', 'prefix' => '/admin1/manage'], function($router){
+    $router->get('/users', [AdminController::class, 'Users'])->name('admin.manage.users');
+    $router->get('/characters', [AdminController::class, 'Characters'])->name('admin.manage.characters');
+    $router->get('/provinces', [AdminController::class, 'Provinces'])->name('admin.manage.provinces');
+    $router->get('/comments', [AdminController::class, 'Comments'])->name('admin.manage.comments');
+    $router->get('/factors', [AdminController::class, 'Factors'])->name('admin.manage.factors');
+    $router->get('/halls', [AdminController::class, 'Halls'])->name('admin.manage.halls');
+    $router->get('/options', [AdminController::class, 'Options'])->name('admin.manage.options');
+    $router->get('/sans', [AdminController::class, 'Sans'])->name('admin.manage.sans');
+    $router->get('/tickets', [AdminController::class, 'Tickets'])->name('admin.manage.tickets');
+
+});
