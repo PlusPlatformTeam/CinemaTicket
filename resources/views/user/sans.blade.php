@@ -69,17 +69,17 @@
                 </div>
             </div>
         </nav>
-        <div class="scroll-dark h-96 bg-gray-700 px-3 pt-20 overflow-y-auto">
-            <div class="w-full flex justify-center">
+        <div class="scroll-dark h-[600px] bg-gray-700 px-3 pt-20 overflow-y-auto overflow-x-auto">
+            <div class="w-full flex justify-center text-center">
                 <div
-                    class="p-1 pt-1.5 rounded-lg text-gray-300 xl:w-2/5 lg:w-3/5 md:w-5/6 w-full border-2 boeder-gray-300 text-center">
-                    <span>صحنه اجرا</span>
+                    class="p-1 pt-1.5 rounded-lg text-gray-300 w-8/12 border-2 boeder-gray-300 text-center overflow-x-auto">
+                    <span class="inline-block min-w-full whitespace-nowrap">صحنه اجرا</span>
                 </div>
             </div>
-            <div class="w-full flex justify-center">
-                <div class="mb-6 mt-6 p-1 pt-1.5 xl:w-2/5 lg:w-3/5 md:w-5/6 w-full">
+            <div class=" flex justify-center overflow-x-auto">
+                <div class="mb-6 mt-6 p-1 pt-1.5  overflow-x-auto">
                     @for ($i = 1; $i <= $seats['maxRow']; $i++)
-                        <div class="flex flex-wrap flex-row-reverse justify-center">
+                        <div class="flex flex-row-reverse justify-center">
                             @php
                                 if ($rowReserved) {
                                     $reservedSeatsForRow = [];
@@ -193,7 +193,7 @@
                     </div>
                 </div>
                 <div class="font-bold">
-                    <span>ظرفیت سالن: {{ $sans->hall[0]['capacity'] }}</span>
+                    <span>ظرفیت سالن: {{ convertDigitsToFarsi($sans->hall[0]['capacity']) }}</span>
                 </div>
             </header>
             <main class="h-full w-full bg-gray-700 flex justify-between text-white py-6 px-1">
@@ -277,12 +277,12 @@
 
 
                 if (selectedItems.length > 0) {
-                    submitButton.removeAttr('disabled'); 
+                    submitButton.removeAttr('disabled');
                 }
 
             });
 
-            
+
 
 
             function calculateTotalPrice(selectedItems) {
