@@ -20,7 +20,7 @@ class SansController extends Controller
         $currentUser = Auth::user()->id;
         $date = new \DateTime($sans->started_at);
         $jdate = new \jDateTime(true, true, 'Asia/Tehran');
-        $maxRow = 8; 
+        $maxRow = 10; 
         $maxCol = floor($sans->hall[0]->capacity / $maxRow);
         $seatReminder = $sans->hall[0]->capacity - $maxCol * $maxRow;
         $seats = Seat::where('sans_id', $sans->id)->get();
