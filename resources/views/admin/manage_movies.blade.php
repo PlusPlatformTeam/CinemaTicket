@@ -367,6 +367,10 @@
                         text: data.message,
                         icon: 'success',
                         confirmButtonText: 'بستن'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
                     });
                 },
                 error: (xhr, status, err) => {

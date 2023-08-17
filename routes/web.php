@@ -34,7 +34,7 @@ Route::post('/cinema/score', [CinemaController::class, 'Score'])->middleware('au
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/cinema'], function($router){
     $router->get('/', [CinemaController::class, 'ManageCinemas'])->name('admin.manage.cinemas.show');
     $router->post('/', [CinemaController::class, 'Create'])->name('admin.manage.cinemas.create');
-    $router->put('/', [CinemaController::class, 'Update'])->name('admin.manage.cinemas.update');
+    $router->post('/update', [CinemaController::class, 'Update'])->name('admin.manage.cinemas.update');
     $router->delete('/', [CinemaController::class, 'Delete'])->name('admin.manage.cinemas.delete');
 });
 

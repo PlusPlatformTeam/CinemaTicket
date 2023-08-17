@@ -379,8 +379,9 @@
                     <!-- Modal body -->
                     <div class="p-6 space-y-6">
                         <form id="update-cinema{{ $cinema->id }}-form" enctype="multipart/form-data"
-                            action="{{ route('admin.manage.cinemas.create') }}" method="POST">
+                            action="{{ route('admin.manage.cinemas.update') }}" method="post">
                             @csrf
+                            <input type="hidden" name="cinema" value="{{ $cinema->id }}">
                             <div class="grid gap-6 mb-6 md:grid-cols-2">
                                 <div>
                                     <label for="title"
@@ -564,12 +565,6 @@
             }
             marker = L.marker(e.latlng).addTo(map);
             document.getElementById('location').value = e.latlng.lat + ',' + e.latlng.lng;
-        });
-        new SlimSelect({
-            select: '#options-select',
-            placeholder: 'امکانات را انتخاب کنید',
-            showSearch: true,
-            searchText: 'متاسفانه پیدا نشد',
         });
         new SlimSelect({
             select: '#options-select',
