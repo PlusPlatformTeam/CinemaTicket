@@ -155,8 +155,7 @@
                                 </div>
                             </div>
                         @else
-                            <a href="{{ route('user.login') }}"
-                                class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg"
+                            <a href="{{ route('user.login') }}" class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg"
                                 aria-current="page">
                                 <i class="w-5 h-5 inline-block mr-2 fa-regular fa-user"></i>
                                 <span>ورود یا ثبت نام</span>
@@ -272,7 +271,7 @@
                 </div>
                 <div class="flex items-center ml-auto">
                     <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center  absolute left-1"
+                        class="myClose text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center  absolute left-1"
                         data-modal-hide="defaultModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -349,8 +348,8 @@
 
 
     $(document).ready(() => {
-        const baseUrl    = "{{ route('home') }}";
-        const moviesUrl  = baseUrl + "/movie/";
+        const baseUrl = "{{ route('home') }}";
+        const moviesUrl = baseUrl + "/movie/";
         const cinemasUrl = baseUrl + "/cinema/detail/";
 
         $('#search-navbar').on('click', (event) => {
@@ -495,19 +494,41 @@
                     const cities = response.cities;
 
                     cities.forEach(city => {
-                        let elemnt = `
-                            <span class=" p-2 rounded-md cursor-pointer hover:text-black hover:bg-gray-100">
-                                ${city.title}
-                            </span>
-                        `;
+                        let element = `
+          <span class="city-item p-2 rounded-md cursor-pointer hover:text-black hover:bg-gray-100"
+            data-city-id="${city.id}"
+          >
+            ${city.title}
+          </span>
+        `;
 
-                        cityContainer.append(elemnt);
-                    })
+                        cityContainer.append(element);
+                    });
+
+                    $('.city-item').on('click', function() {
+                        const selectedCityId = $(this).data('city-id');
+                        document.cookie =
+                            `selectedCityId=${selectedCityId}; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/`;
+
+                        $('.myClose').click();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'شهر با موفقیت انتخاب شد',
+                            text: 'جست و جوهای شما براساس شهر انتخاب شده فیلتر میشود!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                    });
                 },
                 error: (xhr, status, err) => {
                     console.log(xhr);
                 }
-            })
+            });
         });
+
     });
 </script>

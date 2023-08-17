@@ -14,6 +14,18 @@
 .scroll-dark::-webkit-scrollbar-track{
     background-color: #1e293b;
 }
+
+@media (max-width: 1560px) {
+    .scroll-dark {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .scroll-dark > div {
+        min-width: max-content;
+    }
+}
+
 body{
     background-color: #1e293b;
     overflow-y: hidden;
