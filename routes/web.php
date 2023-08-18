@@ -45,7 +45,7 @@ Route::post('/movie/score', [MovieController::class, 'Score'])->middleware('auth
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/movie'], function($router){
     $router->get('/', [MovieController::class, 'ManageMovies'])->name('admin.manage.movies.show');
     $router->post('/', [MovieController::class, 'Create'])->name('admin.manage.movies.create');
-    $router->put('/', [MovieController::class, 'Update'])->name('admin.manage.movies.update');
+    $router->post('/update', [MovieController::class, 'Update'])->name('admin.manage.movies.update');
     $router->delete('/', [MovieController::class, 'Delete'])->name('admin.manage.movies.delete');
 });
 
@@ -57,41 +57,42 @@ Route::group(['middleware' => 'admin', 'prefix' => '/manage/category'], function
     $router->delete('/', [CategoryController::class, 'Delete'])->name('admin.manage.category.delete');
 });
 
-Route::get('/actor/{character}', [CharacterController::class, 'show'])->name('actor.show');
-
-Route::get('/login', [UserController::class, 'login'])->name('user.login');
-
-Route::get('/register', [UserController::class, 'register'])->name('user.register');
-
-Route::get('/verification_code', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
+// Actors
+Route::get('/actor/{character}', [CharacterController::class, 'Index'])->name('actor.show');
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/actors'], function($router){
+    $router->get('/', [CharacterController::class, 'Show'])->name('admin.manage.characters');
+    $router->post('/', [CharacterController::class, 'Create'])->name('admin.manage.character.create');
+    $router->post('/update', [CharacterController::class, 'profileUpdate'])->name('admin.manage.character.update');
+    $router->delete('/', [CharacterController::class, 'Delete'])->name('admin.manage.character.delete');
+});
 
 Route::post('/search', [HomeController::class, 'Search'])->name('search');
 
+// Users
+Route::get('/login', [UserController::class, 'login'])->name('user.login');
+Route::get('/register', [UserController::class, 'register'])->name('user.register');
+Route::get('/verification_code', [UserController::class, 'RegisterVerification'])->name('user.register_verification');
 Route::post('/login', [UserController::class, 'authenticate'])->name('user.authenticate');
-
 Route::post('/register', [UserController::class, 'store'])->name('user.store.step-one');
-
 Route::post('/verification_code/register', [UserController::class, 'verifyCode'])->name('user.register.verify.code');
-
 Route::post('/verification_code/login', [UserController::class, 'loginVerifyCode'])->name('user.login.verify.code');
-
 Route::post('/resend-code', [UserController::class, 'resendCode'])->name('user.resend.code');
-
 Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
-
 Route::post('/profile', [UserController::class, 'profileUpdate'])->name('user.profile.update');
-
 Route::post('/profile/avatar', [UserController::class, 'profileUpdateAvatar'])->name('user.profile.update.avatar');
-
 Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
-
-Route::post('/addComment', [CommentController::class, 'addComment'])->name('comment.add');
-
 Route::get('/transaction', [UserController::class, 'transaction'])->name('user.transaction');
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/user'], function($router){
+    $router->get('/', [UserController::class, 'Show'])->name('admin.manage.users');
+    $router->post('/', [UserController::class, 'Create'])->name('admin.manage.user.create');
+    $router->post('/update', [UserController::class, 'profileUpdate'])->name('admin.manage.user.update');
+    $router->delete('/', [UserController::class, 'Delete'])->name('admin.manage.user.delete');
+});
 
 Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
-
 Route::get('/ticket/choose-seat/{sans}', [SansController::class, 'Show'])->name('sans.show');
+
+Route::post('/addComment', [CommentController::class, 'addComment'])->name('comment.add');
 
 // City
 Route::get('/city/all', [CityController::class, 'GetAll'])->name('city.all');
@@ -106,8 +107,6 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin1'], function($router)
     $router->get('/', [AdminController::class, 'Index'])->name('admin.dashboard');
 });
 Route::group(['middleware' => 'admin', 'prefix' => '/admin1/manage'], function($router){
-    $router->get('/users', [AdminController::class, 'Users'])->name('admin.manage.users');
-    $router->get('/characters', [AdminController::class, 'Characters'])->name('admin.manage.characters');
     $router->get('/provinces', [AdminController::class, 'Provinces'])->name('admin.manage.provinces');
     $router->get('/comments', [AdminController::class, 'Comments'])->name('admin.manage.comments');
     $router->get('/factors', [AdminController::class, 'Factors'])->name('admin.manage.factors');

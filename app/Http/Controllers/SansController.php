@@ -58,28 +58,28 @@ class SansController extends Controller
 
 
     public function buy(Request $request)
-{
-    try {
-        $currentUser   = Auth::user()->id;
-        $selectedItems = json_decode($request->input('selected_items'), true);
-        $sansId        = $request->input('sansId');
-        $sans          = Sans::where('id', $sansId)->first();
+    {
+        try {
+            $currentUser   = Auth::user()->id;
+            $selectedItems = json_decode($request->input('selected_items'), true);
+            $sansId        = $request->input('sansId');
+            $sans          = Sans::where('id', $sansId)->first();
 
-        foreach ($selectedItems as $item) {
-            Seat::create([
-                'row' => $item['row'],
-                'col' => $item['col'],  
-                'user_id' => $currentUser,
-                'sans_id' => $sansId,
-            ]);
+            foreach ($selectedItems as $item) {
+                Seat::create([
+                    'row' => $item['row'],
+                    'col' => $item['col'],  
+                    'user_id' => $currentUser,
+                    'sans_id' => $sansId,
+                ]);
+            }
+
+            return redirect()->route('movie.show', ['movie' => $sans->movie[0]->slug]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return redirect()->route('movie.show', ['movie' => $sans->movie[0]->slug]);
-    } catch (\Exception $e) {
-        Log::error($e->getMessage());
-        return response()->json(['error' => $e->getMessage()], 500);
     }
-}
 
     public function preFactor(Request $request)
     {

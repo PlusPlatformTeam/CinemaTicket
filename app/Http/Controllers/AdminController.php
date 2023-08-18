@@ -26,15 +26,9 @@ class AdminController extends Controller
 
     
 
-    public function Users()
-    {
-        return view('admin.manage_users', ['users' => User::paginate(2)]);
-    }
+    
 
-    public function Characters()
-    {
-        return view('admin.manage_characters', ['characters' => Character::paginate(2)]);
-    }
+    
 
     
 

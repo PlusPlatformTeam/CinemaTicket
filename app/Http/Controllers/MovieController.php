@@ -28,7 +28,7 @@ class MovieController extends Controller
     public function ShowMovie(Movie $movie)
     {
 
-        $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId'] : null;
+        $selectedCityId = isset($_COOKIE['selectedCityId']) ?? $_COOKIE['selectedCityId'];
 
         $date = new \jDateTime(true, true, 'Asia/Tehran');
 
@@ -42,18 +42,19 @@ class MovieController extends Controller
         $start      = new \DateTime('now', $timezone);
         $start      = $start->format('Y-m-d H:i:s');
         $end        = date('Y-m-d') . ' 23:59:59';
-        $allSans = Sans::with(['cinema', 'hall'])
+        $allSans    = Sans::with(['cinema', 'hall'])
                 ->where('movie_id', $movie->id)
                 ->whereBetween('started_at', [$start, $end])
                 ->select('sans.*')
                 ->get()
                 ->toArray();
 
-        if ($selectedCityId !== null) {
+        if ($selectedCityId) {
             $sans = Sans::with(['cinema', 'hall'])
+                ->join('cinemas', 'sans.cinema_id', '=', 'cinemas.id')
                 ->where('movie_id', $movie->id)
                 ->whereBetween('started_at', [$start, $end])
-                ->where('city_id', $selectedCityId)
+                ->where('cinemas.city_id', $selectedCityId)
                 ->select('sans.*')
                 ->get()
                 ->toArray();
@@ -145,7 +146,7 @@ class MovieController extends Controller
         return view('admin.manage_movies', [
             'movies' => Movie::paginate(2),
             'categories' => Category::all(),
-
+            'states' => Movie::STATES
         ]);
     }
 
@@ -218,5 +219,34 @@ class MovieController extends Controller
         {
             dd($ex);
         }
+    }
+
+    public function Update(Request $request)
+    {
+        $request->validate([
+            'movie'       => 'required|exists:movies,id',
+            'title'       => 'required|string',
+            'category'    => 'required|exists:categories,id',
+            'duration'    => 'required|min:30|max:180|numeric',
+            'info'        => 'required|string',
+            'director'    => 'required|string',
+            'state'       => ['required', 'in:' . implode(',', Movie::STATES)]
+        ]);
+
+        $movie = Movie::find($request->movie);
+        if (!$movie) {
+            return redirect()->back()->with('error', 'فیلم یافت نشد');
+        }
+    
+        $movie->title           = $request->title;
+        $movie->category_id     = $request->category;
+        $movie->duration        = $request->duration;
+        $movie->info            = $request->info;
+        $movie->director        = $request->director;
+        $movie->state           = $request->state;
+    
+        $movie->save();
+        
+        return redirect()->back()->with('success', "فیلم {$movie->title} با موفقیت آپدیت شد");
     }
 }

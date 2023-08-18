@@ -37,7 +37,7 @@
                         @foreach ($tickets as $ticket)
                             <tr class="bg-white border-b ">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                    <a href="{{ route('movie.show', ['slug' => $ticket['sans']['movie']['slug']]) }}">
+                                    <a href="{{ route('movie.show', ['movie' => $ticket['sans']['movie']['slug']]) }}">
                                         {{ $ticket['sans']['movie']['title'] }}
                                         <i class="  fa-solid fa-chevron-left text-end justify-end  "></i>
                                     </a>
