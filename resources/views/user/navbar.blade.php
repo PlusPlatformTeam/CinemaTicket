@@ -92,7 +92,9 @@
                             class="cursor-pointer block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent">
 
                             <i class="w-5 h-5 inline-block mr-2 fa-solid fa-location-dot"></i>
-                            شهر خود را انتخاب کنید
+                            <span id="city">
+                                {{ !empty($_COOKIE['selectedCityName']) ? $_COOKIE['selectedCityName'] : 'شهر خود را انتخاب کنید' }}
+                            </span>
                         </span>
                     </li>
                     <li>
@@ -495,23 +497,28 @@
 
                     cities.forEach(city => {
                         let element = `
-          <span class="city-item p-2 rounded-md cursor-pointer hover:text-black hover:bg-gray-100"
-            data-city-id="${city.id}"
-          >
-            ${city.title}
-          </span>
-        `;
+                            <span class="city-item p-2 rounded-md cursor-pointer hover:text-black hover:bg-gray-100"
+                                data-city-id="${city.id}" data-city-name='${city.title}'
+                            >
+                                ${city.title}
+                            </span>
+                            `;
 
                         cityContainer.append(element);
                     });
 
                     $('.city-item').on('click', function() {
                         const selectedCityId = $(this).data('city-id');
+                        const selectedCityName = $(this).data('city-name');
+
                         document.cookie =
                             `selectedCityId=${selectedCityId}; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/`;
+                        document.cookie =
+                            `selectedCityName=${selectedCityName}; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/`;
 
                         $('.myClose').click();
-
+                        $('#city').text(selectedCityName);
+                        
                         Swal.fire({
                             icon: 'success',
                             title: 'شهر با موفقیت انتخاب شد',

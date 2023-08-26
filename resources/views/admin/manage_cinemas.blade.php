@@ -110,7 +110,7 @@
                             <td class="px-6 py-3 text-center">
                                 <button type="button" data-modal-target="update-cinema{{ $cinema->id }}-modal"
                                     data-modal-toggle="update-cinema{{ $cinema->id }}-modal"
-                                    data-tooltip-target="tooltip-edit-cinema{{ $cinema->id }}" href="#"
+                                    data-tooltip-target="tooltip-edit-cinema{{ $cinema->id }}"
                                     class="font-medium text-lg text-blue-600 hover:underline mx-2"><i
                                         class="fa-regular fa-pen-to-square"></i></button>
                                 <div id="tooltip-edit-cinema{{ $cinema->id }}" role="tooltip"
@@ -121,7 +121,7 @@
 
                                 <button data-modal-target="delete-modal-cinema{{ $cinema->id }}"
                                     data-modal-toggle="delete-modal-cinema{{ $cinema->id }}" type="button"
-                                    data-tooltip-target="tooltip-delete-cinema{{ $cinema->id }}" href="#"
+                                    data-tooltip-target="tooltip-delete-cinema{{ $cinema->id }}"
                                     class="font-medium text-lg text-red-600 hover:underline mx-2"><i
                                         class="fa-regular fa-trash-can"></i></button>
                                 <div id="tooltip-delete-cinema{{ $cinema->id }}" role="tooltip"
@@ -379,8 +379,9 @@
                     <!-- Modal body -->
                     <div class="p-6 space-y-6">
                         <form id="update-cinema{{ $cinema->id }}-form" enctype="multipart/form-data"
-                            action="{{ route('admin.manage.cinemas.create') }}" method="POST">
+                            action="{{ route('admin.manage.cinemas.update') }}" method="post">
                             @csrf
+                            <input type="hidden" name="cinema" value="{{ $cinema->id }}">
                             <div class="grid gap-6 mb-6 md:grid-cols-2">
                                 <div>
                                     <label for="title"
@@ -564,12 +565,6 @@
             }
             marker = L.marker(e.latlng).addTo(map);
             document.getElementById('location').value = e.latlng.lat + ',' + e.latlng.lng;
-        });
-        new SlimSelect({
-            select: '#options-select',
-            placeholder: 'امکانات را انتخاب کنید',
-            showSearch: true,
-            searchText: 'متاسفانه پیدا نشد',
         });
         new SlimSelect({
             select: '#options-select',

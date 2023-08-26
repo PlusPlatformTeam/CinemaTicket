@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <section class="min-h-screen m-0 p-0 bg-gray-700 overflow-hidden">
+    <section class=" m-0 p-0 bg-gray-700 h-[100vh]">
         <nav class="flex flex-row justify-between bg-gray-800 px-2 py-3">
             <div class="basis-6/12 flex items-center pr-3">
                 <img width="20%" src="{{ url('images/typography_light.svg') }}" alt="">
@@ -69,7 +69,7 @@
                 </div>
             </div>
         </nav>
-        <div class="scroll-dark h-[600px] bg-gray-700 px-3 pt-20 overflow-y-auto overflow-x-auto">
+        <div class="scroll-dark max-h-96 bg-gray-700 px-3 pt-20 overflow-y-auto overflow-x-auto">
             <div class="w-full flex justify-center text-center">
                 <div
                     class="p-1 pt-1.5 rounded-lg text-gray-300 w-8/12 border-2 boeder-gray-300 text-center overflow-x-auto">
@@ -170,13 +170,8 @@
                     </div>
                 @endfor
             </div>
-
         </div>
-        </div>
-        </div>
-
-
-        <div class="block">
+        <div class="block relative bottom-0 w-full">
             <header class="bg-gray-800 text-xs text-white flex justify-between items-center py-3 px-4">
                 <div class="flex jstify-between items-center">
                     <div class="flex jstify-between items-center mx-1">
@@ -215,7 +210,7 @@
                 </div>
 
 
-                <div id="reserved" class="flex flex-wrap w-full p-8 w-6/12">
+                <div id="reserved" class="flex flex-wrap w-full p-0 w-6/12">
                     {{-- in here set items in jquery --}}
                 </div>
 

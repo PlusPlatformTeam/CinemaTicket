@@ -18,9 +18,9 @@ class CinemaController extends Controller
 {
     public function index(Request $request)
     {
-        $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId'] : null;
+        $selectedCityId = isset($_COOKIE['selectedCityId']) ?? $_COOKIE['selectedCityId'];
     
-        if ($selectedCityId !== null) {
+        if ($selectedCityId) {
             $cinemas = Cinema::with('options')
                 ->where('city_id', $selectedCityId)
                 ->get();
@@ -213,6 +213,35 @@ class CinemaController extends Controller
         ]);
         
         return redirect()->back()->with('success', "سینما {$cinema->title} با موفقیت ایجاد شد");
-        
+    }
+
+    public function Update(Request $request)
+    {
+        $request->validate([
+            'cinema'      => 'required|exists:cinemas,id',
+            'title'       => 'required|string',
+            'city'        => 'required|exists:cities,id',
+            'phone'       => 'required|numeric',
+            'address'     => 'required|string',
+            'description' => 'required|string',
+            'option.*'    => 'nullable|exists:options,id'
+        ]);
+
+        $cinema = Cinema::find($request->cinema);
+        if (!$cinema) {
+            return redirect()->back()->with('error', 'سینما یافت نشد');
+        }
+    
+        $cinema->title       = $request->title;
+        $cinema->city_id     = $request->city;
+        $cinema->phone       = $request->phone;
+        $cinema->address     = $request->address;
+        $cinema->description = $request->description;
+    
+        $cinema->save();
+    
+        $cinema->options()->sync($request->option);
+    
+        return redirect()->back()->with('success', "سینما {$cinema->title} با موفقیت آپدیت شد");
     }
 }

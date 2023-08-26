@@ -102,9 +102,10 @@
                                 {{ $movie->score }}
                             </td>
                             <td class="py-3 text-center">
-                                <a data-tooltip-target="tooltip-edit-movie{{ $movie->id }}" href="#"
+                                <button data-modal-target="update-movie{{ $movie->id }}-modal"
+                                    data-modal-toggle="update-movie{{ $movie->id }}-modal" data-tooltip-target="tooltip-edit-movie{{ $movie->id }}" 
                                     class="font-medium text-lg text-blue-600 hover:underline mx-2"><i
-                                        class="fa-regular fa-pen-to-square"></i></a>
+                                        class="fa-regular fa-pen-to-square"></i></button>
                                 <div id="tooltip-edit-movie{{ $movie->id }}" role="tooltip"
                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
                                     ویرایش
@@ -179,7 +180,7 @@
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                            ایجاد سینما جدید
+                            ایجاد فیلم جدید
                         </h3>
                         <button type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -239,7 +240,8 @@
                                     <label for="duration"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                         مدت رمان فیلم</label>
-                                    <input min="30" max="180" value="{{ old('duration') }}" type="number" name="duration" id="duration"
+                                    <input min="30" max="180" value="{{ old('duration') }}" type="number"
+                                        name="duration" id="duration"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('duration') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror"
                                         required>
                                     @error('duration')
@@ -274,7 +276,8 @@
                                                         d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                                 </svg>
                                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                                        class="font-semibold">برای آپلود کلیک کنید</span> و یا با درگ اند دراپ عکس را در این محل بکشید </p>
+                                                        class="font-semibold">برای آپلود کلیک کنید</span> و یا با درگ اند
+                                                    دراپ عکس را در این محل بکشید </p>
                                                 <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF
                                                     (MAX.
                                                     800x400px)</p>
@@ -304,7 +307,8 @@
                                                         d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                                 </svg>
                                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                                        class="font-semibold">برای آپلود کلیک کنید</span> or drag and drop</p>
+                                                        class="font-semibold">برای آپلود کلیک کنید</span> or drag and drop
+                                                </p>
                                                 <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF
                                                     (MAX.
                                                     800x400px)</p>
@@ -323,14 +327,13 @@
 
                                 <div class="">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    for="file_input">آپلود تیزر فیلم</label>
-                                    <input
-                                        name="trailer"
-                                        accept="video/*"
+                                        for="file_input">آپلود تیزر فیلم</label>
+                                    <input name="trailer" accept="video/*"
                                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                         aria-describedby="file_input_help" id="file_input" type="file">
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">mp4, MKV,
-                                        MPEG  (MAX. 20MG).</p>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">mp4,
+                                        MKV,
+                                        MPEG (MAX. 20MG).</p>
                                 </div>
 
                             </div>
@@ -348,6 +351,130 @@
                 </div>
             </div>
         </div>
+        @foreach ($movies as $movie)
+            <div id="update-movie{{ $movie->id }}-modal" tabindex="-1"
+                class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-7xl max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                                ویرایش فیلم {{ $movie->title }}
+                            </h3>
+                            <button type="button"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="update-movie{{ $movie->id }}-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="p-6 space-y-6">
+                            <form id="update-movie{{ $movie->id }}-form" enctype="multipart/form-data"
+                                action="{{ route('admin.manage.movies.update') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="movie" value="{{ $movie->id }}">
+                                <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                    <div>
+                                        <label for="title"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">عنوان</label>
+                                        <input value="{{ $movie->title }}" name="title" type="text"
+                                            id="title"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('title') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror
+                                "
+                                            placeholder="عنوان" required>
+                                        @error('title')
+                                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="duration"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">مدت
+                                            زمان</label>
+                                        <input min="30" max="180" value="{{ $movie->duration }}" name="duration" type="number"
+                                            id="duration"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('duration') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror"
+                                            required>
+                                        @error('duration')
+                                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label for="director"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            کارگردان</label>
+                                        <input value="{{ $movie->director }}" type="text" name="director"
+                                            id="director"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('director') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror"
+                                            required>
+                                        @error('director')
+                                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                        @enderror
+
+                                    </div>
+                                    <div>
+                                        <label for="category"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ژانر</label>
+                                        <select name="category" required id="category"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('category') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror">
+                                            @foreach ($categories as $category)
+                                                <option {{ $category === $movie->category_id ? 'selected' : '' }} value="{{ $category->id }}" label="{{ $category->name }}">
+                                                    {{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('category')
+                                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label for="state"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">وضعیت</label>
+                                        <select name="state" required id="state"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('category') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror">
+                                            @foreach ($states as $state)
+                                                <option {{ $state === $movie->state ? 'selected' : '' }} value="{{ $state }}" label="{{ $state }}">
+                                                    {{ $state }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('category')
+                                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label for="info"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">درباره
+                                            فیلم</label>
+                                        <textarea required name="info" id="info" rows="4"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  @error('title') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror"
+                                            placeholder="درباره فیلم...">{{ $movie->info }}</textarea>
+                                        @error('info')
+                                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    
+
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div
+                            class="flex flex-row-reverse items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                            <button data-modal-hide="update-movie{{ $movie->id }}-modal" type="button"
+                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">بستن</button>
+                            <button form="update-movie{{ $movie->id }}-form" type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                ویرایش</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </section>
     <script>
         function deleteMovie(movieID) {
@@ -367,6 +494,10 @@
                         text: data.message,
                         icon: 'success',
                         confirmButtonText: 'بستن'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
                     });
                 },
                 error: (xhr, status, err) => {
