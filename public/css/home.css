@@ -1,0 +1,88 @@
+.swiper {
+    width: 100%;
+    height: 450px;
+}
+
+.swiper-button-prev, .swiper-button-next{
+    background: rgba( 40, 38, 38, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 14px );
+    -webkit-backdrop-filter: blur( 14px );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    color: aliceblue;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    padding: 5px 0px;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    content: "" !important;
+}
+
+.swiper-button-prev i,
+.swiper-button-next i {
+    font-size: 20px;
+    color: #fff;
+}
+
+.swiper-pagination-bullet-active{
+    color: #edf2f7 !important;
+    background-color: #edf2f7 !important;
+}
+
+.bg-responsive{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+}
+
+.mobile-swiper-container{
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    position: relative;
+}
+
+.mobile-swiper-container > .items{
+    scroll-snap-align: center;
+    min-width: 300px;
+}
+
+
+.mobile-swiper-container > .items > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* .released-div > .released-img:hover{
+
+    filter: grayscale(80%);
+     transition: filter 0.5s ease;
+
+} */
+
+.released-score-view,
+.released-director {
+
+  opacity: 0;
+  color: #fff;
+  z-index: 10;
+  transition: opacity 0.5s ease;
+}
+
+.released-img:hover + .released-score-view,
+.released-img:hover + .released-div > .released-director {
+  opacity: 1 !important;
+}

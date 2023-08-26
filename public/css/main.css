@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'IranSans';
+    src: url('/fonts/iran.ttf') format('truetype');
+}
+
+html,
+* {
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IranSans', sans-serif;
+    overflow-x: hidden;
+}
+
+.blur-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.blur-container>* {
+    position: relative;
+    z-index: 2;
+}
+
+.blur-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 0.8;
+    z-index: 1;
+    background-image: linear-gradient(to left, #000, #6b6666);
+}
+
+.blur-overlay-light {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 0.8;
+    z-index: 1;
+    background-color: #6b6666;
+}
+
+.bg-glass-dark {
+    background: rgba(52, 52, 52, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@media screen and (max-width: 992px) {
+    .movie-description {
+        width: 30ch;
+    }
+}
+
+.movie-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 45ch;
+}
