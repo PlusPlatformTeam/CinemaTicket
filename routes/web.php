@@ -158,4 +158,3 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin1/manage'], function($
 Route::post('/ticket/preFactor', [SansController::class, 'preFactor'])->name('sans.preFactor');
 
 Route::post('/ticket/buy', [SansController::class, 'buy'])->name('sans.buy');
-
