@@ -128,7 +128,7 @@
                                     <!-- Modal header -->
                                     <div class="flex items-center justify-between p-5 border-b rounded-t">
                                         <h3 class="text-xl font-medium text-gray-900 ">
-                                            حذف آیکون
+                                            حذف سانس
                                         </h3>
                                         <button type="button"
                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center"
@@ -144,14 +144,14 @@
                                     <!-- Modal body -->
                                     <div class="p-6 space-y-6">
                                         <p class="text-base leading-relaxed text-gray-500 ">
-                                            آیا از حذف کردن آیکون <b>{{ $key }}</b> مطمین هستید ؟؟
+                                            آیا از حذف کردن سانس مطمین هستید ؟؟
                                         </p>
                                     </div>
                                     <!-- Modal footer -->
                                     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                                        <a href="{{route('admin.manage.option.delete', ['id' =>$item['id']])}}" data-modal-hide="delete-modal-cinema{{ $item['id'] }}"
+                                        <button onclick="deleteSans({{ $item['id'] }})" data-modal-hide="delete-modal-cinema{{ $item['id'] }}"
                                             
-                                            class="ml-4 text-white bg-rose-500 hover:bg-rose-700 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">حذف</a>
+                                            class="ml-4 text-white bg-rose-500 hover:bg-rose-700 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">حذف</button>
                                         <button data-modal-hide="delete-modal-cinema{{ $item['id'] }}" type="button"
                                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">بستن</button>
                                     </div>
@@ -252,7 +252,7 @@
                                     <i class="fa-solid fa-clock text-xs"></i>                                    
                                     زمان شروع
                                 </label>
-                                <input type="time" id="timeInput" class="mt-2 p-2 block w-full bg-gray-50 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none">
+                                <input name="time" type="time" id="timeInput" class="mt-2 p-2 block w-full bg-gray-50 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none">
                             </div>
                         </div>
                     </form>
@@ -308,5 +308,38 @@
                 }
             })
         });
+
+        function deleteSans(sansID)
+        {
+            $.ajax({
+                url: "{{ route('admin.manage.sans.delete') }}",
+                data: {sans: sansID},
+                dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                type:"POST",
+                success: (data) => {
+                    Swal.fire({
+                        title: 'عملیات موفق !',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'بستن'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                },
+                error: (xhr, status, err) => {
+                    Swal.fire({
+                        title: ' خطا !',
+                        text: xhr.responseJSON.message,
+                        icon: 'error',
+                        confirmButtonText: 'بستن'
+                    });
+                }
+            })
+        }
     </script>
 @endsection

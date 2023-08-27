@@ -14,6 +14,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HallController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Http\Request;
 
 /*
@@ -141,8 +142,8 @@ Route::group(['middleware' => 'admin', 'prefix' => '/manage/options'], function(
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/sans'], function($router){
     $router->get('/', [SansController::class, 'Show'])->name('admin.manage.sans');
     $router->post('/', [SansController::class, 'Create'])->name('admin.manage.sans.create');
-    $router->post('/update', [SansController::class, 'Update'])->name('admin.manage.option.update');
-    $router->get('/delete/{id}', [SansController::class, 'Delete'])->name('admin.manage.option.delete');
+    $router->post('/update', [SansController::class, 'Update'])->name('admin.manage.sans.update');
+    $router->post('/delete', [SansController::class, 'Delete'])->name('admin.manage.sans.delete');
 });
 
 Route::group(['middleware' => 'admin', 'prefix' => '/admin1'], function($router){
@@ -151,7 +152,7 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin1'], function($router)
 Route::group(['middleware' => 'admin', 'prefix' => '/admin1/manage'], function($router){
     $router->get('/comments', [AdminController::class, 'Comments'])->name('admin.manage.comments');
     $router->get('/factors', [AdminController::class, 'Factors'])->name('admin.manage.factors');
-    $router->get('/tickets', [AdminController::class, 'Tickets'])->name('admin.manage.tickets');
+    $router->get('/tickets', [TicketController::class, 'Show'])->name('admin.manage.tickets');
 
 });
 Route::post('/ticket/preFactor', [SansController::class, 'preFactor'])->name('sans.preFactor');

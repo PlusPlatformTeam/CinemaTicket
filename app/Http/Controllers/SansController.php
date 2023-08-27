@@ -151,12 +151,11 @@ class SansController extends Controller
         $gregorianDate = $jDate->toGregorian($started_at[0], $started_at[1], $started_at[2]);
 
         $hall = Hall::find($request->hall);
-
         $sans = Sans::create([
             'cinema_id' => $request->cinema,
             'movie_id' => $request->movie,
             'hall_id' => $request->hall,
-            'started_at' => "{$gregorianDate[0]}-{$gregorianDate[1]}-{$gregorianDate[2]}",
+            'started_at' => "{$gregorianDate[0]}-{$gregorianDate[1]}-{$gregorianDate[2]} " .$request->time.':00',
             'slug' => Str::random(10),
             'price' => $request->price,
             'capacity' => $hall->capacity
@@ -178,5 +177,21 @@ class SansController extends Controller
         return redirect()->back()->with(
             'success' , 'سانس با موفقیت ایجاد شد',
         );
+    }
+
+    public function Delete(Request $request)
+    {
+        $isReservedSeat = Seat::where('sans_id', $request->sans)->first();
+
+        if ($isReservedSeat)
+        {
+            return response(['message' => 'این سانس را نمی توان پاک کرد'], 403);
+        }
+        
+        $sans = Sans::find($request->sans);
+        if ($sans){
+            $sans->delete();
+            return response(['message' => 'سانس با موفقیت پاک شد']);
+        }
     }
 }

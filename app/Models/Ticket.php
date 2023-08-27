@@ -30,4 +30,9 @@ class Ticket extends Model
         return $this->belongsTo(Sans::class);
     }
 
+    public function cinema()
+    {
+        return $this->belongsTo(Cinema::class);
+    }
+
 }
