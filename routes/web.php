@@ -11,6 +11,10 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SansController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HallController;
+use App\Http\Controllers\OptionController;
+use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Http\Request;
 
 /*
@@ -62,7 +66,7 @@ Route::get('/actor/{character}', [CharacterController::class, 'Index'])->name('a
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/actors'], function($router){
     $router->get('/', [CharacterController::class, 'Show'])->name('admin.manage.characters');
     $router->post('/', [CharacterController::class, 'Create'])->name('admin.manage.character.create');
-    $router->post('/update', [CharacterController::class, 'profileUpdate'])->name('admin.manage.character.update');
+    $router->post('/update', [CharacterController::class, 'Update'])->name('admin.manage.character.update');
     $router->delete('/', [CharacterController::class, 'Delete'])->name('admin.manage.character.delete');
 });
 
@@ -90,7 +94,7 @@ Route::group(['middleware' => 'admin', 'prefix' => '/manage/user'], function($ro
 });
 
 Route::get('/tickets', [UserController::class, 'tickets'])->name('user.tickets');
-Route::get('/ticket/choose-seat/{sans}', [SansController::class, 'Show'])->name('sans.show');
+Route::get('/ticket/choose-seat/{sans}', [SansController::class, 'Index'])->name('sans.show');
 
 Route::post('/addComment', [CommentController::class, 'addComment'])->name('comment.add');
 
@@ -103,20 +107,54 @@ Route::group(['middleware' => 'admin', 'prefix' => '/manage/cities'], function($
     $router->delete('/', [CityController::class, 'Delete'])->name('admin.manage.city.delete');
 });
 
+// Province
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/provinces'], function($router){
+    $router->get('/', [ProvinceController::class, 'Show'])->name('admin.manage.provinces');
+    $router->post('/', [ProvinceController::class, 'Create'])->name('admin.manage.province.create');
+    $router->put('/', [ProvinceController::class, 'Update'])->name('admin.manage.province.update');
+    $router->get('/delete/{id}', [ProvinceController::class, 'Delete'])->name('admin.manage.province.delete');
+});
+
+// Comment
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/comments'], function($router){
+    $router->get('/accept/{id}', [CommentController::class, 'Accept'])->name('admin.manage.comment.accept');
+    $router->get('/reject/{id}', [CommentController::class, 'Reject'])->name('admin.manage.comment.reject');
+});
+
+// Hall
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/halls'], function($router){
+    $router->get('/', [HallController::class, 'Show'])->name('admin.manage.halls');
+    $router->post('/', [HallController::class, 'Create'])->name('admin.manage.hall.create');
+    $router->post('/update', [HallController::class, 'Update'])->name('admin.manage.hall.update');
+    $router->get('/delete/{id}', [HallController::class, 'Delete'])->name('admin.manage.hall.delete');
+});
+
+// Hall
+Route::post('/getHall', [HallController::class, 'getHall'])->middleware('admin')->name('hall.get');
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/options'], function($router){
+    $router->get('/', [OptionController::class, 'Show'])->name('admin.manage.options');
+    $router->post('/', [OptionController::class, 'Create'])->name('admin.manage.option.create');
+    $router->post('/update', [OptionController::class, 'Update'])->name('admin.manage.option.update');
+    $router->get('/delete/{id}', [OptionController::class, 'Delete'])->name('admin.manage.option.delete');
+});
+
+// Sans
+Route::group(['middleware' => 'admin', 'prefix' => '/manage/sans'], function($router){
+    $router->get('/', [SansController::class, 'Show'])->name('admin.manage.sans');
+    $router->post('/', [SansController::class, 'Create'])->name('admin.manage.sans.create');
+    $router->post('/update', [SansController::class, 'Update'])->name('admin.manage.sans.update');
+    $router->post('/delete', [SansController::class, 'Delete'])->name('admin.manage.sans.delete');
+});
+
 Route::group(['middleware' => 'admin', 'prefix' => '/admin1'], function($router){
     $router->get('/', [AdminController::class, 'Index'])->name('admin.dashboard');
 });
 Route::group(['middleware' => 'admin', 'prefix' => '/admin1/manage'], function($router){
-    $router->get('/provinces', [AdminController::class, 'Provinces'])->name('admin.manage.provinces');
     $router->get('/comments', [AdminController::class, 'Comments'])->name('admin.manage.comments');
     $router->get('/factors', [AdminController::class, 'Factors'])->name('admin.manage.factors');
-    $router->get('/halls', [AdminController::class, 'Halls'])->name('admin.manage.halls');
-    $router->get('/options', [AdminController::class, 'Options'])->name('admin.manage.options');
-    $router->get('/sans', [AdminController::class, 'Sans'])->name('admin.manage.sans');
-    $router->get('/tickets', [AdminController::class, 'Tickets'])->name('admin.manage.tickets');
+    $router->get('/tickets', [TicketController::class, 'Show'])->name('admin.manage.tickets');
 
 });
 Route::post('/ticket/preFactor', [SansController::class, 'preFactor'])->name('sans.preFactor');
 
 Route::post('/ticket/buy', [SansController::class, 'buy'])->name('sans.buy');
-

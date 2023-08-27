@@ -94,35 +94,35 @@
                                 {{ $character->birthday }}
                             </td>
                             <td class="py-3 text-center">
-                                <a data-tooltip-target="tooltip-edit-cinema{{ $character->id }}" href="#"
-                                    class="font-medium text-lg text-blue-600 hover:underline mx-2"><i
+                                <a data-tooltip-target="tooltip-edit-character{{ $character->id }}" href="#"
+                                    data-modal-toggle="update-character{{ $character->id }}-modal" data-tooltip-target="tooltip-edit-character{{ $character->id }}" class="font-medium text-lg text-blue-600 hover:underline mx-2"><i
                                         class="fa-regular fa-pen-to-square"></i></a>
-                                <div id="tooltip-edit-cinema{{ $character->id }}" role="tooltip"
+                                <div id="tooltip-edit-character{{ $character->id }}" role="tooltip"
                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
                                     ویرایش
                                     <div class="tooltip-arrow" data-popper-arrow></div>
                                 </div>
 
-                                <button data-modal-target="delete-modal-cinema{{ $character->id }}" data-modal-toggle="delete-modal-cinema{{ $character->id }}" type="button" data-tooltip-target="tooltip-delete-cinema{{ $character->id }}" href="#"
+                                <button data-modal-target="delete-modal-character{{ $character->id }}" data-modal-toggle="delete-modal-character{{ $character->id }}" type="button" data-tooltip-target="tooltip-delete-character{{ $character->id }}" href="#"
                                     class="font-medium text-lg text-red-600 hover:underline mx-2"><i
                                         class="fa-regular fa-trash-can"></i></button>
-                                <div id="tooltip-delete-cinema{{ $character->id }}" role="tooltip"
+                                <div id="tooltip-delete-character{{ $character->id }}" role="tooltip"
                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
                                     حذف
                                     <div class="tooltip-arrow" data-popper-arrow></div>
                                 </div>
                             </td>
                         </tr>
-                        <div id="delete-modal-cinema{{ $character->id }}" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div id="delete-modal-character{{ $character->id }}" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                             <div class="relative w-full max-w-md max-h-full">
                                 <!-- Modal content -->
                                 <div class="relative bg-white rounded-lg shadow">
                                     <!-- Modal header -->
                                     <div class="flex items-center justify-between p-5 border-b rounded-t">
                                         <h3 class="text-xl font-medium text-gray-900 ">
-                                            حذف سینما
+                                            حذف بازیگر
                                         </h3>
-                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center" data-modal-hide="delete-modal-cinema{{ $character->id }}">
+                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center" data-modal-hide="delete-modal-character{{ $character->id }}">
                                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                             </svg>
@@ -132,13 +132,105 @@
                                     <!-- Modal body -->
                                     <div class="p-6 space-y-6">
                                         <p class="text-base leading-relaxed text-gray-500 ">
-                                            آیا از حذف کردن سینما <b>{{ $character->name }}</b> مطمین هستید ؟؟
+                                            آیا از حذف کردن بازیگر <b>{{ $character->name }}</b> مطمین هستید ؟؟
                                         </p>
                                     </div>
                                     <!-- Modal footer -->
                                     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                                        <button data-modal-hide="delete-modal-cinema{{ $character->id }}" type="button" class="ml-4 text-white bg-rose-500 hover:bg-rose-700 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">حذف</button>
-                                        <button data-modal-hide="delete-modal-cinema{{ $character->id }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">بستن</button>
+                                        <button onclick="deleteUser({{ $character->id }})" data-modal-hide="delete-modal-character{{ $character->id }}" type="button" class="ml-4 text-white bg-rose-500 hover:bg-rose-700 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">حذف</button>
+                                        <button data-modal-hide="delete-modal-character{{ $character->id }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">بستن</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="update-character{{ $character->id }}-modal" tabindex="-1"
+                            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative w-full max-w-7xl max-h-full">
+                                <!-- Modal content -->
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <!-- Modal header -->
+                                    <div
+                                        class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                                            ویرایش بازیگر {{ $character->name }}
+                                        </h3>
+                                        <button type="button"
+                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 mr-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                            data-modal-hide="update-character{{ $character->id }}-modal">
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="p-6 space-y-6">
+                                        <form id="update-character{{ $character->id }}-form"
+                                            action="{{ route('admin.manage.character.update') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="character" value="{{ $character->id }}">
+                                            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                                <div>
+                                                    <label for="name"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">نام</label>
+                                                    <input value="{{ $character->name }}" name="name" type="text"
+                                                        id="name"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror"
+                                                        placeholder="نام" required>
+                                                    @error('name')
+                                                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+
+                                                <div>
+                                                    <label for="city"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">شهر</label>
+                                                    <select name="city" required id="city"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('city') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror">
+                                                        @foreach ($cities as $city)
+                                                            <option {{ $city->id == $character->city_id ? 'selected' : '' }} value="{{ $city->id }}" label="{{ $city->title }}">
+                                                                {{ $city->title }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('city')
+                                                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                                <div>
+                                                    <label for="description"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                        درباره بازیگر</label>
+                                                    <input value="{{ $character->description }}" type="text" name="description"
+                                                        id="description"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('description') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror"
+                                                        required>
+                                                    @error('description')
+                                                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                                    @enderror
+
+                                                </div>
+                                                <div class="">
+                                                    <label for="birthday" class="block mb-2 text-sm font-medium text-gray-900 ">
+                                                        <i class="fa-solid fa-calendar-days"></i>
+                                                        تاریخ تولد
+                                                    </label>
+                                                    <input data-jdp
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                                        placeholder="" required value="{{ $character->birthday }}" name="birthday">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div
+                                        class="flex flex-row-reverse items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                        <button data-modal-hide="update-character{{ $character->id }}-modal" type="button"
+                                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">بستن</button>
+                                        <button form="update-character{{ $character->id }}-form" type="submit"
+                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            ویرایش</button>
                                     </div>
                                 </div>
                             </div>
@@ -178,12 +270,16 @@
                         <form id="create-character-form" enctype="multipart/form-data"
                             action="{{ route('admin.manage.character.create') }}" method="POST">
                             @csrf
-                            <div class="w-full flex justify-enter">
-                                <div class="relative">
-                                    <div class="overlay">
-                                        
+                            <div class="w-full flex justify-center mb-5">
+                                <div>
+                                    <div class="relative">
+                                        <div id="change-avatar" class="overlay cursor-pointer text-white text-2xl flex items-center justify-center">
+                                            <i class="fa-solid fa-camera-retro cursor-pointer"></i>
+                                        </div>
+                                        <input type="file" hidden name="avatar" id="avatar">
+                                        <img id="actor-profile" class="rounded-full w-24 h-24 object-cover cursor-pointer" src="{{ asset('images/profile-mine.svg') }}" alt="">
                                     </div>
-                                    <img class="rounded-full w-24" src="{{ asset('images/profile-mine.svg') }}" alt="">
+                                    <p class="text-center my-3" for="">پروفایل</p>
                                 </div>
                             </div>
                             <div class="grid gap-6 mb-6 md:grid-cols-2">
@@ -241,7 +337,7 @@
                         class="flex flex-row-reverse items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                         <button data-modal-hide="create-movie-modal" type="button"
                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">بستن</button>
-                        <button form="create-movie-form" type="submit"
+                        <button form="create-character-form" form="create-movie-form" type="submit"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             ایجاد</button>
                     </div>
@@ -250,19 +346,32 @@
         </div>
     </section>
     <script>
+        $('#change-avatar').on('click', (event) => {
+            $('#avatar').click();
+        });
+        $('#avatar').on('change', (event) => {
+            const file = event.target.files[0];
+            let reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#actor-profile').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+            $('#change-avatar').html('');
+        });
         jalaliDatepicker.startWatch();
-        function deleteUser(userID) {
+        function deleteUser(characterID) {
             $.ajax({
-                url: "{{ route('admin.manage.user.delete') }}",
+                url: "{{ route('admin.manage.character.delete') }}",
                 type: "DELETE",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 data: {
-                    user: userID
+                    character: characterID
                 },
                 success: (data) => {
-                    $(`#user-${userID}`).hide();
+                    $(`#character-${characterID}`).hide();
                     Swal.fire({
                         title: 'عملیات موفق !',
                         text: data.message,

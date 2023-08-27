@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Province extends Model
+class SansHalls extends Model
 {
     use HasFactory;
-    protected $fillable = ['title'];
+    protected $table = 'sans_halls';
+    protected $guarded = [''];
+
 }

@@ -23,8 +23,33 @@ class CommentController extends Controller
 
         ]);
     
-        // Do something with the new comment, such as redirecting to a page or returning a response
         return redirect()->back()->with('success', 'Comment added successfully.');
+    }
+
+    public function Accept(Request $request)
+    {
+        $comment = Comment::find($request->id);
+
+        if ($comment){
+            $comment->state = Comment::ACCEPT;
+            $comment->save();
+            return redirect()->back()->with('success', 'کامنت تایید شد.');
+        }
+        return redirect()->back()->with('error', 'کامنت پیدا نشد.');
+
+    }
+
+    public function Reject(Request $request)
+    {
+        $comment = Comment::find($request->id);
+
+        if ($comment){
+            $comment->state = Comment::REJECT;
+            $comment->save();
+            return redirect()->back()->with('success', 'کامنت رد شد.');
+        }
+        return redirect()->back()->with('error', 'کامنت پیدا نشد.');
+
     }
 
 }

@@ -9,14 +9,15 @@ class Hall extends Model
 {
     use HasFactory;
     protected $table = 'halls';
+    protected $guarded = [''];
 
     public function sans()
     {
         return $this->belongsToMany(Sans::class,'sans_halls',  'hall_id', 'sans_id');
     }
 
-    public function cinemas()
+    public function cinema()
     {
-        return $this->belongsToMany(Cinema::class, 'cinemas');
+        return $this->belongsTo(Cinema::class, 'cinema_id');
     }
 }

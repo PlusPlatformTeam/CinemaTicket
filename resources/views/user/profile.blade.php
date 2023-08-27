@@ -109,24 +109,21 @@ $(document).ready(function() {
     const overlay = $('.overlay');
     const cameraIcon = $('.icon');
 
-    // Trigger the file input when clicking on the avatar container
     avatarContainer.on('click', function() {
         imageUpload.click();
     });
 
-    // Handle image selection and update the preview
     imageUpload.on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function() {
-                uploadAvatar(file); // Call the function to upload the avatar immediately
+                uploadAvatar(file); 
             };
             reader.readAsDataURL(file);
         }
     });
 
-    // Function to upload the avatar via AJAX
     function uploadAvatar(file) {
         const formData = new FormData();
         formData.append('avatar', file);

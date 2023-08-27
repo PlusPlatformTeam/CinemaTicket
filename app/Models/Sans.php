@@ -9,7 +9,8 @@ class Sans extends Model
 {
     use HasFactory;
     protected $table = 'sans';
-
+    protected $guarded = [''];
+    
     public function movie()
     {
         return $this->belongsToMany(Movie::class, 'sans_movies', 'sans_id', 'movie_id');
