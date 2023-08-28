@@ -11,6 +11,17 @@ class Ticket extends Model
     const EXPIRED = 'Expired';
     const VOID = 'Void';
     const VALID = 'Valid';
+    protected $fillable = [
+        'user_id',
+        'cinema_id',
+        'sans_id',
+        'factor_id',
+        'state',
+        'code',
+        'count',
+        'slug',
+        'total_price'
+    ];
 
     const STATES = [self::EXPIRED, self::VALID, self::VOID];
 

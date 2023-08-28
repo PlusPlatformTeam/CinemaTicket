@@ -10,6 +10,11 @@ class Factor extends Model
     use HasFactory;
     const UNPAID = 'Unpaid';
     const PAID = 'Paid';
+    protected $fillable = [
+        'user_id',
+        'state',
+        'paid_time'
+    ];
 
     const STATES = [self::PAID, self::UNPAID];
 

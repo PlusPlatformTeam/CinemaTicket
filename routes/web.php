@@ -84,7 +84,7 @@ Route::post('/resend-code', [UserController::class, 'resendCode'])->name('user.r
 Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
 Route::post('/profile', [UserController::class, 'profileUpdate'])->name('user.profile.update');
 Route::post('/profile/avatar', [UserController::class, 'profileUpdateAvatar'])->name('user.profile.update.avatar');
-Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
 Route::get('/transaction', [UserController::class, 'transaction'])->name('user.transaction');
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/user'], function($router){
     $router->get('/', [UserController::class, 'Show'])->name('admin.manage.users');
