@@ -13,7 +13,7 @@
     <section class="w-full  p-12 block">
 
         <h1 class=" w-full text-gray-700 font-semibold text-lg w-full text-right">
-            بلیط های منقضی شده
+            بلیط های فعال
         </h1>
 
         <div class="w-full p-4 flex flex-row flex-wrap mt-6">
@@ -45,7 +45,7 @@
                                 <span
                                     class="text-left left-0 bg-gray-100 text-gray-800 text-sm mr-2 px-2.5 py-0.5 rounded absolute">
                                     <i class="fa-solid fa-ticket text-gray-800 text-sm"></i>
-                                    {{$ticket["count"]}} بلیت
+                                    {{convertDigitsToFarsi($ticket["count"])}} بلیت
                                 </span>
 
                             </div>
@@ -67,10 +67,7 @@
                             <div class="w-full flex flex-row mt-6 text-red-400 ">
                                 <a href="#" class="w-6/12 flex flex-row  rounded-md relative p-2 ">
                                     <div class="text-start justify-start flex flex-row w-full mt-3">
-                                        <h1 class="text-black text-md font-normal mr-3 mt-1 text-red-400">مشاهده بلیت</h1>
-                                    </div>
-                                    <div w-full>
-                                        <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                                        <h1 class="text-black text-md font-normal = mt-1 text-red-400">کد رزرو: {{convertDigitsToFarsi($ticket["code"])}} </h1>
                                     </div>
                                 </a>
 

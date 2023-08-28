@@ -76,25 +76,9 @@
 
             <hr />
 
-            <div class="w-full flex flex-row mt-6 ">
-                <a href="#" class="w-3/12 flex flex-row hover:bg-gray-100 rounded-md relative p-2">
-
-                    <div class="text-start justify-start flex flex-row w-full mt-3">
-                        <i class="fa-solid fa-lock"></i>
-                        <h1 class="text-black text-md font-normal mr-3">انتخاب یا تغییر رمز عبور</h1>
-                    </div>
-                    <div w-full>
-                        <i class="fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
-                    </div>
-                </a>
-
-            </div>
-
-
-            <hr class="my-6" />
 
             <button type="submit" form="myform"
-                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">ثبت
+                class="focus:outline-none mt-12 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">ثبت
                 تغییرات</button>
         </div>
 

@@ -18,12 +18,13 @@ class CinemaController extends Controller
 {
     public function index(Request $request)
     {
-        $selectedCityId = isset($_COOKIE['selectedCityId']) ?? $_COOKIE['selectedCityId'];
+        $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId'] :null;
     
         if ($selectedCityId) {
             $cinemas = Cinema::with('options')
                 ->where('city_id', $selectedCityId)
                 ->get();
+
     
             if ($cinemas->isEmpty()) {
                 $cinemas = Cinema::with('options')->get();

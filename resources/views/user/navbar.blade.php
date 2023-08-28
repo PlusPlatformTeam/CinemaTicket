@@ -98,7 +98,7 @@
                         </span>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{Auth::check()? route('user.tickets'): route('user.login') }}"
                             class="block py-2 pl-3 pr-4  text-gray-600 rounded-lg hover:bg-gray-50  md:bg-transparent md:text-black-700 md:dark:bg-transparent"
                             aria-current="page">
                             <i class="w-5 h-5 inline-block mr-2 fa-solid fa-ticket"></i>
@@ -149,7 +149,7 @@
                                     </li>
                                 </ul>
                                 <div class="p-2">
-                                    <a id="logout-btn"
+                                    <a href={{ route('user.logout') }}
                                         class="cursor-pointer flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 text-gray-200">
                                         <i class="fas fa-arrow-right-from-bracket ml-3"></i>
                                         <span class="pt-1">خروج از حساب کاربری</span>
@@ -328,26 +328,7 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#logout-btn').click(function() {
-            const formData = new FormData();
-            formData.append('_token', "{{ csrf_token() }}");
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('user.logout') }}',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    window.location.href = '/';
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-    });
-
+ 
 
     $(document).ready(() => {
         const baseUrl = "{{ route('home') }}";

@@ -28,7 +28,7 @@ class MovieController extends Controller
     public function ShowMovie(Movie $movie)
     {
 
-        $selectedCityId = isset($_COOKIE['selectedCityId']) ?? $_COOKIE['selectedCityId'];
+        $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId']:null;
 
         $date = new \jDateTime(true, true, 'Asia/Tehran');
 
@@ -51,7 +51,7 @@ class MovieController extends Controller
 
         if ($selectedCityId) {
             $sans = Sans::with(['cinema', 'hall'])
-                ->join('cinemas', 'sans.cinema_id', '=', 'cinemas.id')
+                 ->join('cinemas', 'sans.cinema_id', '=', 'cinemas.id')
                 ->where('movie_id', $movie->id)
                 ->whereBetween('started_at', [$start, $end])
                 ->where('cinemas.city_id', $selectedCityId)

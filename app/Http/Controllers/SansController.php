@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cinema;
+use App\Models\Factor;
 use App\Models\Hall;
 use App\Models\Movie;
 use App\Models\Sans;
@@ -10,10 +11,12 @@ use App\Models\SansCinemas;
 use App\Models\SansHalls;
 use App\Models\SansMovies;
 use App\Models\Seat;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class SansController extends Controller
@@ -71,6 +74,27 @@ class SansController extends Controller
             $selectedItems = json_decode($request->input('selected_items'), true);
             $sansId        = $request->input('sansId');
             $sans          = Sans::where('id', $sansId)->first();
+            $data=explode(",",Cache::get($currentUser));
+            $factorId=$data[0];
+            $totalPrice=$data[1];
+
+          Factor::where('id', $factorId)
+          ->update([
+          'state' => Factor::PAID,
+          'paid_time' => date('Y-m-d H:i:s'),
+    ]);
+
+            Ticket::create([
+                'user_id' => $currentUser,
+                'cinema_id' => $sans["cinema_id"],
+                'sans_id' => $sans["id"],   
+                'factor_id' =>  $factorId,  
+                'state' => Ticket::VALID,
+                'code'  => rand(100000, 999999) ,
+                'count' => count($selectedItems),
+                'slug' => rand(1000, 9999),
+                'total_price' =>  $totalPrice,
+            ]);
 
             foreach ($selectedItems as $item) {
                 Seat::create([
@@ -90,15 +114,24 @@ class SansController extends Controller
 
     public function preFactor(Request $request)
     {
-        $seatsDetail = json_decode($request->input('selected_items'));
-        $sansSlug    = $request->input('sansSlug');
-        $sans        = Sans::where('slug', $sansSlug)->first();
-        $date = new \DateTime($sans->started_at);
-        $jdate = new \jDateTime(true, true, 'Asia/Tehran');
-        $countSelectedSeat = count($seatsDetail);
-        $totalPriceCount = $countSelectedSeat * $sans->price;
-        $taksPrice = 0.04 * $totalPriceCount;
-        $totalPrice = $totalPriceCount + $taksPrice;
+        $currentUser           = Auth::user()->id;
+        $seatsDetail           = json_decode($request->input('selected_items'));
+        $sansSlug              = $request->input('sansSlug');
+        $sans                  = Sans::where('slug', $sansSlug)->first();
+        $date                  = new \DateTime($sans->started_at);
+        $jdate                 = new \jDateTime(true, true, 'Asia/Tehran');
+        $countSelectedSeat     = count($seatsDetail);
+        $totalPriceCount       = $countSelectedSeat * $sans->price;
+        $taksPrice             = 0.04 * $totalPriceCount;
+        $totalPrice            = $totalPriceCount + $taksPrice;
+
+       $factor = Factor::create([
+            'user_id' => $currentUser,
+            'state' => Factor::UNPAID,       
+        ]);
+
+
+        Cache::set($currentUser,$factor["id"].",".$totalPrice );
 
         return view('user.preFactor', [
             'seatsDetail' => $seatsDetail,
