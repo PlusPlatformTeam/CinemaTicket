@@ -156,8 +156,9 @@ class UserController extends Controller
     public function profileUpdate(Request $request)
     {
         
-        $user = auth()->user()->type === User::ADMIN_TYPE ? User::find($request->user_id) : $request->user();
-        
+        $user = auth()->user() === User::ADMIN_TYPE ? User::find($request->user_id) : $request->user();
+        $user = is_null($user) ? auth()->user() : $user;
+
         $name = $request->input('user-name');
         $email = $request->input('email');
         $mobile = $request->input('mobile');

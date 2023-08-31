@@ -78,6 +78,8 @@ class MovieController extends Controller
             $timestamp    = strtotime("+$i days");
             $date         = $jdate->date("l j F", $timestamp, true, true, 'Asia/Tehran');
             $daysOfWeek[] = explode(' ', $date);
+            $daysOfWeek[$i]['time'] = date('Y-m-d', $timestamp);
+
         }
 
         $commentCount = count($comments);

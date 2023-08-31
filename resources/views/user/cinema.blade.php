@@ -135,7 +135,8 @@
                                         <div class="flex justify-between items-center">
                                             <p class="text-sm">{{ $movie['title'] }} | <span
                                                     class="text-gray-500">{{ $movie['director'] }}</span></p>
-                                            <button class="text-red-500 flex items-center hover:bg-red-50 p-2 rounded-lg">
+                                            <button onclick="toggleSans({{ $movie['id'] }})"
+                                                class="text-red-500 flex items-center hover:bg-red-50 p-2 rounded-lg">
                                                 <span>
                                                     سانس ها
                                                 </span>
@@ -152,7 +153,7 @@
                                                 <i class="fas fa-heart text-red-400 text-xs"></i>
                                             </span>
                                             <span>
-                                                {{ convertDigitsToFarsi(rand(100, 999)) }}
+                                                {{ convertDigitsToFarsi(rand(1, 10)) }}
                                                 <i class="fa-regular fa-user"></i>
                                             </span>
                                         </div>
@@ -172,7 +173,8 @@
                                             class="text-xs text-gray-700 mb-8 hover:text-red-600">درباره
                                             {{ $movie['title'] }}
                                             <i class="fa-solid fa-angle-left mr-2"></i></a>
-                                        <div class="flex flex-wrap flex-row w-full">
+                                        <div style="display: none" id="sans-movie-{{ $movie['id'] }}"
+                                            class="flex flex-wrap flex-row w-full">
                                             @foreach ($movie['sans'] as $movieSession)
                                                 <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
                                                     <h5>{{ $movieSession['name'] }}</h5>
@@ -188,11 +190,11 @@
                                                                 class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format($movieSession['price'])) }}
                                                                 تومان</span>
                                                         </div>
-                                                        <button
+                                                        <a href="{{ route('sans.show', ['sans' => $movieSession['slug']]) }}"
                                                             class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
                                                             <i class="fas fa-ticket ml-2"></i>
                                                             <span>خرید بلیت</span>
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -357,13 +359,158 @@
         </div>
     @endauth
     <script>
+        const baseUrl   = "{{ url('/') }}/";
+        const sansUrl   = baseUrl + "ticket/choose-seat/";
+        const movieUrl  = baseUrl + "movie/";
+
+        function toggleSans(id) {
+            $(`#sans-movie-${id}`).toggle();
+        }
+
         function showMovie(date, cinema, element, id) {
-            // console.log(date, cinema, element.classList);
+
             $(".bg-stone-200").each(function() {
                 $(this).removeClass("bg-stone-200");
             });
             $(element).addClass('bg-stone-200');
-
+            $("#movies-container").html('');
+            $.ajax({
+                url: "{{ route('sans.get.movies') }}",
+                data: {
+                    "date": date,
+                    "cinema": cinema,
+                    "_token": "{{ csrf_token() }}"
+                },
+                dataType: 'json',
+                type: "POST",
+                success: (response) => {
+                    if (response.total) {
+                        const data = response.data;
+                        
+                        for (const key in data) {
+                            const movie = data[key];
+                            const characters = movie.characters;                            
+                            let chractersSection = '';
+                            if (characters){
+                                characters.forEach(chracter => {
+                                    chractersSection += `
+                                        <div class="flex items-center ml-3">
+                                            <img class="w-8 h-8 rounded-lg object-cover"
+                                                src="${chracter.avatar}" alt="${chracter.name}"
+                                                title="${chracter.name}">
+                                            <span class="text-xs mr-2">${chracter.name}</span>
+                                        </div>`;
+                                });
+                            }
+                            const sans = movie.sans;                            
+                            let sansSection = '';
+                            if (sans){
+                                sans.forEach(item => {
+                                    sansSection += `
+                                        <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
+                                            <h5>${item.name}</h5>
+                                            <div
+                                                class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
+                                                <div class="flex flex-col">
+                                                    <p class="hover:text-red-500">
+                                                        <i
+                                                            class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
+                                                        <span>سانس ${item.time}</span>
+                                                    </p>
+                                                    <span
+                                                        class="text-center font-thin text-sm mt-2">${item.price}
+                                                        تومان</span>
+                                                </div>
+                                                <a href="${sansUrl+item.slug}"
+                                                    class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
+                                                    <i class="fas fa-ticket ml-2"></i>
+                                                    <span>خرید بلیت</span>
+                                                </a>
+                                            </div>
+                                        </div>`;
+                                });
+                            }
+                            let mainBanner = baseUrl + movie.main_banner;
+                            let element = `
+                                <div class="flex flex-wrap my-4 hover:bg-gray-100 cursor-pointer p-3">
+                                    <div class="basis-2/12">
+                                        <img class="rounded-lg" src="${mainBanner}"
+                                            title="${movie.title}" alt="${movie.title}">
+                                    </div>
+                                    <div class="basis-1/12"></div>
+                                    <div class="basis-9/12 flex flex-col justify-between">
+                                        <div class="flex justify-between items-center">
+                                            <p class="text-sm">${movie.title} | <span
+                                                    class="text-gray-500">${movie.director}</span></p>
+                                            <button onclick="toggleSans(${movie.id})"
+                                                class="text-red-500 flex items-center hover:bg-red-50 p-2 rounded-lg">
+                                                <span>
+                                                    سانس ها
+                                                </span>
+                                                <i class="fa-solid fa-angle-down mr-3"></i>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <span
+                                                class="lg:p-2 p-1 rounded-lg text-xs bg-gray-200 ">${movie.category.name}</span>
+                                        </div>
+                                        <div>
+                                            <span class="ml-3">
+                                                <span>${movie.score}</span>
+                                                <i class="fas fa-heart text-red-400 text-xs"></i>
+                                            </span>
+                                            <span>
+                                                ${movie.totalScore}
+                                                <i class="fa-regular fa-user"></i>
+                                            </span>
+                                        </div>
+                                        <div class="hidden lg:flex md:flex">
+                                            ${chractersSection}
+                                        </div>
+                                    </div>
+                                    <div class="p-3 mt-3 basis-full">
+                                        <a href="${movieUrl + movie.slug}"
+                                            class="text-xs text-gray-700 mb-8 hover:text-red-600">درباره
+                                            ${movie.title}
+                                            <i class="fa-solid fa-angle-left mr-2"></i></a>
+                                        <div style="display: none" id="sans-movie-${movie.id}"
+                                            class="flex flex-wrap flex-row w-full">
+                                            ${sansSection}
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
+                            $("#movies-container").append(element);
+                        }
+                    } else {
+                        let element = `
+                            <div class="w-full flex justify-center items-center py-12">
+                                <div class="flex flex-col ">
+                                    <div class="flex justify-center mb-4">
+                                        <img src="${baseUrl}images/session.svg" alt="سینما تیکت">
+                                    </div>
+                                    <div>
+                                        <a href="${baseUrl}cinema" class="py-3 px-4 text-white bg-red-500 rounded-lg">
+                                            <i class="fa-solid fa-clapperboard ml-3"></i>
+                                            <span>سینما های دیگر</span>
+                                        </a>
+                                        <button id="city-btn-modal" data-modal-target="defaultModal"
+                                            data-modal-toggle="defaultModal"
+                                            class="mr-3 py-3 px-4 text-red-500 bg-white border-[1px] border-red-500 hover:bg-red-50 rounded-lg">
+                                            <i class="fa-solid fa-location-dot ml-3"></i>
+                                            <span>تغییر شهر (مشهد)</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $("#movies-container").append(element);
+                    }
+                },
+                error: (xhr, status, err) => {
+                    console.log(xhr);
+                }
+            });
         }
     </script>
 @endsection

@@ -107,7 +107,8 @@
                 <button type="button"
                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2">
                     <i class="fa-solid fa-ticket-simple" style="color: #ffffff;"></i>
-                    انتخاب سالن تئاتر و خرید بلیط
+                    <a href="#sans-container">                    انتخاب سالن تئاتر و خرید بلیط
+                    </a>
                 </button>
                 <button data-modal-target="trailerModal" data-modal-toggle="trailerModal" type="button"
                     class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
@@ -171,15 +172,17 @@
 
                     <div class="flex flex-row justify-between">
 
-                        <div class="block">
-                            <h1 class="text-gray-400 text-xl font-semibold	 mx-4 my-4">انتخاب و سانس</h1>
+                        <div class="block" id="sans-container">
+                            <h1 class="text-gray-400 text-xl font-semibold	 mx-4 my-4">انتخاب سانس</h1>
 
                             <div class="flex mt-6 text-sm font-light mb-5 px-8">
                                 @if (!empty($cinemas))
                                     @foreach ($daysOfWeek as $key => $day)
                                         <div class="text-center ml-3 cursor-pointer">
                                             <p
-                                                class="px-3.5 py-1.5 rounded-full {{ $key == 0 ? 'bg-gray-100' : '' }} mb-2.5 text-center">
+                                                id="day-{{ $key }}"
+                                                onclick="showCinema('{{ $day['time'] }}', {{ $movie->id }}, this, {{ $key }})"
+                                                class="px-3.5 py-1.5 rounded-full {{ $key == 0 ? 'bg-stone-200' : '' }} mb-2.5 text-center">
                                                 {{ $day[0] }}</p>
                                             <p class="text-center text-xs text-gray-700">{{ $day[1] . ' ' . $day[2] }}</p>
                                         </div>
@@ -215,7 +218,7 @@
                     </div>
 
                     @if (!empty($cinemas))
-                        <div class="cinema p-4">
+                        <div id="cinemas-container" class="cinema p-4">
                             @foreach ($cinemas as $key => $cinema)
                                 <div class="block relative">
                                     <div class="flex flex-row flex-wrap w-full mt-3 ">
@@ -482,4 +485,140 @@
             </div>
         </div>
     @endauth
+    <script>
+        const baseUrl    = "{{ url('/') }}/";
+        const sansUrl    = baseUrl + "ticket/choose-seat/";
+        const cinemaUrl  = baseUrl + "cinema/detail/";
+
+        function showCinema(date, movie, element, id) {
+
+            $(".bg-stone-200").each(function() {
+                $(this).removeClass("bg-stone-200");
+            });
+            $(element).addClass('bg-stone-200');
+            $("#cinemas-container").html('');
+            $.ajax({
+                url: "{{ route('sans.get.cinemas') }}",
+                data: {
+                    "date": date,
+                    "movie": movie,
+                    "_token": "{{ csrf_token() }}"
+                },
+                dataType: 'json',
+                type: "POST",
+                success: (response) => {
+                    if (response.total) {
+                        const data = response.data;
+                        
+                        for (const key in data) {
+                            const cinema = data[key];
+                            
+                            const sans = cinema.sans;                            
+                            let sansSection = '';
+                            if (sans){
+                                sans.forEach(item => {
+                                    sansSection += `
+                                        <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
+                                            <h5>${item.name}</h5>
+                                            <div
+                                                class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
+                                                <div class="flex flex-col">
+                                                    <p class="hover:text-red-500">
+                                                        <i
+                                                            class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
+                                                        <span>سانس ${item.time}</span>
+                                                    </p>
+                                                    <span
+                                                        class="text-center font-thin text-sm mt-2">${item.price}
+                                                        تومان</span>
+                                                </div>
+                                                <a href="${sansUrl+item.slug}"
+                                                    class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
+                                                    <i class="fas fa-ticket ml-2"></i>
+                                                    <span>خرید بلیت</span>
+                                                </a>
+                                            </div>
+                                        </div>`;
+                                });
+                            }
+                            let mainBanner = baseUrl + cinema.banner;
+                            let element = `
+                                <div class="block relative">
+                                    <div class="flex flex-row flex-wrap w-full mt-3 ">
+                                        <div class="w-5/6 flex flex-row">
+                                            <img src="${mainBanner}"
+                                                class=" w-60 h-36 rounded-xl  bg-responsive">
+                                            <div class="block">
+                                                <h3 class="text-black text-xl font-semibold mx-3">
+                                                    ${cinema.title}
+                                                </h3>
+                                                <div class="flex flex-row mt-4">
+                                                    <i class="fa-solid fa-location-dot mr-3"></i>
+                                                    <h4 class="text-black text-normal font-normal mx-3">
+                                                        ${cinema.address}</h4>
+                                                </div>
+                                                <div class="mt-4">
+                                                    <span
+                                                        class=" mt-3 mr-3 text-right bg-gray-400 text-white text-sm font-medium px-2.5 pt-2 pb-0.5 rounded-full dark:bg-gray-400 dark:text-gray-300">
+                                                        <i class="fa-solid fa-star text-white"></i>
+                                                        ${cinema.score}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-1/6 ">
+                                            <button type="button" class="flex flex-row text-red-500 dropdown-btn"
+                                                onclick="toggleDropdown(${cinema.id})">
+                                                <h2 class="text-md font-semibold ml-2">سانس ها</h2>
+                                                <i class="fa-solid fa-chevron-down  drop-icon-${cinema.id}"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-wrapper drop-div-${cinema.id} hidden bg-red w-full my-4">
+                                        <div class="mt-2">
+                                            <a href="${cinemaUrl + cinema.id}" class="flex flex-row w-full">
+                                                <h1 class="ml-1">درباره ${cinema.title}</h1>
+                                                <i class="fa-solid fa-chevron-left font-sm text-gray-500"></i>
+                                            </a>
+                                            <div class="flex flex-wrap flex-row w-full">
+                                                ${sansSection}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
+                            $("#cinemas-container").append(element);
+                        }
+                        
+                    } else {
+                        let element = `
+                            <div class="w-full flex justify-center items-center py-12">
+                                <div class="flex flex-col ">
+                                    <div class="flex justify-center mb-4">
+                                        <img src="${baseUrl}images/session.svg" alt="سینما تیکت">
+                                    </div>
+                                    <div>
+                                        <a href="${baseUrl}movie/more" class="py-3 px-4 text-white bg-red-500 rounded-lg">
+                                            <i class="fa-solid fa-clapperboard ml-3"></i>
+                                            <span>فیلم های دیگر</span>
+                                        </a>
+                                        <button id="city-btn-modal" data-modal-target="defaultModal"
+                                            data-modal-toggle="defaultModal"
+                                            class="mr-3 py-3 px-4 text-red-500 bg-white border-[1px] border-red-500 hover:bg-red-50 rounded-lg">
+                                            <i class="fa-solid fa-location-dot ml-3"></i>
+                                            <span>تغییر شهر (مشهد)</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $("#cinemas-container").append(element);
+                    }
+                },
+                error: (xhr, status, err) => {
+                    console.log(xhr);
+                }
+            });
+        }
+    </script>
 @endsection

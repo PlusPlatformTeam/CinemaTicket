@@ -71,7 +71,7 @@ class CinemaController extends Controller
             $timestamp              = strtotime("+$i days");
             $date                   = $jdate->date("l j F", $timestamp, true, true, 'Asia/Tehran');
             $daysOfWeek[$i]         = explode(' ', $date);
-            $daysOfWeek[$i]['time'] = date('Y-m-d H:i:s', $timestamp);
+            $daysOfWeek[$i]['time'] = date('Y-m-d', $timestamp);
         }
 
         $userScore = Score::where([
