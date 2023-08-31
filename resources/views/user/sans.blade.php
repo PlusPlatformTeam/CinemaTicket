@@ -188,7 +188,7 @@
                     </div>
                 </div>
                 <div class="font-bold">
-                    <span>ظرفیت سالن: {{ convertDigitsToFarsi($sans->hall[0]['capacity']) }}</span>
+                    <span>ظرفیت سالن: {{ convertDigitsToFarsi($sans->capacity) }}</span>
                 </div>
             </header>
             <main class="h-full w-full bg-gray-700 flex justify-between text-white py-6 px-1">

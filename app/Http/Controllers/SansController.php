@@ -10,6 +10,7 @@ use App\Models\Sans;
 use App\Models\SansCinemas;
 use App\Models\SansHalls;
 use App\Models\SansMovies;
+use App\Models\Score;
 use App\Models\Seat;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
@@ -74,20 +75,20 @@ class SansController extends Controller
             $selectedItems = json_decode($request->input('selected_items'), true);
             $sansId        = $request->input('sansId');
             $sans          = Sans::where('id', $sansId)->first();
-            $data=explode(",",Cache::get($currentUser));
-            $factorId=$data[0];
-            $totalPrice=$data[1];
+            $data          = explode(",",Cache::get($currentUser));
+            $factorId      = $data[0];
+            $totalPrice    = $data[2];
 
-          Factor::where('id', $factorId)
-          ->update([
-          'state' => Factor::PAID,
-          'paid_time' => date('Y-m-d H:i:s'),
-    ]);
+            Factor::where('id', $factorId)
+                    ->update([
+                    'state' => Factor::PAID,
+                    'paid_time' => date('Y-m-d H:i:s'),
+            ]);
 
             Ticket::create([
                 'user_id' => $currentUser,
                 'cinema_id' => $sans["cinema_id"],
-                'sans_id' => $sans["id"],   
+                'sans_id' => $sansId,   
                 'factor_id' =>  $factorId,  
                 'state' => Ticket::VALID,
                 'code'  => rand(100000, 999999) ,
@@ -95,6 +96,13 @@ class SansController extends Controller
                 'slug' => rand(1000, 9999),
                 'total_price' =>  $totalPrice,
             ]);
+
+            $movie        = Movie::find($sans['movie_id']);
+            $movie->sale += $totalPrice;
+            $movie->save();
+
+            $sans['capacity'] -= count($selectedItems);
+            $sans->save();
 
             foreach ($selectedItems as $item) {
                 Seat::create([
@@ -105,7 +113,7 @@ class SansController extends Controller
                 ]);
             }
 
-            return redirect()->route('movie.show', ['movie' => $sans->movie[0]->slug]);
+            return redirect()->route('user.tickets');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
@@ -131,7 +139,7 @@ class SansController extends Controller
         ]);
 
 
-        Cache::set($currentUser,$factor["id"].",".$totalPrice );
+        Cache::set($currentUser,$factor["id"].",".$totalPrice.','.$totalPriceCount);
 
         return view('user.preFactor', [
             'seatsDetail' => $seatsDetail,
@@ -153,7 +161,6 @@ class SansController extends Controller
         $jdate = new \jDateTime(true, true, 'Asia/Tehran');
 
         $sans = Sans::with(['hall', 'movie', 'cinema'])
-            ->where('started_at', '>', $today)
             ->paginate(2); 
 
         $sans->getCollection()->transform(function ($item) use ($jdate) {
@@ -226,5 +233,107 @@ class SansController extends Controller
             $sans->delete();
             return response(['message' => 'سانس با موفقیت پاک شد']);
         }
+    }
+
+    public function GetMovies(Request $request)
+    {
+        $jdate      = new \jDateTime(true, true, 'Asia/Tehran');
+        $timezone   = new \DateTimeZone('+0330');
+        $start      = new \DateTime('now', $timezone);
+        $startTime  = date('Y-m-d') < $request->date ? '00:00:00' : $start->format('H:i:s');
+        $start      = $request->date.' '.$startTime;
+        $end        = $request->date . ' 23:59:59';
+        $sans       = Sans::with(['cinema', 'movie.characters', 'movie.category', 'hall'])
+                        ->where('cinema_id', $request->cinema)
+                        ->whereBetween('started_at', [$start, $end])
+                        ->get()->toArray();
+        $movies = [];
+        foreach ($sans as $key => $value) {
+            $movie = $value['movie'][0];
+            $movie['score']      = convertDigitsToFarsi($movie['score'].'/'.'5');
+            $movie['totalScore'] = convertDigitsToFarsi(Score::where('scorable_type', Movie::class)
+                                                             ->where('scorable_id', $movie['id'])->count());
+            if (array_key_exists($movie['slug'], $movies)) {
+                $movies[$movie['slug']]['sans'][] = [
+                    'id' => $value['id'],
+                    'slug' => $value['slug'],
+                    'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                    'name' => $value['hall'][0]['title'],
+                    'price' => convertDigitsToFarsi(number_format($value['price'])),
+                ];
+            } else {
+                $movie['sans'][] = [
+                    'id' => $value['id'],
+                    'slug' => $value['slug'],
+                    'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                    'name' => $value['hall'][0]['title'],
+                    'price' => convertDigitsToFarsi(number_format($value['price'])),
+                ];
+            
+                $movies[$movie['slug']] = $movie;
+            }
+        } 
+        return response(['data' => $movies , 'total' => count($movies)]);
+    }
+
+    public function GetCinemas(Request $request)
+    {
+        $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId'] : null;
+        $jdate      = new \jDateTime(true, true, 'Asia/Tehran');
+        $timezone   = new \DateTimeZone('+0330');
+        $start      = new \DateTime('now', $timezone);
+        $startTime  = date('Y-m-d') < $request->date ? '00:00:00' : $start->format('H:i:s');
+        $start      = $request->date.' '.$startTime;
+        $end        = $request->date . ' 23:59:59';
+        $allSans    = Sans::with(['cinema', 'hall'])
+                ->where('movie_id', $request->movie)
+                ->whereBetween('started_at', [$start, $end])
+                ->select('sans.*')
+                ->get()
+                ->toArray();
+
+        if ($selectedCityId) {
+            $sans = Sans::with(['cinema', 'hall'])
+                ->join('cinemas', 'sans.cinema_id', '=', 'cinemas.id')
+                ->where('movie_id', $request->movie)
+                ->whereBetween('started_at', [$start, $end])
+                ->where('cinemas.city_id', $selectedCityId)
+                ->select('sans.*')
+                ->get()
+                ->toArray();
+        
+            if (collect($sans)->isEmpty()) {
+                $sans = $allSans;
+            }
+        } else {
+            $sans = $allSans;
+        }
+
+        $cinemas = [];
+        foreach ($sans as $key => $value) {
+            $cinema = $value['cinema'][0];
+            $cinema['score'] = convertDigitsToFarsi('5 / ' . $cinema['score']);
+            if (array_key_exists($cinema['id'], $cinemas)) {
+                $cinemas[$cinema['id']]['sans'][] = [
+                    'id' => $value['id'],
+                    'slug' => $value['slug'],
+                    'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                    'name' => $value['hall'][0]['title'],
+                    'price' => convertDigitsToFarsi(number_format($value['price'])),
+                ];
+            } else {
+                $cinema['sans'][] = [
+                    'id' => $value['id'],
+                    'slug' => $value['slug'],
+                    'time' => convertDigitsToFarsi(date('H:i', strtotime($value['started_at']))),
+                    'name' => $value['hall'][0]['title'],
+                    'price' => convertDigitsToFarsi(number_format($value['price'])),
+                ];
+        
+                $cinemas[$cinema['id']] = $cinema;
+            }
+        }
+
+        return response(['data' => $cinemas , 'total' => count($cinemas)]);
     }
 }

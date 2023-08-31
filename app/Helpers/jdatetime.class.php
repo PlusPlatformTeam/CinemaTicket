@@ -516,7 +516,7 @@ class jDateTime
             'sat' => array(1, 'شنبه'),
             'sun' => array(2, 'یکشنبه'),
             'mon' => array(3, 'دوشنبه'),
-            'tue' => array(4, 'سه شنبه'),
+            'tue' => array(4, 'سشنبه'),
             'wed' => array(5, 'چهارشنبه'),
             'thu' => array(6, 'پنجشنبه'),
             'fri' => array(7, 'جمعه')

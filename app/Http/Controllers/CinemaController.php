@@ -52,7 +52,7 @@ class CinemaController extends Controller
         $sans       = Sans::with(['cinema', 'movie.characters', 'movie.category', 'hall'])
             ->where('cinema_id', $cinema->id)
             ->whereBetween('started_at', [$start, $end])
-            ->get();
+            ->get()->toArray();
 
         $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
             ->where('comments.cinema_id', $cinema->id)
@@ -68,9 +68,10 @@ class CinemaController extends Controller
         }
 
         for ($i = 0; $i < 4; $i++) {
-            $timestamp    = strtotime("+$i days");
-            $date         = $jdate->date("l j F", $timestamp, true, true, 'Asia/Tehran');
-            $daysOfWeek[] = explode(' ', $date);
+            $timestamp              = strtotime("+$i days");
+            $date                   = $jdate->date("l j F", $timestamp, true, true, 'Asia/Tehran');
+            $daysOfWeek[$i]         = explode(' ', $date);
+            $daysOfWeek[$i]['time'] = date('Y-m-d', $timestamp);
         }
 
         $userScore = Score::where([
