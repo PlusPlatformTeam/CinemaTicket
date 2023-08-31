@@ -23,10 +23,7 @@
             $movies[$movie['slug']] = $movie;
         }
     }
-    // echo "<pre style='text-align:left' dir='ltr'>";
-    // var_dump($daysOfWeek);
-    // echo "</pre>";
-    // dd($movies);
+    
 @endphp
 </div>
 @extends('.user.template')
@@ -55,9 +52,10 @@
                     </p>
                     <p class="mb-2.5 flex items-center">
                         <span class="text-gray-500 flex items-center justify-between">
-                            <span class="pt-2.5" id="score">{{ convertDigitsToFarsi($cinema->score . '/' . '5') }}</span> 
-                                <i class="fas fa-star"></i>
-                            </span>
+                            <span class="pt-2.5"
+                                id="score">{{ convertDigitsToFarsi($cinema->score . '/' . '5') }}</span>
+                            <i class="fas fa-star"></i>
+                        </span>
                         @auth
                             <button data-modal-target="score-modal" data-modal-toggle="score-modal" type="button"
                                 class="px-1.5 py-1 text-sm rounded-xl bg-gray-300 inline-flex items-center">
@@ -93,8 +91,11 @@
                         @if (!empty($movies))
                             @foreach ($daysOfWeek as $key => $day)
                                 <div class="text-center ml-3 cursor-pointer">
-                                    <p
-                                        class="px-3.5 py-1.5 rounded-full {{ $key == 0 ? 'bg-gray-100' : '' }} mb-2.5 text-center">
+                                    <input name="started_at" type="hidden" value="{{ $day['time'] }}">
+                                    <input name="cinema" type="hidden" value="{{ $cinema->id }}">
+                                    <p id="day-{{ $key }}"
+                                        onclick="showMovie('{{ $day['time'] }}', {{ $cinema->id }}, this, {{ $key }})"
+                                        class="px-3.5 py-1.5 rounded-full {{ $key == 0 ? 'bg-stone-200' : '' }} mb-2.5 text-center">
                                         {{ $day[0] }}</p>
                                     <p class="text-center text-xs text-gray-700">{{ $day[1] . ' ' . $day[2] }}</p>
                                 </div>
@@ -102,100 +103,124 @@
                         @endif
                     </div>
                     @if (empty($movies))
-                        
-                    @else
-                        @foreach ($movies as $movie)
-                            <div class="flex flex-wrap my-4 hover:bg-gray-100 cursor-pointer p-3">
-                                <div class="basis-2/12">
-                                    <img class="rounded-lg" src="{{ url($movie['main_banner']) }}"
-                                        title="{{ $movie['title'] }}" alt="{{ $movie['title'] }}">
+                        <div class="w-full flex justify-center items-center py-12">
+                            <div class="flex flex-col ">
+                                <div class="flex justify-center mb-4">
+                                    <img src="{{ url('images/session.svg') }}" alt="سینما تیکت">
                                 </div>
-                                <div class="basis-1/12"></div>
-                                <div class="basis-9/12 flex flex-col justify-between">
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-sm">{{ $movie['title'] }} | <span
-                                                class="text-gray-500">{{ $movie['director'] }}</span></p>
-                                        <button class="text-red-500 flex items-center hover:bg-red-50 p-2 rounded-lg">
-                                            <span>
-                                                سانس ها
-                                            </span>
-                                            <i class="fa-solid fa-angle-down mr-3"></i>
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <span
-                                            class="lg:p-2 p-1 rounded-lg text-xs bg-gray-200 ">{{ $movie['category']['name'] }}</span>
-                                    </div>
-                                    <div>
-                                        <span class="ml-3">
-                                            <span>{{ convertDigitsToFarsi($movie['score'] . '/' . '5') }}</span>
-                                            <i class="fas fa-heart text-red-400 text-xs"></i>
-                                        </span>
-                                        <span>
-                                            {{ convertDigitsToFarsi(rand(100, 999)) }}
-                                            <i class="fa-regular fa-user"></i>
-                                        </span>
-                                    </div>
-                                    <div class="hidden lg:flex md:flex">
-                                        @foreach ($movie['characters'] as $character)
-                                            <div class="flex items-center ml-3">
-                                                <img class="w-8 h-8 rounded-lg object-cover"
-                                                    src="{{ $character['avatar'] }}" alt="{{ $character['name'] }}"
-                                                    title="{{ $character['name'] }}">
-                                                <span class="text-xs mr-2">{{ $character['name'] }}</span>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="p-3 mt-3 basis-full">
-                                    <a href="{{ route('movie.show', ['movie' => $movie['slug']]) }}"
-                                        class="text-xs text-gray-700 mb-8 hover:text-red-600">درباره {{ $movie['title'] }}
-                                        <i class="fa-solid fa-angle-left mr-2"></i></a>
-                                    <div class="flex flex-wrap flex-row w-full">
-                                        @foreach ($movie['sans'] as $movieSession)
-                                            <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
-                                                <h5>{{ $movieSession['name'] }}</h5>
-                                                <div
-                                                    class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
-                                                    <div class="flex flex-col">
-                                                        <p class="hover:text-red-500">
-                                                            <i
-                                                                class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
-                                                            <span>سانس {{ $movieSession['time'] }}</span>
-                                                        </p>
-                                                        <span
-                                                            class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format($movieSession['price'])) }}
-                                                            تومان</span>
-                                                    </div>
-                                                    <button
-                                                        class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
-                                                        <i class="fas fa-ticket ml-2"></i>
-                                                        <span>خرید بلیت</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                <div>
+                                    <a href="{{ route('movie.all') }}" class="py-3 px-4 text-white bg-red-500 rounded-lg">
+                                        <i class="fa-solid fa-clapperboard ml-3"></i>
+                                        <span>سینما های دیگر</span>
+                                    </a>
+                                    <button id="city-btn-modal" data-modal-target="defaultModal"
+                                        data-modal-toggle="defaultModal"
+                                        class="mr-3 py-3 px-4 text-red-500 bg-white border-[1px] border-red-500 hover:bg-red-50 rounded-lg">
+                                        <i class="fa-solid fa-location-dot ml-3"></i>
+                                        <span>تغییر شهر (مشهد)</span>
+                                    </button>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+                    @else
+                        <div class="m-0 p-0 w-full" id="movies-container">
+                            @foreach ($movies as $movie)
+                                <div class="flex flex-wrap my-4 hover:bg-gray-100 cursor-pointer p-3">
+                                    <div class="basis-2/12">
+                                        <img class="rounded-lg" src="{{ url($movie['main_banner']) }}"
+                                            title="{{ $movie['title'] }}" alt="{{ $movie['title'] }}">
+                                    </div>
+                                    <div class="basis-1/12"></div>
+                                    <div class="basis-9/12 flex flex-col justify-between">
+                                        <div class="flex justify-between items-center">
+                                            <p class="text-sm">{{ $movie['title'] }} | <span
+                                                    class="text-gray-500">{{ $movie['director'] }}</span></p>
+                                            <button class="text-red-500 flex items-center hover:bg-red-50 p-2 rounded-lg">
+                                                <span>
+                                                    سانس ها
+                                                </span>
+                                                <i class="fa-solid fa-angle-down mr-3"></i>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <span
+                                                class="lg:p-2 p-1 rounded-lg text-xs bg-gray-200 ">{{ $movie['category']['name'] }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="ml-3">
+                                                <span>{{ convertDigitsToFarsi($movie['score'] . '/' . '5') }}</span>
+                                                <i class="fas fa-heart text-red-400 text-xs"></i>
+                                            </span>
+                                            <span>
+                                                {{ convertDigitsToFarsi(rand(100, 999)) }}
+                                                <i class="fa-regular fa-user"></i>
+                                            </span>
+                                        </div>
+                                        <div class="hidden lg:flex md:flex">
+                                            @foreach ($movie['characters'] as $character)
+                                                <div class="flex items-center ml-3">
+                                                    <img class="w-8 h-8 rounded-lg object-cover"
+                                                        src="{{ $character['avatar'] }}" alt="{{ $character['name'] }}"
+                                                        title="{{ $character['name'] }}">
+                                                    <span class="text-xs mr-2">{{ $character['name'] }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="p-3 mt-3 basis-full">
+                                        <a href="{{ route('movie.show', ['movie' => $movie['slug']]) }}"
+                                            class="text-xs text-gray-700 mb-8 hover:text-red-600">درباره
+                                            {{ $movie['title'] }}
+                                            <i class="fa-solid fa-angle-left mr-2"></i></a>
+                                        <div class="flex flex-wrap flex-row w-full">
+                                            @foreach ($movie['sans'] as $movieSession)
+                                                <div class="basis-6-12 md:basis-8/12 sm:basis-8/12 my-2">
+                                                    <h5>{{ $movieSession['name'] }}</h5>
+                                                    <div
+                                                        class="flex justify-between items-center border-2 rounded-xl p-3 bg-gray-50">
+                                                        <div class="flex flex-col">
+                                                            <p class="hover:text-red-500">
+                                                                <i
+                                                                    class="fa-regular fa-clock text-gray-400 hover:text-red-500"></i>
+                                                                <span>سانس {{ $movieSession['time'] }}</span>
+                                                            </p>
+                                                            <span
+                                                                class="text-center font-thin text-sm mt-2">{{ convertDigitsToFarsi(number_format($movieSession['price'])) }}
+                                                                تومان</span>
+                                                        </div>
+                                                        <button
+                                                            class="hidden lg:flex px-3 py-2 items-center bg-red-500 text-sm text-gray-50 rounded-lg">
+                                                            <i class="fas fa-ticket ml-2"></i>
+                                                            <span>خرید بلیت</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                         <div class="bg-white w-full rounded-lg mt-16 mb-16">
                             <div class="flex flex-row p-4">
-                                <h1 class="text-gray-400 text-xl font-semibold mx-4 my-4">دیدگاه های کاربران {{ $cinema['title'] }}
+                                <h1 class="text-gray-400 text-xl font-semibold mx-4 my-4">دیدگاه های کاربران
+                                    {{ $cinema['title'] }}
                                 </h1>
-                                <p class="text-gray-400 text-sm font-normal	mx-4 mt-5">({{ convertDigitsToFarsi($commentCount) }}) دیدگاه ثبت شده
+                                <p class="text-gray-400 text-sm font-normal	mx-4 mt-5">
+                                    ({{ convertDigitsToFarsi($commentCount) }}) دیدگاه ثبت شده
                                 </p>
-                        
+
                             </div>
                             <hr class="bg-gray-200 w-full" style="height: 1px" />
                             <form class="w-full py-3" method="POST" action="{{ route('comment.add') }}">
                                 @csrf
                                 <div class="w-9/12 flex flex-col mx-auto mt-3">
                                     <input type="hidden" name="cinema_id" value="{{ $cinema->id }}">
-                                    <textarea class="resize-none bg-gray-50 border-none border-gray-200 focus:border-gray-400 rounded-md p-2" rows="4"
-                                        maxlength="500" name="message" id="message" placeholder="دیدگاه شما ..."></textarea>
+                                    <textarea class="resize-none bg-gray-50 border-none border-gray-200 focus:border-gray-400 rounded-md p-2"
+                                        rows="4" maxlength="500" name="message" id="message" placeholder="دیدگاه شما ..."></textarea>
                                     <div class="flex flex-row justify-between">
-                                        <p class="text-sm text-right text-gray-500 mt-6"><span id="message-counter">0</span>/500
+                                        <p class="text-sm text-right text-gray-500 mt-6"><span
+                                                id="message-counter">0</span>/500
                                         </p>
                                         @auth
                                             <button type="submit"
@@ -207,9 +232,9 @@
                                                 class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
                                                 دیدگاه
                                             </a>
-                        
+
                                         @endauth
-                        
+
                                     </div>
                                 </div>
                             </form>
@@ -239,8 +264,10 @@
                 </div>
                 <div class="hidden lg:block md:block lg:basis-3/12 md:basis-3/12 mx-3">
                     @php
-                        if (!is_array($cinema->location)) // TODO fix 
-                            $cinema->location = json_decode($cinema->location, true)
+                        if (!is_array($cinema->location)) {
+                            // TODO fix
+                            $cinema->location = json_decode($cinema->location, true);
+                        }
                     @endphp
                     <div class="w-96 mb-6">
                         <iframe class="w-full rounded-lg border-8 border-gray-50" height="270" loading="lazy"
@@ -329,4 +356,14 @@
             </div>
         </div>
     @endauth
+    <script>
+        function showMovie(date, cinema, element, id) {
+            // console.log(date, cinema, element.classList);
+            $(".bg-stone-200").each(function() {
+                $(this).removeClass("bg-stone-200");
+            });
+            $(element).addClass('bg-stone-200');
+
+        }
+    </script>
 @endsection
