@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Character;
+use App\Models\Cinema;
+use App\Models\City;
 use App\Models\Comment;
 use App\Models\Factor;
+use App\Models\Movie;
 use App\Models\Province;
 use App\Models\Sans;
 use App\Models\Ticket;
@@ -12,7 +16,16 @@ class AdminController extends Controller
 {
     public function Index()
     {
-        return view('admin.dashboard', ['admin' => auth()->user()]);
+        return view('admin.dashboard', [
+            'admin' => auth()->user(),
+            'cities'=> City::all(['id', 'title']),
+            'cinemas' => Cinema::all(['id', 'title']),
+            'movies' => Movie::all(['id', 'title']),
+            'cinemasCount' => convertDigitsToFarsi(number_format(Cinema::all()->count())),
+            'moviesCount' => convertDigitsToFarsi(number_format(Movie::all()->count())),
+            'actorsCount' => convertDigitsToFarsi(number_format(Character::all()->count())),
+            'commentsCount' => convertDigitsToFarsi(number_format(Comment::all()->count()))
+        ]);
     }
 
     public function Provinces()
