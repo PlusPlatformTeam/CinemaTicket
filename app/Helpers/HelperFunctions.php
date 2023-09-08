@@ -38,14 +38,8 @@ function convertToIranFormat($mobileNumber) {
     }
 }
 
-/**
- * @param string $mobile
- * @return int
- */
-function generateRandomAuthCode($mobile)
+function sendSms($mobile, $msg)
 {
-    $code = mt_rand(1000, 9999);
-    $msg  = "رمز عبورشما: '{$code}'\nسینما تیکت";
     $response = Http::withoutVerifying()->withHeaders([
             'Content-Type' => 'application/x-www-form-urlencoded',
         ])->asForm()->post('https://panel.asanak.com/webservice/v1rest/sendsms', [
@@ -55,7 +49,22 @@ function generateRandomAuthCode($mobile)
             'Message' => $msg,
             'destination' => convertToIranFormat($mobile)
     ]);
+
+    return $response->body();
+}
+
+/**
+ * @param string $mobile
+ * @return int
+ */
+function generateRandomAuthCode($mobile)
+{
+    $code          = mt_rand(1000, 9999);
+    $sampleMsgSms  = config('app.sampleMsgSms');
+    $msg           = str_replace('code', $code, $sampleMsgSms['auth']);
+
+    $msgID = sendSms($mobile, $msg);
     
-    Log::info("TransactionCode: {$response->body()}, Code: $code");
+    Log::info("TransactionCode: {$msgID}, Code: $code");
     return $code;
 }

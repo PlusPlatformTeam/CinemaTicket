@@ -79,6 +79,8 @@ class SansController extends Controller
             $data          = explode(",",Cache::get($currentUser));
             $factorId      = $data[0];
             $totalPrice    = $data[2];
+            $jdate         = new \jDateTime(true, true);
+            $sansDate      = $jdate->date('l j F Y H:i', strtotime($sans['started_at']));
 
             Factor::where('id', $factorId)
                     ->update([
@@ -86,7 +88,7 @@ class SansController extends Controller
                     'paid_time' => date('Y-m-d H:i:s'),
             ]);
 
-            Ticket::create([
+            $ticket = Ticket::create([
                 'user_id' => $currentUser,
                 'cinema_id' => $sans["cinema_id"],
                 'sans_id' => $sansId,   
@@ -122,8 +124,19 @@ class SansController extends Controller
                 ]);
             }
 
+            $cinema        = Cinema::find($sans['cinema_id']);
+            $sampleMsgSms  = config('app.sampleMsgSms');
+            $msg           = str_replace('code', $ticket->code, $sampleMsgSms['buyTicket']);
+            $msg           = str_replace('time', $sansDate, $msg);
+            $msg           = str_replace('cinema', $cinema->title, $msg);
+            $msg           = str_replace('movie', $movie->title, $msg);
+            $msg           = str_replace('count', $ticket->count, $msg);
+
+            sendSms(Auth::user()->mobile, $msg);
+            
             return redirect()->route('user.tickets');
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
