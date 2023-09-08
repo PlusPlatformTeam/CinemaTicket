@@ -13,7 +13,8 @@ class Factor extends Model
     protected $fillable = [
         'user_id',
         'state',
-        'paid_time'
+        'paid_time',
+        'price'
     ];
 
     const STATES = [self::PAID, self::UNPAID];

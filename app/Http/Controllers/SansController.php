@@ -6,6 +6,7 @@ use App\Models\Cinema;
 use App\Models\Factor;
 use App\Models\Hall;
 use App\Models\Movie;
+use App\Models\PaymentLog;
 use App\Models\Sans;
 use App\Models\SansCinemas;
 use App\Models\SansHalls;
@@ -97,6 +98,14 @@ class SansController extends Controller
                 'total_price' =>  $totalPrice,
             ]);
 
+            PaymentLog::create([
+                'user_id' => $currentUser,
+                'cinema_id' => $sans["cinema_id"],
+                'movie_id' => $sans["movie_id"],
+                'factor_id' =>  $factorId,  
+                'hall_id' => $sans['hall_id']
+            ]);
+
             $movie        = Movie::find($sans['movie_id']);
             $movie->sale += $totalPrice;
             $movie->save();
@@ -135,7 +144,8 @@ class SansController extends Controller
 
        $factor = Factor::create([
             'user_id' => $currentUser,
-            'state' => Factor::UNPAID,       
+            'state' => Factor::UNPAID, 
+            'price' => $totalPriceCount 
         ]);
 
 

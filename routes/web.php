@@ -31,6 +31,7 @@ use Illuminate\Http\Request;
 Route::get('/', [HomeController::class, 'Index'])->name('home');
 
 // Cinemas
+Route::post('/getByCity', [CinemaController::class, 'getCinemaByCity'])->name('cinema.get.by.city');
 Route::get('/cinema', [CinemaController::class, 'Index'])->middleware('web')->name('cinema.index');
 Route::get('/cinema/detail/{cinema}', [CinemaController::class, 'ShowCinema'])->name('cinema.show');
 Route::post('/cinema/sort', [CinemaController::class, 'Sort'])->name('cinema.sort');
@@ -122,6 +123,7 @@ Route::group(['middleware' => 'admin', 'prefix' => '/manage/comments'], function
 });
 
 // Hall
+Route::post('/getHall', [HallController::class, 'getHall'])->middleware('admin')->name('hall.get');
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/halls'], function($router){
     $router->get('/', [HallController::class, 'Show'])->name('admin.manage.halls');
     $router->post('/', [HallController::class, 'Create'])->name('admin.manage.hall.create');
@@ -129,8 +131,7 @@ Route::group(['middleware' => 'admin', 'prefix' => '/manage/halls'], function($r
     $router->get('/delete/{id}', [HallController::class, 'Delete'])->name('admin.manage.hall.delete');
 });
 
-// Hall
-Route::post('/getHall', [HallController::class, 'getHall'])->middleware('admin')->name('hall.get');
+// options
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/options'], function($router){
     $router->get('/', [OptionController::class, 'Show'])->name('admin.manage.options');
     $router->post('/', [OptionController::class, 'Create'])->name('admin.manage.option.create');
@@ -160,3 +161,4 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin1/manage'], function($
 Route::post('/ticket/preFactor', [SansController::class, 'preFactor'])->name('sans.preFactor');
 
 Route::post('/ticket/buy', [SansController::class, 'buy'])->name('sans.buy');
+Route::post('/search/ticket/buy', [TicketController::class, 'search'])->name('ticket.serach');

@@ -46,16 +46,16 @@ function generateRandomAuthCode($mobile)
 {
     $code = mt_rand(1000, 9999);
     $msg  = "رمز عبورشما: '{$code}'\nسینما تیکت";
-    // $response = Http::withoutVerifying()->withHeaders([
-    //         'Content-Type' => 'application/x-www-form-urlencoded',
-    //     ])->asForm()->post('https://panel.asanak.com/webservice/v1rest/sendsms', [
-    //         'username' => 'farzad1forouzanfar',
-    //         'password' => 'F@rzad306762',
-    //         'Source' => '98210000925306762',
-    //         'Message' => $msg,
-    //         'destination' => convertToIranFormat($mobile)
-    // ]);
+    $response = Http::withoutVerifying()->withHeaders([
+            'Content-Type' => 'application/x-www-form-urlencoded',
+        ])->asForm()->post('https://panel.asanak.com/webservice/v1rest/sendsms', [
+            'username' => 'farzad1forouzanfar',
+            'password' => 'F@rzad306762',
+            'Source' => '98210000925306762',
+            'Message' => $msg,
+            'destination' => convertToIranFormat($mobile)
+    ]);
     
-    // Log::info("TransactionCode: {$response->body()}, Code: $code");
+    Log::info("TransactionCode: {$response->body()}, Code: $code");
     return $code;
 }
