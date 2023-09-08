@@ -80,7 +80,7 @@ class SansController extends Controller
             $factorId      = $data[0];
             $totalPrice    = $data[2];
             $jdate         = new \jDateTime(true, true);
-            $sansDate      = $jdate->date('l j F Y H:i', strtotime($sans['started_at']));
+            $sansDate      = $jdate->date('l j F H:i', strtotime($sans['started_at']));
 
             Factor::where('id', $factorId)
                     ->update([
@@ -133,7 +133,7 @@ class SansController extends Controller
             $msg           = str_replace('count', $ticket->count, $msg);
 
             sendSms(Auth::user()->mobile, $msg);
-            
+
             return redirect()->route('user.tickets');
         } 
         catch (\Exception $e) {
