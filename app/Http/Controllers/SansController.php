@@ -125,12 +125,17 @@ class SansController extends Controller
             }
 
             $cinema        = Cinema::find($sans['cinema_id']);
-            $sampleMsgSms  = config('app.sampleMsgSms');
-            $msg           = str_replace('code', $ticket->code, $sampleMsgSms['buyTicket']);
-            $msg           = str_replace('time', $sansDate, $msg);
-            $msg           = str_replace('cinema', $cinema->title, $msg);
-            $msg           = str_replace('movie', $movie->title, $msg);
-            $msg           = str_replace('count', $ticket->count, $msg);
+
+            $sampleMsgSms = config('app.sampleMsgSms.buyTicket');
+            $replacements = [
+                'code' => $ticket->code,
+                'time' => $sansDate,
+                'cinema' => $cinema->title,
+                'movie' => $movie->title,
+                'count' => $ticket->count,
+            ];
+            
+            $msg = strtr($sampleMsgSms, $replacements);
 
             sendSms(Auth::user()->mobile, $msg);
 
