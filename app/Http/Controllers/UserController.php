@@ -28,7 +28,7 @@ class UserController extends Controller
         $user = User::where('mobile', $mobile)->first();
 
         if ($user && $user->verified_at != null) {
-            $randomCode = rand(1000, 9999);
+            $randomCode = generateRandomAuthCode($mobile);
             $user->verified_code = $randomCode;
             $user->save();
 
@@ -79,7 +79,7 @@ class UserController extends Controller
         ]);
 
         $request->session()->put('mobile', $validatedData['mobile']);
-        $randomCode = rand(1000, 9999);
+        $randomCode = generateRandomAuthCode($validatedData['mobile']);
         $user = User::create([
             'mobile' => $validatedData['mobile'],
             'verified_code' => $randomCode,
@@ -130,7 +130,7 @@ class UserController extends Controller
             $user = User::where('mobile', $mobile)->first();
 
             if ($user) {
-                $randomCode = rand(1000, 9999);
+                $randomCode = generateRandomAuthCode($mobile);
                 $user->verified_code = $randomCode;
                 $user->save();
 
