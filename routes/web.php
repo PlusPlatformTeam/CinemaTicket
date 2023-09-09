@@ -140,8 +140,8 @@ Route::group(['middleware' => 'admin', 'prefix' => '/manage/options'], function(
 });
 
 // Sans
-Route::post('/sans/get', [SansController::class, 'GetMovies'])->name('sans.get.movies');
-Route::post('/sans/get', [SansController::class, 'GetCinemas'])->name('sans.get.cinemas');
+Route::post('/sans/get/movies', [SansController::class, 'GetMovies'])->name('sans.get.movies');
+Route::post('/sans/get/cinemas', [SansController::class, 'GetCinemas'])->name('sans.get.cinemas');
 Route::group(['middleware' => 'admin', 'prefix' => '/manage/sans'], function($router){
     $router->get('/', [SansController::class, 'Show'])->name('admin.manage.sans');
     $router->post('/', [SansController::class, 'Create'])->name('admin.manage.sans.create');
