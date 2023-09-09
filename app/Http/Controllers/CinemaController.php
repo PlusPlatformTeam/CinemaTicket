@@ -246,4 +246,10 @@ class CinemaController extends Controller
     
         return redirect()->back()->with('success', "سینما {$cinema->title} با موفقیت آپدیت شد");
     }
+
+    public function getCinemaByCity(Request $request)
+    {
+        $city_id = $request->city;
+        return response(['cinemas' => Cinema::all()->where('city_id', '=', $city_id)], 200);
+    }
 }

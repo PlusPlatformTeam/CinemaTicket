@@ -226,4 +226,9 @@ return [
         "Validator" => Illuminate\Support\Facades\Validator::class,
         "View" => Illuminate\Support\Facades\View::class,
     ],
+
+    'sampleMsgSms' => [
+        'auth' => "رمز عبورشما: code\nسینما تیکت",
+        'buyTicket' => "سینماتیکت code\ncinema\ntime\nmovie\nتعداد: count"
+    ],
 ];

@@ -49,7 +49,7 @@
                             <h1 class="text-black text-md font-normal mr-3">پیشخوان</h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
 
@@ -63,7 +63,7 @@
                             <h1 class="text-black text-md font-normal mr-3">سینماها </h1>
                         </div>
                         <div>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
 
@@ -76,7 +76,7 @@
                             <h1 class="text-black text-md font-normal mr-3">فیلم ها</h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -88,7 +88,7 @@
                             <h1 class="text-black text-md font-normal mr-3">کاربران </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -100,7 +100,7 @@
                             <h1 class="text-black text-md font-normal mr-3">بازیگران </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -112,7 +112,7 @@
                             <h1 class="text-black text-md font-normal mr-3">ژانر ها </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -124,7 +124,7 @@
                             <h1 class="text-black text-md font-normal mr-3">شهر ها </h1>
                         </div>
                         <div>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -136,7 +136,7 @@
                             <h1 class="text-black text-md font-normal mr-3">استان ها </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -148,7 +148,7 @@
                             <h1 class="text-black text-md font-normal mr-3">نظرات </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -160,7 +160,7 @@
                             <h1 class="text-black text-md font-normal mr-3">فاکتور ها </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -172,7 +172,7 @@
                             <h1 class="text-black text-md font-normal mr-3">سالن ها </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -184,7 +184,7 @@
                             <h1 class="text-black text-md font-normal mr-3"> امکانات </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -196,7 +196,7 @@
                             <h1 class="text-black text-md font-normal mr-3"> سانس ها </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -208,7 +208,7 @@
                             <h1 class="text-black text-md font-normal mr-3"> بلیط ها </h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
@@ -221,7 +221,7 @@
                             <h1 class="text-black text-md font-normal mr-3">خروج</h1>
                         </div>
                         <div w-full>
-                            <i class="  fa-solid fa-chevron-left text-end justify-end  ml-2 mt-4"></i>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>

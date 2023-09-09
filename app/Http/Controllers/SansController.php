@@ -6,6 +6,7 @@ use App\Models\Cinema;
 use App\Models\Factor;
 use App\Models\Hall;
 use App\Models\Movie;
+use App\Models\PaymentLog;
 use App\Models\Sans;
 use App\Models\SansCinemas;
 use App\Models\SansHalls;
@@ -78,6 +79,8 @@ class SansController extends Controller
             $data          = explode(",",Cache::get($currentUser));
             $factorId      = $data[0];
             $totalPrice    = $data[2];
+            $jdate         = new \jDateTime(true, true);
+            $sansDate      = $jdate->date('l j F H:i', strtotime($sans['started_at']));
 
             Factor::where('id', $factorId)
                     ->update([
@@ -85,7 +88,7 @@ class SansController extends Controller
                     'paid_time' => date('Y-m-d H:i:s'),
             ]);
 
-            Ticket::create([
+            $ticket = Ticket::create([
                 'user_id' => $currentUser,
                 'cinema_id' => $sans["cinema_id"],
                 'sans_id' => $sansId,   
@@ -95,6 +98,14 @@ class SansController extends Controller
                 'count' => count($selectedItems),
                 'slug' => rand(1000, 9999),
                 'total_price' =>  $totalPrice,
+            ]);
+
+            PaymentLog::create([
+                'user_id' => $currentUser,
+                'cinema_id' => $sans["cinema_id"],
+                'movie_id' => $sans["movie_id"],
+                'factor_id' =>  $factorId,  
+                'hall_id' => $sans['hall_id']
             ]);
 
             $movie        = Movie::find($sans['movie_id']);
@@ -113,8 +124,24 @@ class SansController extends Controller
                 ]);
             }
 
+            $cinema        = Cinema::find($sans['cinema_id']);
+
+            $sampleMsgSms = config('app.sampleMsgSms.buyTicket');
+            $replacements = [
+                'code' => $ticket->code,
+                'time' => $sansDate,
+                'cinema' => $cinema->title,
+                'movie' => $movie->title,
+                'count' => $ticket->count,
+            ];
+            
+            $msg = strtr($sampleMsgSms, $replacements);
+
+            sendSms(Auth::user()->mobile, $msg);
+
             return redirect()->route('user.tickets');
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -135,7 +162,8 @@ class SansController extends Controller
 
        $factor = Factor::create([
             'user_id' => $currentUser,
-            'state' => Factor::UNPAID,       
+            'state' => Factor::UNPAID, 
+            'price' => $totalPriceCount 
         ]);
 
 
