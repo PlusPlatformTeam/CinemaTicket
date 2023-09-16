@@ -29,8 +29,9 @@ class TicketController extends Controller
         $query = PaymentLog::query();
 
         if ($request->has('hall') && !empty($request->hall)) {
-            $query->where('hall_id', $request->hall);
-        }
+            foreach ($request->hall as $hall) {
+                $query->orWhere('hall_id', $hall);
+            }        }
 
         if ($request->has('movie')  && !empty($request->movie)) {
             foreach ($request->movie as $movie) {
@@ -56,7 +57,7 @@ class TicketController extends Controller
         foreach($result as &$payment)
         {
             $totalPrice += $payment->factor->price;
-            $payment->paid_time =  $jDate->date('j F Y', strtotime($payment->factor->paid_time));
+            $payment->paid_time =  $jDate->date('j F Y H:i', strtotime($payment->factor->paid_time));
             $payment->factor->price = convertDigitsToFarsi(number_format($payment->factor->price));
         }
         return response()->json(['payments' => $result,'sql'=>$query->toSql(), 'total' => count($result), 'totalPrice' => convertDigitsToFarsi(number_format($totalPrice))]);

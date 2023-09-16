@@ -19,20 +19,20 @@ class CinemaController extends Controller
     public function index(Request $request)
     {
         $selectedCityId = isset($_COOKIE['selectedCityId']) ? $_COOKIE['selectedCityId'] :null;
-    
+
         if ($selectedCityId) {
             $cinemas = Cinema::with('options')
                 ->where('city_id', $selectedCityId)
                 ->get();
 
-    
+
             if ($cinemas->isEmpty()) {
                 $cinemas = Cinema::with('options')->get();
             }
         } else {
             $cinemas = Cinema::with('options')->get();
         }
-    
+
         return view('user.cinemas', [
             'cinemas'    => $cinemas,
             'topMovies'  => Movie::orderByDesc('sale')->take(5)->get(),
@@ -54,17 +54,16 @@ class CinemaController extends Controller
             ->whereBetween('started_at', [$start, $end])
             ->get()->toArray();
 
-        $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
-            ->where('comments.cinema_id', $cinema->id)
-            ->where('comments.state', Comment::ACCEPT)
-            ->select('comments.*', 'users.*')
-            ->get()
-            ->toArray();
+        $comments = Comment::with('user')
+            ->where('cinema_id', $cinema->id)
+            ->where('state', Comment::ACCEPT)
+            ->get();
+
 
         $commentCount = count($comments);
 
         foreach ($comments as &$comment) {
-            $comment['created_at'] = $jdate->date("j F Y ", strtotime($comment['created_at']));
+            $comment['created_at1'] = $jdate->date("j F Y ", strtotime($comment['created_at']));
         }
 
         for ($i = 0; $i < 4; $i++) {
@@ -213,7 +212,7 @@ class CinemaController extends Controller
             'banner'      => "cinemas/{$banner_name}",
             'location'    => $location
         ]);
-        
+
         return redirect()->back()->with('success', "سینما {$cinema->title} با موفقیت ایجاد شد");
     }
 
@@ -233,17 +232,17 @@ class CinemaController extends Controller
         if (!$cinema) {
             return redirect()->back()->with('error', 'سینما یافت نشد');
         }
-    
+
         $cinema->title       = $request->title;
         $cinema->city_id     = $request->city;
         $cinema->phone       = $request->phone;
         $cinema->address     = $request->address;
         $cinema->description = $request->description;
-    
+
         $cinema->save();
-    
+
         $cinema->options()->sync($request->option);
-    
+
         return redirect()->back()->with('success', "سینما {$cinema->title} با موفقیت آپدیت شد");
     }
 

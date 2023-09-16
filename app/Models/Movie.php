@@ -34,7 +34,7 @@ class Movie extends Model
 
     public function characters()
     {
-        return $this->belongsToMany(character::class, 'video_characters');
+        return $this->belongsToMany(Character::class, 'video_characters');
     }
 
     public function comments()

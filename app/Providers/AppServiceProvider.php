@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::defaultView('vendor.pagination.tailwind');
-
+        if($this->app->environment('production')) {
+            \URL::forceScheme('https');
+        }
     }
 }

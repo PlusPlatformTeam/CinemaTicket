@@ -58,22 +58,20 @@ class MovieController extends Controller
                 ->select('sans.*')
                 ->get()
                 ->toArray();
-        
+
             if (collect($sans)->isEmpty()) {
                 $sans = $allSans;
             }
         } else {
             $sans = $allSans;
         }
-       
-        $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id') //TODO Replace with relations
-        ->where('comments.movie_id', $movie->id)
-        ->where('comments.state', Comment::ACCEPT) 
-        ->select('comments.*', 'users.*')
-        ->get()
-        ->toArray();
-    
-        for ($i = 0; $i < 4; $i++) 
+
+        $comments = Comment::with('user')
+            ->where('movie_id', $movie->id)
+            ->where('state', Comment::ACCEPT)
+            ->get();
+
+        for ($i = 0; $i < 4; $i++)
         {
             $timestamp    = strtotime("+$i days");
             $date         = $jdate->date("l j F", $timestamp, true, true, 'Asia/Tehran');
@@ -83,11 +81,12 @@ class MovieController extends Controller
         }
 
         $commentCount = count($comments);
-        
-        foreach ($comments as &$comment) 
-        { 
-            $comment['created_at'] = $jdate->date("j F Y ", strtotime($comment['created_at']));
+
+        foreach ($comments as &$comment)
+        {
+            $comment['created_at1'] = $jdate->date("j F Y ", strtotime($comment['created_at']));
         }
+
         $userScore = Score::where([
                             ['user_id', auth()->id()],
                             ['scorable_id', $movie->id],
@@ -112,7 +111,7 @@ class MovieController extends Controller
                 'movie_id' => ['required', new MovieExists],
                 'score'    => 'required|integer|min:1|max:5'
             ]);
-    
+
             $user  = auth()->user();
             $movie = Movie::find($request->movie_id);
             $score = $user->scores()->updateOrCreate(
@@ -127,7 +126,7 @@ class MovieController extends Controller
                     'scorable_id' => $movie->id,
                 ]
             );
-    
+
             $movie->score = $movie->averageScore();
             $movie->save();
             if ($score)
@@ -187,23 +186,23 @@ class MovieController extends Controller
                 'poster'      => 'required|file',
                 'banner'      => 'required|file',
             ]);
-            
+
             $poster = $request->file('poster');
             $banner = $request->file('banner');
-    
+
             $poster_name = getRandomFileName().'poster.'.$poster->getClientOriginalExtension();
             $banner_name = getRandomFileName().'banner.'.$banner->getClientOriginalExtension();
-    
+
             $slug = Str::random(8);
             $directory = public_path("movies/{$slug}");
-    
+
             if (!File::exists($directory)) {
                 File::makeDirectory($directory, 0777, true);
             }
-    
+
             $poster_path = $poster->move($directory, $poster_name);
             $banner_path = $banner->move($directory, $banner_name);
-    
+
             $movie = Movie::create([
                 'title'       => $request->title,
                 'slug'        => $slug,
@@ -214,7 +213,7 @@ class MovieController extends Controller
                 'main_banner' => "movies/{$slug}/{$banner_name}",
                 'second_banner'=> "movies/{$slug}/{$poster_name}"
             ]);
-    
+
             return redirect()->back()->with('success', "فیلم {$movie->title} با موفقیت ایجاد شد");
         }
         catch(Exception $ex)
@@ -239,16 +238,16 @@ class MovieController extends Controller
         if (!$movie) {
             return redirect()->back()->with('error', 'فیلم یافت نشد');
         }
-    
+
         $movie->title           = $request->title;
         $movie->category_id     = $request->category;
         $movie->duration        = $request->duration;
         $movie->info            = $request->info;
         $movie->director        = $request->director;
         $movie->state           = $request->state;
-    
+
         $movie->save();
-        
+
         return redirect()->back()->with('success', "فیلم {$movie->title} با موفقیت آپدیت شد");
     }
 }

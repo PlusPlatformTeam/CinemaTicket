@@ -4,13 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Character extends Model
 {
     use HasFactory;
     protected $table = 'characters';
     protected $guarded = [];
-    public function movies()
+
+    /**
+     * @return BelongsToMany
+     */
+    public function movies(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class,'video_characters');
     }
@@ -20,6 +25,6 @@ class Character extends Model
         return $this->belongsTo(City::class);
     }
 
-  
+
 
 }

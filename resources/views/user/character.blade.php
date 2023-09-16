@@ -1,7 +1,7 @@
 @extends('.user.template')
 
 @section('title')
-    بازیگر
+    {{ $actor->name }} بازیگر | سیماتیکت
 @endsection
 
 @section('styles')

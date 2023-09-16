@@ -2,7 +2,7 @@
     $movies = [];
     foreach ($sans as $key => $value) {
         $movie = $value['movie'][0];
-    
+
         if (array_key_exists($movie['slug'], $movies)) {
             $movies[$movie['slug']]['sans'][] = [
                 'id' => $value['id'],
@@ -19,13 +19,12 @@
                 'name' => $value['hall'][0]['title'],
                 'price' => $value['price'],
             ];
-    
+
             $movies[$movie['slug']] = $movie;
         }
     }
-    
+
 @endphp
-</div>
 @extends('.user.template')
 @section('title')
     {{ $cinema->title }} | سینما تیکت
@@ -203,66 +202,67 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="bg-white w-full rounded-lg mt-16 mb-16">
-                            <div class="flex flex-row p-4">
-                                <h1 class="text-gray-400 text-xl font-semibold mx-4 my-4">دیدگاه های کاربران
-                                    {{ $cinema['title'] }}
-                                </h1>
-                                <p class="text-gray-400 text-sm font-normal	mx-4 mt-5">
-                                    ({{ convertDigitsToFarsi($commentCount) }}) دیدگاه ثبت شده
-                                </p>
-
-                            </div>
-                            <hr class="bg-gray-200 w-full" style="height: 1px" />
-                            <form class="w-full py-3" method="POST" action="{{ route('comment.add') }}">
-                                @csrf
-                                <div class="w-9/12 flex flex-col mx-auto mt-3">
-                                    <input type="hidden" name="cinema_id" value="{{ $cinema->id }}">
-                                    <textarea class="resize-none bg-gray-50 border-none border-gray-200 focus:border-gray-400 rounded-md p-2"
-                                        rows="4" maxlength="500" name="message" id="message" placeholder="دیدگاه شما ..."></textarea>
-                                    <div class="flex flex-row justify-between">
-                                        <p class="text-sm text-right text-gray-500 mt-6"><span
-                                                id="message-counter">0</span>/500
-                                        </p>
-                                        @auth
-                                            <button type="submit"
-                                                class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
-                                                دیدگاه
-                                            </button>
-                                        @else
-                                            <a href="{{ route('user.login') }}"
-                                                class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
-                                                دیدگاه
-                                            </a>
-
-                                        @endauth
-
-                                    </div>
-                                </div>
-                            </form>
-                            @if (!empty($comments))
-                                <div class="cinema p-4">
-                                    @foreach ($comments as $key => $comment)
-                                        <div class="flex flex-row mt-3">
-                                            <div class="w-1/12">
-                                                <img src="{{ asset('images/profile-mine.svg') }}" alt="user avatar"
-                                                    class="w-12">
-                                            </div>
-
-                                            <div class="w-11/12 block mr-2  right-0">
-                                                <p class="text-gray-400">{{ $comment['name'] }}</p>
-                                                <h1 class="">{{ $comment['body'] }}</h1>
-                                                <p class="text-gray-400">{{ $comment['created_at'] }}</p>
-                                            </div>
-                                        </div>
-                                        @if (!$loop->last)
-                                            <hr class="bg-gray-200 w-full mt-2" style="height: 1px" />
-                                        @endif
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
                     @endif
+                    <div class="bg-white w-full rounded-lg mt-16 mb-16">
+                        <div class="flex flex-row p-4">
+                            <h1 class="text-gray-400 text-xl font-semibold mx-4 my-4">دیدگاه های کاربران
+                                {{ $cinema['title'] }}
+                            </h1>
+                            <p class="text-gray-400 text-sm font-normal	mx-4 mt-5">
+                                ({{ convertDigitsToFarsi($commentCount) }}) دیدگاه ثبت شده
+                            </p>
+
+                        </div>
+                        <hr class="bg-gray-200 w-full" style="height: 1px" />
+                        <form class="w-full py-3" method="POST" action="{{ route('comment.add') }}">
+                            @csrf
+                            <div class="w-9/12 flex flex-col mx-auto mt-3">
+                                <input type="hidden" name="cinema_id" value="{{ $cinema->id }}">
+                                <textarea class="resize-none bg-gray-50 border-none border-gray-200 focus:border-gray-400 rounded-md p-2"
+                                          rows="4" maxlength="500" name="message" id="message" placeholder="دیدگاه شما ..."></textarea>
+                                <div class="flex flex-row justify-between">
+                                    <p class="text-sm text-right text-gray-500 mt-6"><span
+                                            id="message-counter">0</span>/500
+                                    </p>
+                                    @auth
+                                        <button type="submit"
+                                                class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
+                                            دیدگاه
+                                        </button>
+                                    @else
+                                        <a href="{{ route('user.login') }}"
+                                           class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
+                                            دیدگاه
+                                        </a>
+
+                                    @endauth
+
+                                </div>
+                            </div>
+                        </form>
+                        @if (!empty($comments))
+                            <div class="cinema p-4">
+                                @foreach ($comments as $key => $comment)
+                                    <div class="flex flex-row mt-3">
+                                        <div class="w-1/12">
+                                            <img src="{{ asset('images/profile-mine.svg') }}" alt="user avatar"
+                                                 class="w-12">
+                                        </div>
+
+                                        <div class="w-11/12 block mr-2  right-0">
+                                            <p class="text-gray-400">{{ $comment['name'] }}</p>
+                                            <h1 class="">{{ $comment['body'] }}</h1>
+                                            <p class="text-gray-400">{{ $comment['created_at1'] }}</p>
+                                        </div>
+                                    </div>
+                                    @if (!$loop->last)
+                                        <hr class="bg-gray-200 w-full mt-2" style="height: 1px" />
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+
                 </div>
                 <div class="hidden lg:block md:block lg:basis-3/12 md:basis-3/12 mx-3">
                     @php
@@ -386,10 +386,10 @@
                 success: (response) => {
                     if (response.total) {
                         const data = response.data;
-                        
+
                         for (const key in data) {
                             const movie = data[key];
-                            const characters = movie.characters;                            
+                            const characters = movie.characters;
                             let chractersSection = '';
                             if (characters){
                                 characters.forEach(chracter => {
@@ -402,7 +402,7 @@
                                         </div>`;
                                 });
                             }
-                            const sans = movie.sans;                            
+                            const sans = movie.sans;
                             let sansSection = '';
                             if (sans){
                                 sans.forEach(item => {

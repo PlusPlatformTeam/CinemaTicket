@@ -98,7 +98,7 @@
 
         <div class="relative overflow-x-auto shadow-md rounded-b-lg">
             <div id="totalPriceContainer" style="display:none" class="text-lg text-gray-700 bg-gray-50">
-                مجموع : <span id="totalPrice"></span> تومان 
+                مجموع : <span id="totalPrice"></span> تومان
             </div>
             <table style="display: none" id="result" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs border border-1 border-gray-100 text-gray-700 uppercase bg-blue-50">
@@ -124,7 +124,7 @@
                     </tr>
                 </thead>
                 <tbody id="tbody">
-                    
+
                 </tbody>
             </table>
             <div style="display: none" class="text-center bg-yellow-100 text-yellow-600 py-4 text-lg" id="msg">نتیجه ای یافت نشد</div>
@@ -218,6 +218,7 @@
             const movie = $('#movies-select').val();
             const started_at = $('#started_at').val();
             const end_at = $('#end_at').val();
+            console.log(hall)
             $('#tbody').html('');
             $.ajax({
                 url: "{{ route('ticket.serach') }}",
@@ -252,9 +253,11 @@
 
                             $('#tbody').append(row);
                         });
+                        $('#totalPriceContainer').show();
                         $('#totalPrice').text(response.totalPrice);
                     }
                     else{
+                        $('#totalPriceContainer').hide();
                         $('#result').hide();
                         $('#msg').show();
                         $('#hide').show();

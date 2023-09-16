@@ -2,7 +2,7 @@
     $cinemas = [];
     foreach ($sans as $key => $value) {
         $cinema = $value['cinema'][0];
-    
+
         if (array_key_exists($cinema['id'], $cinemas)) {
             $cinemas[$cinema['id']]['sans'][] = [
                 'id' => $value['id'],
@@ -19,7 +19,7 @@
                 'name' => $value['hall'][0]['title'],
                 'price' => $value['price'],
             ];
-    
+
             $cinemas[$cinema['id']] = $cinema;
         }
     }
@@ -350,8 +350,8 @@
                                        <a href="{{ route('user.login') }}"
                                         class=" mt-2 bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">ارسال
                                         دیدگاه
-                                    </a> 
-                            
+                                    </a>
+
                                 @endauth
 
                             </div>
@@ -371,7 +371,7 @@
                                     <div class="w-11/12 block mr-2  right-0">
                                         <p class="text-gray-400">{{ $comment['name'] }}</p>
                                         <h1 class="">{{ $comment['body'] }}</h1>
-                                        <p class="text-gray-400">{{ $comment['created_at'] }}</p>
+                                        <p class="text-gray-400">{{ $comment['created_at1'] }}</p>
                                     </div>
                                 </div>
                                 @if (!$loop->last)
@@ -383,7 +383,7 @@
                 </div>
             </div>
 
-            
+
             <div class="hidden lg:block lg:basis-4/12">
                 <ul class="w-96 mr-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
                     <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
@@ -509,11 +509,11 @@
                 success: (response) => {
                     if (response.total) {
                         const data = response.data;
-                        
+
                         for (const key in data) {
                             const cinema = data[key];
-                            
-                            const sans = cinema.sans;                            
+
+                            const sans = cinema.sans;
                             let sansSection = '';
                             if (sans){
                                 sans.forEach(item => {
@@ -589,7 +589,7 @@
                                 `;
                             $("#cinemas-container").append(element);
                         }
-                        
+
                     } else {
                         let element = `
                             <div class="w-full flex justify-center items-center py-12">

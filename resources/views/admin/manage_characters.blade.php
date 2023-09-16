@@ -14,6 +14,8 @@
         border-radius: 50%;
     }
 </style>
+<link rel="stylesheet" href="{{ asset('css/multi_select.css') }}" />
+<script src="{{ asset('js/multi_select.js') }}"></script>
 @section('content')
     <section class="p-4">
         <div class="mb-6">
@@ -302,7 +304,8 @@
                                         <option selected>انتخاب کنید ...</option>
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->id }}" label="{{ $city->title }}">
-                                                {{ $city->title }}</option>
+                                                {{ $city->title }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @error('city')
@@ -317,6 +320,21 @@
                                     <input data-jdp autocomplete='false'
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                         placeholder="" required value="{{ old('birthday') }}" name="birthday">
+                                </div>
+                                <div class="">
+                                    <label for="films"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">فیلم</label>
+                                    <select multiple name="movie[]" id="movie"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  @error('city') bg-red-50 border border-red-500 text-red-900 placeholder-red-700  @enderror">
+                                        @foreach ($movies as $movie)
+                                            <option value="{{ $movie->id }}" label="{{ $movie->title }}">
+                                                {{ $movie->title }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('movie')
+                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="description"
@@ -346,6 +364,13 @@
         </div>
     </section>
     <script>
+        new SlimSelect({
+            select: '#movie',
+            placeholder: 'امکانات را انتخاب کنید',
+            showSearch: true,
+            searchText: 'متاسفانه پیدا نشد',
+        });
+
         $('#change-avatar').on('click', (event) => {
             $('#avatar').click();
         });
